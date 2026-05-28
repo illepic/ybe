@@ -1003,11 +1003,7 @@ const IMG = {
     /* Gallery doesn't benefit from parallax — scroll attachment avoids per-frame repaint */
     .panel--scroll { background-attachment: scroll; }
 
-    /* Skip rendering off-screen sections until needed */
-    .panel--deferred {
-      content-visibility: auto;
-      contain-intrinsic-size: auto 100vh;
-    }
+    /* content-visibility removed — breaks IntersectionObserver on child elements */
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
