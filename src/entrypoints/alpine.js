@@ -1,20 +1,27 @@
-const base = 'https://images.unsplash.com/';
+// Netlify Image CDN helper — transforms on deploy, raw path in local dev
+const cdn = (path, params = {}) => {
+  if (import.meta.env.DEV) return path;
+  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
+  return `/.netlify/images?${p}`;
+};
 
-// Swap Unsplash placeholders for real event photos by updating this array.
-// Each entry needs: thumb (square crop URL), full (large URL), caption.
+// Replace these with real event photos by updating the filenames.
+// Drop new images into public/photos/ and update the list below.
+const GALLERY_PHOTOS = [
+  { file: 'mtb-trail-forest.jpg',   caption: 'Mountain biking the Yacolt Burn trail system' },
+  { file: 'trail-building.jpg',      caption: 'Trail building in the Yacolt Burn' },
+  { file: 'pnw-forest-misty.jpg',   caption: 'Pacific Northwest old-growth forest' },
+  { file: 'mountain-landscape.jpg', caption: 'Southwest Washington mountains' },
+  { file: 'forest-light.jpg',       caption: 'Morning light through the forest' },
+  { file: 'forest-path.jpg',        caption: 'Forest trail, Yacolt Burn State Forest' },
+];
+
 export default (Alpine) => {
   Alpine.data('photoGallery', () => {
-    const photos = [
-      { id: 'photo-1627044185459-09e6dbc39444', caption: 'Mountain biking the Yacolt Burn trail system' },
-      { id: 'photo-1592483335937-a3213ac4a833', caption: 'Trail building in the Yacolt Burn' },
-      { id: 'photo-1448375240586-882707db888b', caption: 'Pacific Northwest old-growth forest' },
-      { id: 'photo-1506905925346-21bda4d32df4', caption: 'Southwest Washington mountains' },
-      { id: 'photo-1518495973542-4542c06a5843', caption: 'Morning light through the forest' },
-      { id: 'photo-1441974231531-c6227db76b6e', caption: 'Forest trail, Yacolt Burn State Forest' },
-    ].map(p => ({
-      thumb:   `${base}${p.id}?auto=format&fit=crop&w=400&h=400&q=75`,
-      full:    `${base}${p.id}?auto=format&fit=crop&w=1600&q=85`,
-      caption: p.caption,
+    const photos = GALLERY_PHOTOS.map(({ file, caption }) => ({
+      thumb: cdn(`/photos/${file}`, { w: '400', h: '400', fit: 'cover', q: '75' }),
+      full:  cdn(`/photos/${file}`, { w: '1600', q: '85' }),
+      caption,
     }));
 
     return {

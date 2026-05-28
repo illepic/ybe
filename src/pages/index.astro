@@ -1,16 +1,24 @@
 ---
 const REG = "https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398";
-const POSTER = "https://www.evergreenmtb.org/images/2026-05-14-kathryn-jasperson_ybe2026-background-001.jpg";
 
-// Unsplash placeholders — swap for real event photography when available
+// Netlify Image CDN helper — transforms on deploy, raw path in local dev
+const IS_DEV = import.meta.env.DEV;
+const cdn = (path: string, params: Record<string, string> = {}) => {
+  if (IS_DEV) return path;
+  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
+  return `/.netlify/images?${p}`;
+};
+
+const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '85' });
+
 const IMG = {
-  legend:   "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80",
-  ride:     "https://images.unsplash.com/photo-1627044185459-09e6dbc39444?auto=format&fit=crop&w=1920&q=80",
-  details:  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80",
-  quote:    "https://images.unsplash.com/photo-1592483335937-a3213ac4a833?auto=format&fit=crop&w=1920&q=80",
-  faq:      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1920&q=80",
-  sponsors: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1920&q=80",
-  cta:      "https://images.unsplash.com/photo-1563409236-a57c05907e44?auto=format&fit=crop&w=1920&q=80",
+  legend:   cdn('/photos/pnw-forest-misty.jpg',  { w: '1920', q: '80' }),
+  ride:     cdn('/photos/mtb-trail-forest.jpg',  { w: '1920', q: '80' }),
+  details:  cdn('/photos/mountain-landscape.jpg', { w: '1920', q: '80' }),
+  quote:    cdn('/photos/trail-building.jpg',     { w: '1920', q: '80' }),
+  faq:      cdn('/photos/forest-light.jpg',       { w: '1920', q: '80' }),
+  sponsors: cdn('/photos/forest-path.jpg',        { w: '1920', q: '80' }),
+  cta:      cdn('/photos/mtb-sunset.jpg',         { w: '1920', q: '80' }),
 };
 ---
 
