@@ -328,7 +328,15 @@ const IMG = {
     .pullquote em { color: var(--c-accent); font-style: normal; }
 
     /* ─── FAQ ─── */
-    .faq { text-align: left; max-width: 720px; margin: 0 auto; }
+    .faq {
+      text-align: left;
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(10,8,6,0.65);
+      border: 1px solid rgba(240,236,228,0.1);
+      border-radius: 4px;
+      padding: 0.5rem 2rem 1rem;
+    }
     .faq-item { border-bottom: 1px solid rgba(240,236,228,0.11); padding: 1.5rem 0; }
     .faq-item:first-child { padding-top: 0; }
     .faq-q {
@@ -479,8 +487,8 @@ const IMG = {
       <span class="eyebrow">The Event</span>
       <h2 class="t-lg">The Full Day</h2>
       <span class="rule"></span>
-      <p class="lead">All-day shuttles. Demo bikes. Food. Trails that took decades to build — yours for one day.</p>
-      <p>YBE runs 9am to 4pm. Shuttles load at the <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">lower Yacolt Burn Trailhead</a> and drop riders at Five Corners — the gateway to the upper trail system. Ride down. Load back up. Repeat.</p>
+      <p class="lead">All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.</p>
+      <p>YBE runs 9am to 4pm. Shuttles load at the <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">lower Yacolt Burn Trailhead</a> and drop riders at <a href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured" target="_blank" rel="noopener noreferrer">Five Corners</a>, gateway to the upper trail system. Ride down. Load back up. Repeat. There are rumors shuttles may go all the way to <a href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured" target="_blank" rel="noopener noreferrer">The Towers</a>.</p>
       <p>The event caps at 299 riders and sells out every single year, rain or shine. Demo fleets from Propain and Norco are on-site. Vendors, food, and raffles round out the day. There's even an organized youth ride for ages 3–12 and bike games for all levels.</p>
       <a href={REG} class="btn btn-amber" target="_blank" rel="noopener noreferrer">Claim Your Spot</a>
     </div>
@@ -508,7 +516,7 @@ const IMG = {
         </div>
         <div class="card">
           <div class="card-label">Capacity</div>
-          <div class="card-value">299 riders max<br /><small>Sells out every year — register early</small></div>
+          <div class="card-value">299 riders max<br /><small>Sells out every year. Register early.</small></div>
         </div>
       </div>
 
@@ -539,9 +547,9 @@ const IMG = {
       <span class="eyebrow">A Place With History</span>
       <h2 class="t-lg">Born From Fire</h2>
       <span class="rule"></span>
-      <p class="lead">The Klickitat word <em>Yacolt</em> means "haunted valley" — a place of legend long before a single trail was ever cut.</p>
+      <p class="lead">The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single trail was ever cut.</p>
       <p>On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street lamps to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind direction changed.</p>
-      <p>What followed was one of Washington's great rehabilitation stories — Civilian Conservation Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers who saw something in those old logging roads in the late 1990s, and started riding them. The Yacolt Burn Experience is the product of all of it.</p>
+      <p>What followed was one of Washington's great rehabilitation stories: Civilian Conservation Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers who saw something in those old logging roads in the late 1990s and started riding them. The Yacolt Burn Experience is the product of all of it.</p>
     </div>
   </section>
 
@@ -566,27 +574,27 @@ const IMG = {
       <div class="faq">
         <div class="faq-item">
           <div class="faq-q">What skill level do I need?</div>
-          <p class="faq-a">The upper system accessed from Five Corners is intermediate to advanced terrain. That said, the event welcomes all riders — including a dedicated youth ride for ages 3–12. Volunteers and the community are there to help you find your line.</p>
+          <p class="faq-a">The upper system accessed from Five Corners is intermediate to advanced terrain. The event welcomes all riders though, including a dedicated youth ride for ages 3–12. Volunteers and the community are there to help you find your line.</p>
         </div>
         <div class="faq-item">
           <div class="faq-q">Does it sell out?</div>
-          <p class="faq-a">Every single year. Space is capped at 299 riders. Don't wait — register online by June 19th to lock in your spot and your best rate.</p>
+          <p class="faq-a">Every single year. Space is capped at 299 riders. Register online by June 19th to lock in your spot and your best rate.</p>
         </div>
         <div class="faq-item">
           <div class="faq-q">What if it rains?</div>
-          <p class="faq-a">The event runs rain or shine — it's historically 50/50 on weather. This is the Pacific Northwest. Pack a rain shell, bring layers, and embrace it.</p>
+          <p class="faq-a">The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific Northwest. Pack a rain shell, bring layers, and embrace it.</p>
         </div>
         <div class="faq-item">
           <div class="faq-q">Do I need to be an Evergreen member?</div>
-          <p class="faq-a">No — everyone is welcome. But members save $25 on registration, and your trails depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year. It pays for itself at events like this.</p>
+          <p class="faq-a">Nope, everyone is welcome. Members save $25 on registration though, and your trails depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself at events like this.</p>
         </div>
         <div class="faq-item">
           <div class="faq-q">Can I try a demo bike?</div>
-          <p class="faq-a">Yes — Propain and Norco both bring demo fleets to the event. Availability is first-come, first-served on the day.</p>
+          <p class="faq-a">Yep. Propain and Norco both bring demo fleets to the event. Availability is first-come, first-served on the day.</p>
         </div>
         <div class="faq-item">
           <div class="faq-q">Where do I park?</div>
-          <p class="faq-a"><a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead</a>. Park on the west side of the road. It fills early — plan to arrive by 8:30 AM.</p>
+          <p class="faq-a"><a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead</a>. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.</p>
         </div>
       </div>
     </div>
@@ -598,7 +606,7 @@ const IMG = {
       <span class="eyebrow">Made Possible By</span>
       <h2 class="t-lg">2026 Sponsors</h2>
       <span class="rule"></span>
-      <p class="lead">YBE exists because of this community of brands, shops, and people who show up — every year — to make it happen.</p>
+      <p class="lead">YBE exists because of this community of brands, shops, and people who show up every year to make it happen.</p>
 
       <div class="sponsor-tier">
         <div class="tier-label gold">Gold</div>
