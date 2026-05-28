@@ -8,6 +8,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@alpinejs/collapse": "^3.15.12",
+    "@alpinejs/focus": "^3.15.12",
     "@astrojs/alpinejs": "^0.5.0",
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource/bebas-neue": "^5.2.7",

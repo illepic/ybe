@@ -1,0 +1,14 @@
+{
+  "name": "Yacolt Burn Experience 2026",
+  "short_name": "YBE 2026",
+  "description": "A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#100e0c",
+  "theme_color": "#100e0c",
+  "icons": [
+    { "src": "/favicon-16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
