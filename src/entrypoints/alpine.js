@@ -11,8 +11,8 @@ const GALLERY_PHOTOS = [
   { file: 'mtb-trail-forest.jpg',   caption: 'Mountain biking the Yacolt Burn trail system' },
   { file: 'trail-building.jpg',      caption: 'Trail building in the Yacolt Burn' },
   { file: 'pnw-forest-misty.jpg',   caption: 'Pacific Northwest old-growth forest' },
-  { file: 'mountain-landscape.jpg', caption: 'Southwest Washington mountains' },
-  { file: 'forest-light.jpg',       caption: 'Morning light through the forest' },
+  { file: 'hood.jpg', caption: 'Southwest Washington mountains' },
+  { file: 'stream.jpg',             caption: 'Morning light through the forest' },
   { file: 'forest-path.jpg',        caption: 'Forest trail, Yacolt Burn State Forest' },
 ];
 
