@@ -12,6 +12,9 @@ const cdn = (path: string, params: Record<string, string> = {}) => {
 
 const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '85' });
 
+// og:image needs an absolute URL and JPG format — scrapers don't follow relative URLs or parse WebP
+const OG_IMAGE = `https://yacoltburn.bike/.netlify/images?url=/photos/poster.jpg&w=800&format=jpg&q=85`;
+
 const IMG = {
   legend:   cdn('/photos/pnw-forest-misty.jpg',  { w: '1920', q: '80' }),
   ride:     cdn('/photos/mtb-trail-forest.jpg',  { w: '1920', q: '80' }),
@@ -37,11 +40,11 @@ const IMG = {
   <meta property="og:url" content="https://yacoltburn.bike" />
   <meta property="og:title" content="Yacolt Burn Experience 2026" />
   <meta property="og:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
-  <meta property="og:image" content={POSTER} />
+  <meta property="og:image" content={OG_IMAGE} />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Yacolt Burn Experience 2026" />
   <meta name="twitter:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
-  <meta name="twitter:image" content={POSTER} />
+  <meta name="twitter:image" content={OG_IMAGE} />
 
   <!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -66,7 +69,7 @@ const IMG = {
     "startDate": "2026-06-20T09:00:00-07:00",
     "endDate": "2026-06-20T16:00:00-07:00",
     "url": "https://yacoltburn.bike",
-    "image": POSTER,
+    "image": OG_IMAGE,
     "eventStatus": "https://schema.org/EventScheduled",
     "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
     "location": {
@@ -391,8 +394,10 @@ const IMG = {
       --c-muted:   #aba49a;
       --c-ol:      rgba(10, 8, 6, 0.62);
       --c-ol-dark: rgba(10, 8, 6, 0.80);
+      --c-surface: rgba(10, 8, 6, 0.65);
       --f-display: 'Bebas Neue', Impact, sans-serif;
       --f-body:    'Inter', system-ui, sans-serif;
+      color-scheme: dark;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -402,13 +407,14 @@ const IMG = {
       font-size: 1rem;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     a { color: inherit; }
 
     /* ─── NAV ─── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      inset: 0 0 auto;
       z-index: 200;
       padding: 0.75rem 2rem;
       display: flex;
@@ -427,7 +433,6 @@ const IMG = {
       font-size: 1.5rem;
       letter-spacing: 0.06em;
       color: var(--c-text);
-      text-decoration: none;
     }
     .nav-cta {
       display: inline-block;
@@ -508,7 +513,7 @@ const IMG = {
       margin-left: auto;
       margin-right: auto;
     }
-    p:last-of-type { margin-bottom: 0; }
+    p:last-child { margin-bottom: 0; }
 
     /* ─── RULE ─── */
     .rule {
@@ -637,7 +642,7 @@ const IMG = {
     .price-box {
       max-width: 460px;
       margin: 3rem auto 0;
-      background: rgba(10,8,6,0.65);
+      background: var(--c-surface);
       border: 1px solid rgba(240,236,228,0.1);
       border-radius: 4px;
       padding: 1.75rem 2rem 2rem;
@@ -676,7 +681,7 @@ const IMG = {
       text-align: left;
       max-width: 720px;
       margin: 0 auto;
-      background: rgba(10,8,6,0.65);
+      background: var(--c-surface);
       border: 1px solid rgba(240,236,228,0.1);
       border-radius: 4px;
       padding: 0.5rem 2rem 1rem;
@@ -797,9 +802,11 @@ const IMG = {
       object-fit: cover;
       transition: transform 0.3s ease, opacity 0.2s;
       display: block;
+      will-change: transform;
     }
     .gallery-thumb:hover img { transform: scale(1.06); opacity: 0.8; }
 
+    .gallery-modal:focus { outline: none; }
     .gallery-modal {
       position: fixed;
       inset: 0;
