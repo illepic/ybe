@@ -360,6 +360,15 @@ const IMG = {
 
 </html>
 
+<script>
+  if (location.hash) {
+    window.addEventListener('scroll', () => {
+      const clear = () => history.replaceState(null, '', location.pathname);
+      'requestIdleCallback' in window ? requestIdleCallback(clear) : clear();
+    }, { once: true, passive: true });
+  }
+</script>
+
 <style is:global>
 /* ─── RESET & BASE ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
