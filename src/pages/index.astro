@@ -137,7 +137,7 @@ const IMG = {
     <div class="inner">
       <img src="/logo.png" alt="Yacolt Burn Experience" style="height: 120px; width: auto; display: block; margin: 0 auto 1.5rem;" />
       <span class="eyebrow">The Event</span>
-      <h2 class="t-lg">The Full Day</h2>
+      <h2 class="t-lg reveal">The Full Day</h2>
       <span class="rule"></span>
       <p class="lead">All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.</p>
       <p>YBE runs 9am to 4pm. Shuttles load at the <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">lower Yacolt Burn Trailhead</a> and drop riders at <a href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured" target="_blank" rel="noopener noreferrer">Five Corners</a>, gateway to the upper trail system. Ride down. Load back up. Repeat. There are rumors shuttles may go all the way to <a href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured" target="_blank" rel="noopener noreferrer">The Towers</a>.</p>
@@ -150,7 +150,7 @@ const IMG = {
   <section id="details" class="panel dark" style={`background-image: url('${IMG.details}')`}>
     <div class="inner">
       <span class="eyebrow">June 20, 2026</span>
-      <h2 class="t-lg">Event Details</h2>
+      <h2 class="t-lg reveal">Event Details</h2>
       <span class="rule"></span>
 
       <div class="cards">
@@ -197,7 +197,7 @@ const IMG = {
   <section id="gallery" class="panel dark" style={`background-image: url('${IMG.ride}')`}>
     <div class="inner">
       <span class="eyebrow">From the Trails</span>
-      <h2 class="t-lg">See You Out There</h2>
+      <h2 class="t-lg reveal">See You Out There</h2>
       <span class="rule"></span>
 
       <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
@@ -205,7 +205,7 @@ const IMG = {
         <div class="gallery-grid">
           <template x-for="(photo, i) in photos" :key="i">
             <button class="gallery-thumb" @click="openAt(i)">
-              <img :src="photo.thumb" :alt="photo.caption" loading="lazy" />
+              <img :src="photo.thumb" :alt="photo.caption" loading="lazy" decoding="async" />
             </button>
           </template>
         </div>
@@ -239,7 +239,7 @@ const IMG = {
   <section id="legend" class="panel" style={`background-image: url('${IMG.legend}')`}>
     <div class="inner">
       <span class="eyebrow">A Place With History</span>
-      <h2 class="t-lg">Born From Fire</h2>
+      <h2 class="t-lg reveal">Born From Fire</h2>
       <span class="rule"></span>
       <p class="lead">The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single trail was ever cut.</p>
       <p>On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street lamps to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind direction changed.</p>
@@ -263,7 +263,7 @@ const IMG = {
   <section id="faq" class="panel" style={`background-image: url('${IMG.faq}')`}>
     <div class="inner">
       <span class="eyebrow">Questions</span>
-      <h2 class="t-lg">FAQ</h2>
+      <h2 class="t-lg reveal">FAQ</h2>
       <span class="rule"></span>
       <div class="faq">
         <div class="faq-item">
@@ -298,7 +298,7 @@ const IMG = {
   <section id="sponsors" class="panel dark" style={`background-image: url('${IMG.sponsors}')`}>
     <div class="inner">
       <span class="eyebrow">Made Possible By</span>
-      <h2 class="t-lg">2026 Sponsors</h2>
+      <h2 class="t-lg reveal">2026 Sponsors</h2>
       <span class="rule"></span>
       <p class="lead">YBE exists because of this community of brands, shops, and people who show up every year to make it happen.</p>
 
@@ -343,7 +343,7 @@ const IMG = {
   <section id="register" class="panel dark" style={`background-image: url('${IMG.cta}')`}>
     <div class="inner">
       <span class="datebadge">June 20, 2026 &nbsp;·&nbsp; <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn, SW Washington</a></span>
-      <h2 class="t-xl">Register.<br />Ride.<br />Repeat.</h2>
+      <h2 class="t-xl reveal">Register.<br />Ride.<br />Repeat.</h2>
       <span class="rule"></span>
       <p class="lead">One day. 299 riders. The entire Yacolt Burn trail system, shuttled all day, for the cost of a tank of gas. This is what community trail building looks like.</p>
       <a href={REG} class="btn btn-amber" target="_blank" rel="noopener noreferrer" style="font-size: 0.95rem; padding: 1.1rem 3.2rem;">Secure Your Spot</a>
@@ -367,6 +367,16 @@ const IMG = {
       'requestIdleCallback' in window ? requestIdleCallback(clear) : clear();
     }, { once: true, passive: true });
   }
+
+  const reveal = new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting) return;
+      target.classList.add('in-view');
+      reveal.unobserve(target);
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
 </script>
 
 <style is:global>
@@ -855,6 +865,23 @@ const IMG = {
     }
     footer p { color: var(--c-muted); font-size: 0.82rem; }
     footer a { color: var(--c-muted); text-decoration: underline; }
+
+    /* ─── REVEAL ─── */
+    @media (min-width: 769px) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition-delay: 0.15s;
+      }
+      .reveal.in-view { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; opacity: 1; transform: none; }
+    }
+
+    /* Gallery doesn't benefit from parallax — scroll attachment avoids per-frame repaint */
+    #gallery { background-attachment: scroll; }
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
