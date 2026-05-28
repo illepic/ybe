@@ -2,8 +2,11 @@ import { defineConfig } from 'astro/config';
 
 import alpinejs from '@astrojs/alpinejs';
 
+import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
   output: 'static',
-  integrations: [alpinejs({ entrypoint: '/src/entrypoints/alpine.js' })],
+  site: 'https://yacoltburn.bike',
+  integrations: [alpinejs({ entrypoint: '/src/entrypoints/alpine.js' }), sitemap()],
   devToolbar: { enabled: false },
 });

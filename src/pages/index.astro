@@ -1,4 +1,5 @@
 ---
+import '../styles/fonts.css';
 const REG = "https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398";
 
 // Netlify Image CDN helper — transforms on deploy, raw path in local dev
@@ -29,7 +30,11 @@ const IMG = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yacolt Burn Experience 2026</title>
   <meta name="description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
+
+  <!-- Canonical & OG -->
+  <link rel="canonical" href="https://yacoltburn.bike" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yacoltburn.bike" />
   <meta property="og:title" content="Yacolt Burn Experience 2026" />
   <meta property="og:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
   <meta property="og:image" content={POSTER} />
@@ -37,13 +42,64 @@ const IMG = {
   <meta name="twitter:title" content="Yacolt Burn Experience 2026" />
   <meta name="twitter:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
   <meta name="twitter:image" content={POSTER} />
+
+  <!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Preload LCP image -->
+  <link rel="preload" as="image" href="/photos/poster.jpg" fetchpriority="high" />
+
+  <!-- DNS prefetch for external links -->
+  <link rel="dns-prefetch" href="https://maps.app.goo.gl" />
+  <link rel="dns-prefetch" href="https://www.trailforks.com" />
+  <link rel="dns-prefetch" href="https://www.evergreenmtb.org" />
+
+  <!-- JSON-LD Event schema -->
+  <script type="application/ld+json">{JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    "name": "Yacolt Burn Experience 2026",
+    "description": "A full-day mountain bike shuttle event in the Yacolt Burn State Forest, southwest Washington.",
+    "startDate": "2026-06-20T09:00:00-07:00",
+    "endDate": "2026-06-20T16:00:00-07:00",
+    "url": "https://yacoltburn.bike",
+    "image": POSTER,
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "Yacolt Burn Trailhead",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Yacolt",
+        "addressRegion": "WA",
+        "postalCode": "98675",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 45.7309,
+        "longitude": -122.303
+      }
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Evergreen Mountain Bike Alliance Southwest Chapter",
+      "url": "https://www.evergreenmtb.org/chapters/southwest"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "35",
+      "priceCurrency": "USD",
+      "validFrom": "2026-01-01",
+      "validThrough": "2026-06-19",
+      "url": "https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398",
+      "availability": "https://schema.org/LimitedAvailability"
+    }
+  })}</script>
 </head>
 <body>
 
