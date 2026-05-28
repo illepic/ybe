@@ -7,7 +7,7 @@ const IMG = {
   legend:   "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80",
   ride:     "https://images.unsplash.com/photo-1627044185459-09e6dbc39444?auto=format&fit=crop&w=1920&q=80",
   details:  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80",
-  quote:    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1920&q=80",
+  quote:    "https://images.unsplash.com/photo-1592483335937-a3213ac4a833?auto=format&fit=crop&w=1920&q=80",
   faq:      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1920&q=80",
   sponsors: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1920&q=80",
   cta:      "https://images.unsplash.com/photo-1563409236-a57c05907e44?auto=format&fit=crop&w=1920&q=80",
@@ -221,6 +221,16 @@ const IMG = {
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ─── LOCATION LINKS ─── */
+    a.loc {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: rgba(240,236,228,0.35);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+    a.loc:hover { text-decoration-color: var(--c-amber); }
+
     /* ─── LEAD LINK ─── */
     .lead a {
       color: var(--c-text);
@@ -383,9 +393,14 @@ const IMG = {
     .s-logo img {
       display: block;
       object-fit: contain;
+      max-width: 100%;
       filter: brightness(0) invert(1);
       transition: opacity 0.2s;
     }
+    .s-logo.gold   { max-width: 180px; }
+    .s-logo.silver { max-width: 140px; }
+    .s-logo.bronze { max-width: 120px; }
+    .s-logo.partner { max-width: 100px; }
     .s-logo.gold   img { height: 46px; opacity: 0.92; }
     .s-logo.silver img { height: 30px; opacity: 0.68; }
     .s-logo.bronze img { height: 26px; opacity: 0.60; }
@@ -404,7 +419,8 @@ const IMG = {
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
       .panel { background-attachment: scroll; }
-      nav { padding: 0.9rem 1.25rem; }
+      nav { padding: 0.4rem 1rem; }
+      .nav-brand img { height: 44px; }
       .inner { padding: 5.5rem 1.25rem 3.5rem; }
       .btn-group { flex-direction: column; align-items: center; }
       .btn { width: 100%; max-width: 300px; text-align: center; }
@@ -419,13 +435,13 @@ const IMG = {
     <a href="#hero" class="nav-brand">
       <img src="/logo.png" alt="Yacolt Burn Experience" />
     </a>
-    <a href={REG} class="nav-cta" target="_blank" rel="noopener noreferrer">Register — June 20</a>
+    <a href={REG} class="nav-cta" target="_blank" rel="noopener noreferrer">Register → June 20</a>
   </nav>
 
   <!-- ── 1 · HERO ── -->
   <section id="hero" class="panel dark" style={`background-image: url('${POSTER}')`}>
     <div class="inner">
-      <span class="datebadge">June 20, 2026 &nbsp;·&nbsp; Yacolt Burn, SW Washington</span>
+      <span class="datebadge">June 20, 2026 &nbsp;·&nbsp; <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn, SW Washington</a></span>
       <h1 class="t-xl">Yacolt<br />Burn<br />Experience</h1>
       <p class="lead">
         A full-day shuttle event deep in the heart of<br />
@@ -451,7 +467,7 @@ const IMG = {
       <h2 class="t-lg">The Full Day</h2>
       <span class="rule"></span>
       <p class="lead">All-day shuttles. Demo bikes. Food. Trails that took decades to build — yours for one day.</p>
-      <p>YBE runs 9am to 4pm. Shuttles load at the lower Yacolt Burn Trailhead and drop riders at Five Corners — the gateway to the upper trail system. Ride down. Load back up. Repeat.</p>
+      <p>YBE runs 9am to 4pm. Shuttles load at the <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">lower Yacolt Burn Trailhead</a> and drop riders at Five Corners — the gateway to the upper trail system. Ride down. Load back up. Repeat.</p>
       <p>The event caps at 299 riders and sells out every single year, rain or shine. Demo fleets from Propain and Norco are on-site. Vendors, food, and raffles round out the day. There's even an organized youth ride for ages 3–12 and bike games for all levels.</p>
       <a href={REG} class="btn btn-amber" target="_blank" rel="noopener noreferrer">Claim Your Spot</a>
     </div>
@@ -471,7 +487,7 @@ const IMG = {
         </div>
         <div class="card">
           <div class="card-label">Location</div>
-          <div class="card-value">Yacolt Burn Trailhead<br />Southwest Washington<br /><small>Park on the west side of the road</small></div>
+          <div class="card-value"><a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a><br /><small>Park on the west side of the road</small></div>
         </div>
         <div class="card">
           <div class="card-label">What's Included</div>
@@ -486,7 +502,7 @@ const IMG = {
       <div class="price-box">
         <h3 class="t-md" style="margin-bottom: 1.25rem; text-align: left;">Registration</h3>
         <div class="price-row">
-          <div class="price-label">Members <small>Online · pre-event</small></div>
+          <div class="price-label">Members <small>Online · pre-event &nbsp;<a href="https://www.evergreenmtb.org/support-us/become-a-member" target="_blank" rel="noopener noreferrer" style="color: var(--c-accent); text-decoration: none; font-style: italic;">(join)</a></small></div>
           <div class="price-num">$35</div>
         </div>
         <div class="price-row">
@@ -557,7 +573,7 @@ const IMG = {
         </div>
         <div class="faq-item">
           <div class="faq-q">Where do I park?</div>
-          <p class="faq-a">Yacolt Burn Trailhead. Park on the west side of the road. It fills early — plan to arrive by 8:30 AM.</p>
+          <p class="faq-a"><a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead</a>. Park on the west side of the road. It fills early — plan to arrive by 8:30 AM.</p>
         </div>
       </div>
     </div>
@@ -595,20 +611,14 @@ const IMG = {
         <div class="tier-label bronze">Bronze</div>
         <div class="sponsor-row">
           <div class="s-logo bronze"><img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" /></div>
-        </div>
-      </div>
-
-      <div class="sponsor-tier">
-        <div class="tier-label partners">Community Partners</div>
-        <div class="sponsor-row">
-          <span class="badge partner">Red Bull</span>
-          <div class="s-logo partner"><img src="/sponsors/sram.svg" alt="SRAM" /></div>
-          <div class="s-logo partner"><img src="/sponsors/dt-swiss.svg" alt="DT Swiss" /></div>
-          <span class="badge partner">Kenda</span>
-          <span class="badge partner">All City Print</span>
-          <span class="badge partner">You Move Me</span>
-          <span class="badge partner">Pull Caffè Coffee Roasters</span>
-          <span class="badge partner">Frito Lay</span>
+          <span class="badge bronze">Red Bull</span>
+          <div class="s-logo bronze"><img src="/sponsors/sram.svg" alt="SRAM" /></div>
+          <div class="s-logo bronze"><img src="/sponsors/dt-swiss.svg" alt="DT Swiss" /></div>
+          <span class="badge bronze">Kenda</span>
+          <span class="badge bronze">All City Print</span>
+          <span class="badge bronze">You Move Me</span>
+          <span class="badge bronze">Pull Caffè Coffee Roasters</span>
+          <span class="badge bronze">Frito Lay</span>
         </div>
       </div>
     </div>
@@ -617,7 +627,7 @@ const IMG = {
   <!-- ── 8 · FINAL CTA ── -->
   <section id="register" class="panel dark" style={`background-image: url('${IMG.cta}')`}>
     <div class="inner">
-      <span class="datebadge">June 20, 2026 &nbsp;·&nbsp; Yacolt Burn, SW Washington</span>
+      <span class="datebadge">June 20, 2026 &nbsp;·&nbsp; <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn, SW Washington</a></span>
       <h2 class="t-xl">Register.<br />Ride.<br />Repeat.</h2>
       <span class="rule"></span>
       <p class="lead">One day. 299 riders. The entire Yacolt Burn trail system, shuttled all day, for the cost of a tank of gas. This is what community trail building looks like.</p>
@@ -627,7 +637,7 @@ const IMG = {
 
   <footer>
     <p>Yacolt Burn Experience 2026 &nbsp;·&nbsp; Organized by the <a href="https://www.evergreenmtb.org" target="_blank" rel="noopener noreferrer">Evergreen Mountain Bike Alliance Southwest Chapter</a></p>
-    <p style="margin-top: 0.4rem;">Yacolt Burn State Forest &nbsp;·&nbsp; Southwest Washington</p>
+    <p style="margin-top: 0.4rem;"><a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn State Forest &nbsp;·&nbsp; Southwest Washington</a></p>
   </footer>
 
   <script>
