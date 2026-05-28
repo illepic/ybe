@@ -21,6 +21,18 @@ const IMG = {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yacolt Burn Experience 2026</title>
   <meta name="description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Yacolt Burn Experience 2026" />
+  <meta property="og:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
+  <meta property="og:image" content={POSTER} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Yacolt Burn Experience 2026" />
+  <meta name="twitter:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
+  <meta name="twitter:image" content={POSTER} />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -255,7 +267,7 @@ const IMG = {
     /* ─── DETAIL CARDS ─── */
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
       margin-top: 3rem;
       text-align: left;
@@ -425,6 +437,7 @@ const IMG = {
       .btn-group { flex-direction: column; align-items: center; }
       .btn { width: 100%; max-width: 300px; text-align: center; }
       .price-box { padding: 1.25rem 1.25rem 1.5rem; }
+      .cards { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -502,7 +515,7 @@ const IMG = {
       <div class="price-box">
         <h3 class="t-md" style="margin-bottom: 1.25rem; text-align: left;">Registration</h3>
         <div class="price-row">
-          <div class="price-label">Members <small>Online · pre-event &nbsp;<a href="https://www.evergreenmtb.org/support-us/become-a-member" target="_blank" rel="noopener noreferrer" style="color: var(--c-accent); text-decoration: none; font-style: italic;">(join)</a></small></div>
+          <div class="price-label">Members <a href="https://www.evergreenmtb.org/support-us/become-a-member" target="_blank" rel="noopener noreferrer" style="color: var(--c-accent); text-decoration: none; font-style: italic; font-size: 0.8rem;">(join)</a><small>Online · pre-event</small></div>
           <div class="price-num">$35</div>
         </div>
         <div class="price-row">
