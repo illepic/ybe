@@ -181,6 +181,15 @@ const IMG = {
     .btn-amber  { background: var(--c-amber);  color: #180e04; }
     .btn-ghost  { border: 2px solid rgba(240,236,228,0.7); color: var(--c-text); }
     .btn-ghost:hover { background: rgba(240,236,228,0.08); }
+    .btn-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+    }
+    .btn-logo span { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+    .btn-logo img  { height: 68px; width: auto; opacity: 0.9; }
     .btn-group  { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .inner > .btn,
     .inner > .btn-group { margin-top: 2.5rem; }
@@ -437,6 +446,7 @@ const IMG = {
   <!-- ── 2 · THE EXPERIENCE ── -->
   <section id="experience" class="panel dark" style={`background-image: url('${IMG.ride}')`}>
     <div class="inner">
+      <img src="/logo.png" alt="Yacolt Burn Experience" style="height: 120px; width: auto; display: block; margin: 0 auto 1.5rem;" />
       <span class="eyebrow">The Event</span>
       <h2 class="t-lg">The Full Day</h2>
       <span class="rule"></span>
@@ -511,7 +521,10 @@ const IMG = {
     <div class="inner">
       <p class="pullquote">"The trails you love<br /><em>are not free.</em>"</p>
       <p class="lead">Good trails don't happen because some pro with a Red Bull helmet showed up. They happen because a bunch of regular people picked up McLeods and Pulaskis and showed up on a Saturday. Every Saturday. For years. In the rain.</p>
-      <a href="https://www.evergreenmtb.org" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Join Evergreen MTB Alliance</a>
+      <a href="https://www.evergreenmtb.org" class="btn btn-ghost btn-logo" target="_blank" rel="noopener noreferrer">
+        <span>Join</span>
+        <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
+      </a>
     </div>
   </section>
 
