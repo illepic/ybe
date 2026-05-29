@@ -423,7 +423,16 @@ const JSON_LD = JSON.stringify({
         >
           <div class="gallery__backdrop" @click="close()"></div>
           <div class="gallery__frame">
-            <img :src="photos[current].full" :alt="photos[current].caption" />
+            <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
+              <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"></div>
+            </div>
+            <img
+              :src="photos[current].full"
+              :alt="photos[current].caption"
+              @load="onImageLoad()"
+              :class="loading ? 'opacity-0' : 'opacity-100'"
+              class="transition-opacity duration-300"
+            />
             <button
               class="gallery__btn gallery__btn--close"
               @click="close()"

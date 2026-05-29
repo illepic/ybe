@@ -10,6 +10,7 @@ const cdn = (path, params = {}) => {
 
 // Real YBE event photos — drop files into public/photos/ and add entries here
 const GALLERY_PHOTOS = [
+  { file: 'poster.jpg', caption: 'Yacolt Burn Experience 2026' },
   { file: 'john-bridge.jpg', caption: 'Yacolt Burn Experience' },
   { file: 'shane-dawg.jpg', caption: 'Yacolt Burn Experience' },
   { file: 'yacolt-bench.jpg', caption: 'Yacolt Burn Experience' },
@@ -19,6 +20,8 @@ const GALLERY_PHOTOS = [
   { file: 'bike-table.jpeg', caption: 'Yacolt Burn Experience' },
   { file: 'ybe-tents.jpg', caption: 'Yacolt Burn Experience' },
   { file: 'ybe-rain.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'ybe-mud.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'ybe-shred-mud.jpg', caption: 'Yacolt Burn Experience' },
 ];
 
 export default (Alpine) => {
@@ -36,11 +39,13 @@ export default (Alpine) => {
     return {
       isOpen: false,
       current: 0,
+      loading: false,
       _trigger: null,
       photos,
       openAt(i) {
         this._trigger = document.activeElement;
         this.current = i;
+        this.loading = true;
         this.isOpen = true;
       },
       close() {
@@ -48,10 +53,15 @@ export default (Alpine) => {
         this.$nextTick(() => this._trigger?.focus());
       },
       prev() {
+        this.loading = true;
         this.current = (this.current - 1 + this.photos.length) % this.photos.length;
       },
       next() {
+        this.loading = true;
         this.current = (this.current + 1) % this.photos.length;
+      },
+      onImageLoad() {
+        this.loading = false;
       },
     };
   });
