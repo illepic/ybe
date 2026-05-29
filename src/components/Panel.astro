@@ -1,0 +1,39 @@
+---
+interface Props {
+  id?: string;
+  bgImage?: string;
+  scroll?: boolean; // disables parallax fixed attachment (e.g. gallery)
+  class?: string;
+}
+
+const { id, bgImage, scroll = false, class: className = '' } = Astro.props;
+---
+
+<section
+  {id}
+  class:list={[
+    'panel',
+    'relative min-h-screen flex items-center justify-center',
+    'bg-cover bg-center bg-no-repeat bg-bg',
+    scroll ? 'bg-scroll' : 'bg-scroll md:bg-fixed',
+    className,
+  ]}
+  style={bgImage ? `background-image: url('${bgImage}')` : undefined}
+>
+  <!-- Dark overlay — replaces ::before pseudo-element -->
+  <div class="absolute inset-0 bg-[rgba(10,8,6,0.8)]" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div
+    class="panel__inner relative z-[1] w-full max-w-[860px] mx-auto text-center
+           pt-[5.5rem] px-5 pb-14
+           md:pt-[7rem] md:px-8 md:pb-20"
+  >
+    <slot />
+  </div>
+
+  <!-- Position wrapper owns the absolute placement; PhotoCredit is unaware -->
+  <div class="absolute bottom-4 right-4 z-[2]">
+    <slot name="credit" />
+  </div>
+</section>

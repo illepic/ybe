@@ -9,11 +9,18 @@ interface Props {
 const { name, url, label = 'Photo:', source } = Astro.props;
 ---
 
-<cite class="photo-credit">
+<cite
+  class="not-italic text-[0.65rem] tracking-[0.06em] text-[rgba(240,236,228,0.35)] pointer-events-none"
+>
   {label}
   {
     url ? (
-      <a href={url} target="_blank" rel="noopener noreferrer">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 pointer-events-auto transition-colors duration-200 hover:text-[rgba(240,236,228,0.7)]"
+      >
         {name}
       </a>
     ) : (
@@ -22,29 +29,3 @@ const { name, url, label = 'Photo:', source } = Astro.props;
   }
   {source && <> / {source}</>}
 </cite>
-
-<style>
-  .photo-credit {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 2;
-    font-style: normal;
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    color: rgba(240, 236, 228, 0.35);
-    pointer-events: none;
-  }
-
-  .photo-credit a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    pointer-events: all;
-    transition: color 0.2s;
-  }
-
-  .photo-credit a:hover {
-    color: rgba(240, 236, 228, 0.7);
-  }
-</style>

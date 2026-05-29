@@ -3,6 +3,9 @@ import '../styles/tailwind.css';
 import PhotoCredit from '../components/PhotoCredit.astro';
 import Countdown from '../components/Countdown.astro';
 import HeadingRainbow from '../components/HeadingRainbow.astro';
+import Nav from '../components/Nav.astro';
+import Panel from '../components/Panel.astro';
+import Eyebrow from '../components/Eyebrow.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -166,616 +169,565 @@ const JSON_LD = JSON.stringify({
     <!-- JSON-LD Event schema -->
     <script type="application/ld+json" set:html={JSON_LD} />
   </head>
-  <body class="antialiased text-base/relaxed">
+  <body class="antialiased text-base/relaxed bg-bg text-text font-body">
     <!-- Skip link for keyboard/screenreader users -->
-    <a href="#experience" class="skip-link">Skip to content</a>
+    <a
+      href="#experience"
+      class="fixed -top-full left-4 z-[1000] bg-accent text-text px-4 py-2 rounded-[2px] text-[0.85rem] font-semibold no-underline transition-[top] duration-200 focus:top-4"
+      >Skip to content</a
+    >
 
     <!-- NAV -->
-    <nav
-      id="nav"
-      x-data="{ scrolled: false }"
-      @scroll.window.passive="scrolled = window.scrollY > 50"
-      :class="{ 'nav--scrolled': scrolled }"
-    >
-      <a href="#hero" class="nav__brand">
-        <img src="/logo.png" alt="Yacolt Burn Experience" width="2796" height="2743" />
-      </a>
-      <a href={REG} class="nav__cta" target="_blank" rel="noopener noreferrer"
-        >Register <ArrowRight size={14} strokeWidth={2.5} /> {EVENT.dateShort}</a
-      >
-    </nav>
+    <Nav reg={REG} dateShort={EVENT.dateShort} />
 
     <!-- ── 1 · HERO ── -->
-    <section id="hero" class="panel panel--dark" style={`background-image: url('${POSTER}')`}>
-      <div class="panel__inner">
-        <span class="hero__datebadge"
-          >{EVENT.date} &nbsp;·&nbsp; <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
+    <Panel id="hero" bgImage={POSTER}>
+      <span class="hero__datebadge"
+        >{EVENT.date} &nbsp;·&nbsp; <a
+          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+          class="loc"
+          target="_blank"
+          rel="noopener noreferrer">Yacolt Burn, SW Washington</a
+        ></span
+      >
+      <HeadingRainbow size="xl" as="h1" reveal={false}>
+        Yacolt<br />Burn<br />Experience
+      </HeadingRainbow>
+      <p class="text-shadow-lg lead">
+        A full-day shuttle event deep in the heart of<br />
+        <strong
+          ><a
+            href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
             target="_blank"
-            rel="noopener noreferrer">Yacolt Burn, SW Washington</a
-          ></span
+            rel="noopener noreferrer">Yacolt Burn State Forest</a
+          ></strong
+        >.
+      </p>
+      <p class="text-shadow-lg hero__stat">
+        <span>{EVENT.capacity} riders.</span>
+        <span>All the trails.</span>
+        <span>One day.</span>
+      </p>
+      <div class="btn__group mt-10">
+        <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
+          ><Ticket size={16} strokeWidth={2} /> Register Now</a
         >
-        <HeadingRainbow size="xl" as="h1" reveal={false}>
-          Yacolt<br />Burn<br />Experience
-        </HeadingRainbow>
-        <p class="lead">
-          A full-day shuttle event deep in the heart of<br />
-          <strong
-            ><a
-              href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
-              target="_blank"
-              rel="noopener noreferrer">Yacolt Burn State Forest</a
-            ></strong
-          >.
-        </p>
-        <p class="hero__stat">
-          <span>{EVENT.capacity} riders.</span>
-          <span>All the trails.</span>
-          <span>One day.</span>
-        </p>
-        <div class="btn__group">
-          <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
-            ><Ticket size={16} strokeWidth={2} /> Register Now</a
-          >
-          <a href="#experience" class="btn btn--ghost"
-            >What to Expect <ChevronDown size={15} strokeWidth={2} /></a
-          >
-        </div>
-        <Countdown targetDate={EVENT.isoStart} />
+        <a href="#experience" class="btn btn--ghost"
+          >What to Expect <ChevronDown size={15} strokeWidth={2} /></a
+        >
       </div>
-      <PhotoCredit label="Art by" name="Kathryn Jasperson" url="https://kathrynjaspersonart.com/" />
-    </section>
+      <Countdown targetDate={EVENT.isoStart} />
+      <PhotoCredit label="Art by" name="Kathryn Jasperson" url="https://kathrynjaspersonart.com/" slot="credit" />
+    </Panel>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
-    <section
-      id="experience"
-      class="panel panel--dark"
-      style={`background-image: url('${IMG.ride}')`}
-    >
-      <div class="panel__inner">
-        <img
-          src="/logo.png"
-          alt="Yacolt Burn Experience"
-          class="h-[120px] w-auto block mx-auto mb-6"
-        />
-        <span class="eyebrow">The Event</span>
-        <HeadingRainbow>The Full Day</HeadingRainbow>
-        <span class="rule"></span>
-        <p class="lead">
-          All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
-        </p>
-        <p>
-          YBE runs 9am to 4pm. Shuttles load at the <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
-            target="_blank"
-            rel="noopener noreferrer">lower Yacolt Burn Trailhead</a
-          > and drop riders at <a
-            href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
-            target="_blank"
-            rel="noopener noreferrer">Five Corners</a
-          >, gateway to the upper trail system. Ride down. Load back up. Repeat. There are rumors
-          shuttles may go all the way to <a
-            href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
-            target="_blank"
-            rel="noopener noreferrer">The Towers</a
-          >.
-        </p>
-        <p>
-          The event caps at {EVENT.capacity} riders and sells out every single year, rain or shine. Demo
-          fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
-          even an organized youth ride for ages 3–12 and bike games for all levels.
-        </p>
-        <p>
-          The trail system is anchored by four standouts: <a
-            href="https://www.trailforks.com/trails/cold-creek/"
-            target="_blank"
-            rel="noopener noreferrer">Cold Creek</a
-          >, wild and rooty and rocky with the occasional burst of flow; <a
-            href="https://www.trailforks.com/trails/sixth-sense/"
-            target="_blank"
-            rel="noopener noreferrer">Sixth Sense</a
-          >, hand-crafted and flowy with the best berms in the forest; <a
-            href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
-            target="_blank"
-            rel="noopener noreferrer">Murphy's Grade</a
-          >, hand-built by Carson Storch with fast doubles and plenty of speed; and <a
-            href="https://www.trailforks.com/trails/thrillium/"
-            target="_blank"
-            rel="noopener noreferrer">Thrillium</a
-          >, the sender: big, fast, and full of gnarly tabletops.
-        </p>
-        <a href={REG} class="btn btn--amber" target="_blank" rel="noopener noreferrer"
-          ><CheckCircle size={16} strokeWidth={2} /> Claim Your Spot</a
-        >
-      </div>
-      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" />
-    </section>
+    <Panel id="experience" bgImage={IMG.ride}>
+      <img
+        src="/logo.png"
+        alt="Yacolt Burn Experience"
+        class="h-[120px] w-auto block mx-auto mb-6"
+      />
+      <Eyebrow>The Event</Eyebrow>
+      <HeadingRainbow>The Full Day</HeadingRainbow>
+      <span class="rule"></span>
+      <p class="text-shadow-lg lead">
+        All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
+      </p>
+      <p class="text-shadow-lg">
+        YBE runs 9am to 4pm. Shuttles load at the <a
+          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+          class="loc"
+          target="_blank"
+          rel="noopener noreferrer">lower Yacolt Burn Trailhead</a
+        > and drop riders at <a
+          href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
+          target="_blank"
+          rel="noopener noreferrer">Five Corners</a
+        >, gateway to the upper trail system. Ride down. Load back up. Repeat. There are rumors
+        shuttles may go all the way to <a
+          href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
+          target="_blank"
+          rel="noopener noreferrer">The Towers</a
+        >.
+      </p>
+      <p class="text-shadow-lg">
+        The event caps at {EVENT.capacity} riders and sells out every single year, rain or shine. Demo
+        fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
+        even an organized youth ride for ages 3–12 and bike games for all levels.
+      </p>
+      <p class="text-shadow-lg">
+        The trail system is anchored by four standouts: <a
+          href="https://www.trailforks.com/trails/cold-creek/"
+          target="_blank"
+          rel="noopener noreferrer">Cold Creek</a
+        >, wild and rooty and rocky with the occasional burst of flow; <a
+          href="https://www.trailforks.com/trails/sixth-sense/"
+          target="_blank"
+          rel="noopener noreferrer">Sixth Sense</a
+        >, hand-crafted and flowy with the best berms in the forest; <a
+          href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
+          target="_blank"
+          rel="noopener noreferrer">Murphy's Grade</a
+        >, hand-built by Carson Storch with fast doubles and plenty of speed; and <a
+          href="https://www.trailforks.com/trails/thrillium/"
+          target="_blank"
+          rel="noopener noreferrer">Thrillium</a
+        >, the sender: big, fast, and full of gnarly tabletops.
+      </p>
+      <a href={REG} class="btn btn--amber" target="_blank" rel="noopener noreferrer"
+        ><CheckCircle size={16} strokeWidth={2} /> Claim Your Spot</a
+      >
+      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" slot="credit" />
+    </Panel>
 
     <!-- ── 3 · DETAILS ── -->
-    <section
-      id="details"
-      class="panel panel--dark panel--deferred"
-      style={`background-image: url('${IMG.details}')`}
-    >
-      <div class="panel__inner">
-        <span class="eyebrow">{EVENT.date}</span>
-        <HeadingRainbow>Event Details</HeadingRainbow>
-        <span class="rule"></span>
+    <Panel id="details" bgImage={IMG.details}>
+      <Eyebrow>{EVENT.date}</Eyebrow>
+      <HeadingRainbow>Event Details</HeadingRainbow>
+      <span class="rule"></span>
 
-        <div class="detail-cards">
-          <div class="detail-cards__card">
-            <div class="detail-cards__label">
-              <CalendarDays size={12} strokeWidth={2.5} /> Date & Time
-            </div>
-            <div class="detail-cards__value">
-              {EVENT.dateDay}<br />{EVENT.startTime} – {EVENT.endTime}
-            </div>
+      <div class="detail-cards">
+        <div class="detail-cards__card">
+          <div class="detail-cards__label">
+            <CalendarDays size={12} strokeWidth={2.5} /> Date & Time
           </div>
-          <div class="detail-cards__card">
-            <div class="detail-cards__label"><MapPin size={12} strokeWidth={2.5} /> Location</div>
-            <div class="detail-cards__value">
-              <a
-                href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-                class="loc"
-                target="_blank"
-                rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
-              ><br /><small>Park on the west side of the road</small>
-            </div>
-          </div>
-          <div class="detail-cards__card">
-            <div class="detail-cards__label">
-              <Package size={12} strokeWidth={2.5} /> What's Included
-            </div>
-            <div class="detail-cards__value">
-              All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br
-              /><small>Youth ride ages 3–12</small>
-            </div>
-          </div>
-          <div class="detail-cards__card">
-            <div class="detail-cards__label"><Users size={12} strokeWidth={2.5} /> Capacity</div>
-            <div class="detail-cards__value">
-              {EVENT.capacity} riders max<br /><small>Sells out every year. Register early.</small>
-            </div>
+          <div class="detail-cards__value">
+            {EVENT.dateDay}<br />{EVENT.startTime} – {EVENT.endTime}
           </div>
         </div>
+        <div class="detail-cards__card">
+          <div class="detail-cards__label"><MapPin size={12} strokeWidth={2.5} /> Location</div>
+          <div class="detail-cards__value">
+            <a
+              href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+              class="loc"
+              target="_blank"
+              rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
+            ><br /><small>Park on the west side of the road</small>
+          </div>
+        </div>
+        <div class="detail-cards__card">
+          <div class="detail-cards__label">
+            <Package size={12} strokeWidth={2.5} /> What's Included
+          </div>
+          <div class="detail-cards__value">
+            All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br
+            /><small>Youth ride ages 3–12</small>
+          </div>
+        </div>
+        <div class="detail-cards__card">
+          <div class="detail-cards__label"><Users size={12} strokeWidth={2.5} /> Capacity</div>
+          <div class="detail-cards__value">
+            {EVENT.capacity} riders max<br /><small>Sells out every year. Register early.</small>
+          </div>
+        </div>
+      </div>
 
-        <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
-        <div class="pricing">
-          <h3
-            class="heading--md font-bold font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-[0.03em] leading-[0.93] text-text mb-5 text-left"
+      <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
+      <div class="pricing">
+        <h3
+          class="heading--md font-bold font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-[0.03em] leading-[0.93] text-text mb-5 text-left"
+        >
+          Registration
+        </h3>
+        <div class="pricing__row">
+          <div class="pricing__label">
+            Members <a
+              href="https://www.evergreenmtb.org/support-us/become-a-member"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-accent no-underline italic text-[0.8rem]">(join)</a
+            ><small>Online · pre-event</small>
+          </div>
+          <div class="pricing__amount">${EVENT.priceMember}</div>
+        </div>
+        <div class="pricing__row">
+          <div class="pricing__label">Non-Members <small>Online · pre-event</small></div>
+          <div class="pricing__amount">${EVENT.priceGuest}</div>
+        </div>
+        <div class="pricing__row">
+          <div class="pricing__label">Day-Of <small>All participants</small></div>
+          <div class="pricing__amount">${EVENT.priceDayOf}</div>
+        </div>
+        <div class="mt-6 text-center">
+          <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
+            >Register by {EVENT.deadline}</a
           >
-            Registration
-          </h3>
-          <div class="pricing__row">
-            <div class="pricing__label">
-              Members <a
-                href="https://www.evergreenmtb.org/support-us/become-a-member"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-accent no-underline italic text-[0.8rem]">(join)</a
-              ><small>Online · pre-event</small>
-            </div>
-            <div class="pricing__amount">${EVENT.priceMember}</div>
-          </div>
-          <div class="pricing__row">
-            <div class="pricing__label">Non-Members <small>Online · pre-event</small></div>
-            <div class="pricing__amount">${EVENT.priceGuest}</div>
-          </div>
-          <div class="pricing__row">
-            <div class="pricing__label">Day-Of <small>All participants</small></div>
-            <div class="pricing__amount">${EVENT.priceDayOf}</div>
-          </div>
-          <div class="mt-6 text-center">
-            <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
-              >Register by {EVENT.deadline}</a
+        </div>
+      </div>
+      <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
+    </Panel>
+
+    <!-- ── 4 · GALLERY ── -->
+    <Panel id="gallery" bgImage={IMG.gallery} scroll>
+      <Eyebrow>From the Trails</Eyebrow>
+      <HeadingRainbow>See You Out There</HeadingRainbow>
+      <span class="rule"></span>
+
+      <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
+      <div x-data="photoGallery">
+        <div class="gallery__grid">
+          <template x-for="(photo, i) in photos" :key="i">
+            <button class="gallery__thumb" @click="openAt(i)">
+              <img :src="photo.thumb" :alt="photo.caption" loading="lazy" decoding="async" />
+            </button>
+          </template>
+        </div>
+
+        <div
+          class="gallery__modal"
+          x-cloak
+          x-show="isOpen"
+          x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0"
+          x-transition:enter-end="opacity-100"
+          x-transition:leave="transition ease-in duration-150"
+          x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0"
+          x-trap="isOpen"
+          x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
+          x-ref="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo gallery"
+          tabindex="-1"
+          @keydown.escape="close()"
+          @keydown.arrow-left="prev()"
+          @keydown.arrow-right="next()"
+        >
+          <div class="gallery__backdrop" @click="close()"></div>
+          <div class="gallery__frame">
+            <img :src="photos[current].full" :alt="photos[current].caption" />
+            <button
+              class="gallery__btn gallery__btn--close"
+              @click="close()"
+              aria-label="Close gallery"><X size={18} strokeWidth={2} /></button
+            >
+            <button
+              class="gallery__btn gallery__btn--prev"
+              @click.stop="prev()"
+              aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button
+            >
+            <button
+              class="gallery__btn gallery__btn--next"
+              @click.stop="next()"
+              aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button
             >
           </div>
         </div>
       </div>
-      <PhotoCredit label="Photo by" name="Todd McCarthy" />
-    </section>
-
-    <!-- ── 4 · GALLERY ── -->
-    <section
-      id="gallery"
-      class="panel panel--dark panel--scroll panel--deferred"
-      style={`background-image: url('${IMG.gallery}')`}
-    >
-      <div class="panel__inner">
-        <span class="eyebrow">From the Trails</span>
-        <HeadingRainbow>See You Out There</HeadingRainbow>
-        <span class="rule"></span>
-
-        <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
-        <div x-data="photoGallery">
-          <div class="gallery__grid">
-            <template x-for="(photo, i) in photos" :key="i">
-              <button class="gallery__thumb" @click="openAt(i)">
-                <img :src="photo.thumb" :alt="photo.caption" loading="lazy" decoding="async" />
-              </button>
-            </template>
-          </div>
-
-          <div
-            class="gallery__modal"
-            x-cloak
-            x-show="isOpen"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            x-trap="isOpen"
-            x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
-            x-ref="modal"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Photo gallery"
-            tabindex="-1"
-            @keydown.escape="close()"
-            @keydown.arrow-left="prev()"
-            @keydown.arrow-right="next()"
-          >
-            <div class="gallery__backdrop" @click="close()"></div>
-            <div class="gallery__frame">
-              <img :src="photos[current].full" :alt="photos[current].caption" />
-              <button
-                class="gallery__btn gallery__btn--close"
-                @click="close()"
-                aria-label="Close gallery"><X size={18} strokeWidth={2} /></button
-              >
-              <button
-                class="gallery__btn gallery__btn--prev"
-                @click.stop="prev()"
-                aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button
-              >
-              <button
-                class="gallery__btn gallery__btn--next"
-                @click.stop="next()"
-                aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <PhotoCredit name="Sean Benesh" url="https://unsplash.com/@seanbenesh" source="Unsplash" />
-    </section>
+      <PhotoCredit name="Sean Benesh" url="https://unsplash.com/@seanbenesh" source="Unsplash" slot="credit" />
+    </Panel>
 
     <!-- ── 5 · LEGEND ── -->
-    <section
-      id="legend"
-      class="panel panel--deferred"
-      style={`background-image: url('${IMG.legend}')`}
-    >
-      <div class="panel__inner">
-        <span class="eyebrow">A Place With History</span>
-        <HeadingRainbow>Born From Fire</HeadingRainbow>
-        <span class="rule"></span>
-        <p class="lead">
-          The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
-          trail was ever cut.
-        </p>
-        <p>
-          On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it
-          consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street
-          lamps to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind
-          direction changed.
-        </p>
-        <p>
-          What followed was one of Washington's great rehabilitation stories: Civilian Conservation
-          Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers
-          who saw something in those old logging roads in the late 1990s and started riding them.
-          The Yacolt Burn Experience is the product of all of it.
-        </p>
-        <a
-          href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mt-8 text-accent underline underline-offset-[3px] text-[0.9rem]"
-          >Read More</a
-        >
-      </div>
+    <Panel id="legend" bgImage={IMG.legend}>
+      <Eyebrow>A Place With History</Eyebrow>
+      <HeadingRainbow>Born From Fire</HeadingRainbow>
+      <span class="rule"></span>
+      <p class="text-shadow-lg lead">
+        The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
+        trail was ever cut.
+      </p>
+      <p class="text-shadow-lg">
+        On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it
+        consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street lamps
+        to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind
+        direction changed.
+      </p>
+      <p class="text-shadow-lg">
+        What followed was one of Washington's great rehabilitation stories: Civilian Conservation
+        Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers who
+        saw something in those old logging roads in the late 1990s and started riding them. The
+        Yacolt Burn Experience is the product of all of it.
+      </p>
+      <a
+        href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block mt-8 text-accent underline underline-offset-[3px] text-[0.9rem]"
+        >Read More</a
+      >
       <PhotoCredit
         name="Sebastian Unrau"
         url="https://unsplash.com/@sebastian_unrau"
         source="Unsplash"
+        slot="credit"
       />
-    </section>
+    </Panel>
 
     <!-- ── 5 · PULL QUOTE ── -->
-    <section
-      id="trails"
-      class="panel panel--dark panel--deferred"
-      style={`background-image: url('${IMG.quote}')`}
-    >
-      <div class="panel__inner">
-        <p class="pullquote">"The trails you love<br /><em>are not free.</em>"</p>
-        <p class="lead">
-          Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
-          hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
-          happening.
-        </p>
-        <a
-          href="https://www.evergreenmtb.org"
-          class="btn btn--ghost btn--logo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span>Join <ArrowRight size={13} strokeWidth={2.5} /></span>
-          <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
-        </a>
-      </div>
-      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" />
-    </section>
+    <Panel id="trails" bgImage={IMG.quote}>
+      <p class="text-shadow-lg pullquote">"The trails you love<br /><em>are not free.</em>"</p>
+      <p class="text-shadow-lg lead">
+        Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
+        hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
+        happening.
+      </p>
+      <a
+        href="https://www.evergreenmtb.org"
+        class="btn btn--ghost btn--logo"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>Join <ArrowRight size={13} strokeWidth={2.5} /></span>
+        <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
+      </a>
+      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" slot="credit" />
+    </Panel>
 
     <!-- ── 6 · FAQ ── -->
-    <section id="faq" class="panel panel--deferred" style={`background-image: url('${IMG.faq}')`}>
-      <div class="panel__inner">
-        <span class="eyebrow">Questions</span>
-        <HeadingRainbow>FAQ</HeadingRainbow>
-        <span class="rule"></span>
-        <div class="faq">
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              What skill level do I need?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                The upper system accessed from Five Corners is intermediate to advanced terrain. The
-                event welcomes all riders though, including a dedicated youth ride for ages 3–12.
-                Volunteers and the community are there to help you find your line.
-              </p>
-            </div>
+    <Panel id="faq" bgImage={IMG.faq}>
+      <Eyebrow>Questions</Eyebrow>
+      <HeadingRainbow>FAQ</HeadingRainbow>
+      <span class="rule"></span>
+      <div class="faq">
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            What skill level do I need?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              The upper system accessed from Five Corners is intermediate to advanced terrain. The
+              event welcomes all riders though, including a dedicated youth ride for ages 3–12.
+              Volunteers and the community are there to help you find your line.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              Does it sell out?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                Every single year. Space is capped at {EVENT.capacity} riders. Register online by {
-                  EVENT.deadline
-                } to lock in your spot and your best rate.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            Does it sell out?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              Every single year. Space is capped at {EVENT.capacity} riders. Register online by {
+                EVENT.deadline
+              } to lock in your spot and your best rate.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              What if it rains?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                The event runs rain or shine. It's historically 50/50 on weather. This is the
-                Pacific Northwest. Pack a rain shell, bring layers, and embrace it.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            What if it rains?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
+              Northwest. Pack a rain shell, bring layers, and embrace it.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              Do I need to be an Evergreen member?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                Nope, everyone is welcome. Members save $25 on registration though, and your trails
-                depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and
-                pays for itself at events like this.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            Do I need to be an Evergreen member?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              Nope, everyone is welcome. Members save $25 on registration though, and your trails
+              depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays
+              for itself at events like this.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              Can I try a demo bike?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                Yep. Norco and Propain both bring demo fleets to the event. Availability is
-                first-come, first-served on the day.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            Can I try a demo bike?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              Yep. Norco and Propain both bring demo fleets to the event. Availability is
+              first-come, first-served on the day.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              What trails are there to ride?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                Four standouts: <a
-                  href="https://www.trailforks.com/trails/cold-creek/"
-                  target="_blank"
-                  rel="noopener noreferrer">Cold Creek</a
-                > is wild and rooty with occasional flow. <a
-                  href="https://www.trailforks.com/trails/sixth-sense/"
-                  target="_blank"
-                  rel="noopener noreferrer">Sixth Sense</a
-                > is hand-crafted and flowy with the best berms in the forest. <a
-                  href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
-                  target="_blank"
-                  rel="noopener noreferrer">Murphy's Grade</a
-                > was hand-built by Carson Storch with fast doubles and plenty of speed. <a
-                  href="https://www.trailforks.com/trails/thrillium/"
-                  target="_blank"
-                  rel="noopener noreferrer">Thrillium</a
-                > is the sender: big, fast, and full of gnarly tabletops.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            What trails are there to ride?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              Four standouts: <a
+                href="https://www.trailforks.com/trails/cold-creek/"
+                target="_blank"
+                rel="noopener noreferrer">Cold Creek</a
+              > is wild and rooty with occasional flow. <a
+                href="https://www.trailforks.com/trails/sixth-sense/"
+                target="_blank"
+                rel="noopener noreferrer">Sixth Sense</a
+              > is hand-crafted and flowy with the best berms in the forest. <a
+                href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
+                target="_blank"
+                rel="noopener noreferrer">Murphy's Grade</a
+              > was hand-built by Carson Storch with fast doubles and plenty of speed. <a
+                href="https://www.trailforks.com/trails/thrillium/"
+                target="_blank"
+                rel="noopener noreferrer">Thrillium</a
+              > is the sender: big, fast, and full of gnarly tabletops.
+            </p>
           </div>
-          <div class="faq__item" x-data="{ open: false }">
-            <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-              Where do I park?
-              <span class="faq__icon" aria-hidden="true"
-                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                  ><Minus size={16} strokeWidth={2.5} /></span
-                ></span
-              >
-            </button>
-            <div x-show="open" x-collapse>
-              <p class="faq__answer">
-                <a
-                  href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-                  class="loc"
-                  target="_blank"
-                  rel="noopener noreferrer">Yacolt Burn Trailhead</a
-                >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
-              </p>
-            </div>
+        </div>
+        <div class="faq__item" x-data="{ open: false }">
+          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
+            Where do I park?
+            <span class="faq__icon" aria-hidden="true"
+              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                ><Minus size={16} strokeWidth={2.5} /></span
+              ></span
+            >
+          </button>
+          <div x-show="open" x-collapse>
+            <p class="text-shadow-lg faq__answer">
+              <a
+                href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+                class="loc"
+                target="_blank"
+                rel="noopener noreferrer">Yacolt Burn Trailhead</a
+              >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
+            </p>
           </div>
         </div>
       </div>
-      <PhotoCredit label="Photo by" name="Todd McCarthy" />
-    </section>
+      <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
+    </Panel>
 
     <!-- ── 7 · SPONSORS ── -->
-    <section
-      id="sponsors"
-      class="panel panel--dark panel--deferred"
-      style={`background-image: url('${IMG.sponsors}')`}
-    >
-      <div class="panel__inner">
-        <span class="eyebrow">Made Possible By</span>
-        <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
-        <span class="rule"></span>
-        <p class="lead">
-          YBE exists because of this community of brands, shops, and people who show up every year
-          to make it happen.
-        </p>
+    <Panel id="sponsors" bgImage={IMG.sponsors}>
+      <Eyebrow>Made Possible By</Eyebrow>
+      <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
+      <span class="rule"></span>
+      <p class="text-shadow-lg lead">
+        YBE exists because of this community of brands, shops, and people who show up every year to
+        make it happen.
+      </p>
 
-        <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--gold">
-            <Medal size={12} strokeWidth={2.5} /> Gold
-          </div>
-          <div class="sponsor-tier__row">
-            <div class="sponsor-logo sponsor-logo--gold">
-              <img src="/sponsors/norco.svg" alt="Norco" />
-            </div>
+      <div class="sponsor-tier">
+        <div class="sponsor-tier__label sponsor-tier__label--gold">
+          <Medal size={12} strokeWidth={2.5} /> Gold
+        </div>
+        <div class="sponsor-tier__row">
+          <div class="sponsor-logo sponsor-logo--gold">
+            <img src="/sponsors/norco.svg" alt="Norco" />
           </div>
         </div>
+      </div>
 
-        <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--silver">
-            <Medal size={12} strokeWidth={2.5} /> Silver
+      <div class="sponsor-tier">
+        <div class="sponsor-tier__label sponsor-tier__label--silver">
+          <Medal size={12} strokeWidth={2.5} /> Silver
+        </div>
+        <div class="sponsor-tier__row">
+          <div class="sponsor-logo sponsor-logo--silver">
+            <img src="/sponsors/propain.svg" alt="Propain Bikes" />
           </div>
-          <div class="sponsor-tier__row">
-            <div class="sponsor-logo sponsor-logo--silver">
-              <img src="/sponsors/propain.svg" alt="Propain Bikes" />
-            </div>
-            <div class="sponsor-logo sponsor-logo--silver">
-              <img src="/sponsors/pnw-components.png" alt="PNW Components" />
-            </div>
-            <div class="sponsor-logo sponsor-logo--silver">
-              <img src="/sponsors/crankbrothers.svg" alt="Crankbrothers" />
-            </div>
-            <div class="sponsor-logo sponsor-logo--silver">
-              <img src="/sponsors/cushcore.svg" alt="Cushcore" />
-            </div>
-            <span class="sponsor-badge sponsor-badge--silver">Camas Bikes</span>
-            <span class="sponsor-badge sponsor-badge--silver">Formula 100</span>
-            <div class="sponsor-logo sponsor-logo--silver">
-              <img src="/sponsors/evo.svg" alt="Evo Portland" />
-            </div>
+          <div class="sponsor-logo sponsor-logo--silver">
+            <img src="/sponsors/pnw-components.png" alt="PNW Components" />
+          </div>
+          <div class="sponsor-logo sponsor-logo--silver">
+            <img src="/sponsors/crankbrothers.svg" alt="Crankbrothers" />
+          </div>
+          <div class="sponsor-logo sponsor-logo--silver">
+            <img src="/sponsors/cushcore.svg" alt="Cushcore" />
+          </div>
+          <span class="sponsor-badge sponsor-badge--silver">Camas Bikes</span>
+          <span class="sponsor-badge sponsor-badge--silver">Formula 100</span>
+          <div class="sponsor-logo sponsor-logo--silver">
+            <img src="/sponsors/evo.svg" alt="Evo Portland" />
           </div>
         </div>
+      </div>
 
-        <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--bronze">
-            <Medal size={12} strokeWidth={2.5} /> Bronze
+      <div class="sponsor-tier">
+        <div class="sponsor-tier__label sponsor-tier__label--bronze">
+          <Medal size={12} strokeWidth={2.5} /> Bronze
+        </div>
+        <div class="sponsor-tier__row">
+          <div class="sponsor-logo sponsor-logo--bronze">
+            <img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" />
           </div>
-          <div class="sponsor-tier__row">
-            <div class="sponsor-logo sponsor-logo--bronze">
-              <img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" />
-            </div>
-            <span class="sponsor-badge sponsor-badge--bronze">Red Bull</span>
-            <div class="sponsor-logo sponsor-logo--bronze">
-              <img src="/sponsors/sram.svg" alt="SRAM" />
-            </div>
-            <div class="sponsor-logo sponsor-logo--bronze">
-              <img src="/sponsors/dt-swiss.svg" alt="DT Swiss" />
-            </div>
-            <span class="sponsor-badge sponsor-badge--bronze">Kenda</span>
-            <span class="sponsor-badge sponsor-badge--bronze">All City Print</span>
-            <span class="sponsor-badge sponsor-badge--bronze">You Move Me</span>
-            <span class="sponsor-badge sponsor-badge--bronze">Pull Caffè Coffee Roasters</span>
-            <span class="sponsor-badge sponsor-badge--bronze">Frito Lay</span>
+          <span class="sponsor-badge sponsor-badge--bronze">Red Bull</span>
+          <div class="sponsor-logo sponsor-logo--bronze">
+            <img src="/sponsors/sram.svg" alt="SRAM" />
           </div>
+          <div class="sponsor-logo sponsor-logo--bronze">
+            <img src="/sponsors/dt-swiss.svg" alt="DT Swiss" />
+          </div>
+          <span class="sponsor-badge sponsor-badge--bronze">Kenda</span>
+          <span class="sponsor-badge sponsor-badge--bronze">All City Print</span>
+          <span class="sponsor-badge sponsor-badge--bronze">You Move Me</span>
+          <span class="sponsor-badge sponsor-badge--bronze">Pull Caffè Coffee Roasters</span>
+          <span class="sponsor-badge sponsor-badge--bronze">Frito Lay</span>
         </div>
       </div>
       <PhotoCredit
         name="Lukasz Szmigiel"
         url="https://unsplash.com/@szmigieldesign"
         source="Unsplash"
+        slot="credit"
       />
-    </section>
+    </Panel>
 
     <!-- ── 8 · FINAL CTA ── -->
-    <section
-      id="register"
-      class="panel panel--dark panel--deferred"
-      style={`background-image: url('${IMG.cta}')`}
-    >
-      <div class="panel__inner">
-        <span class="hero__datebadge"
-          >{EVENT.date} &nbsp;·&nbsp; <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
-            target="_blank"
-            rel="noopener noreferrer">Yacolt Burn, SW Washington</a
-          ></span
-        >
-        <HeadingRainbow size="xl">
-          Register.<br />Ride.<br />Repeat.
-        </HeadingRainbow>
-        <span class="rule"></span>
-        <p class="lead">
-          One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for
-          the cost of a tank of gas. This is what community trail building looks like.
-        </p>
-        <a
-          href={REG}
-          class="btn btn--amber"
+    <Panel id="register" bgImage={IMG.cta}>
+      <span class="hero__datebadge"
+        >{EVENT.date} &nbsp;·&nbsp; <a
+          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+          class="loc"
           target="_blank"
-          rel="noopener noreferrer"
-          class="text-[0.95rem] px-[3.2rem] py-[1.1rem]"
-          ><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
-        >
-      </div>
+          rel="noopener noreferrer">Yacolt Burn, SW Washington</a
+        ></span
+      >
+      <HeadingRainbow size="xl">
+        Register.<br />Ride.<br />Repeat.
+      </HeadingRainbow>
+      <span class="rule"></span>
+      <p class="text-shadow-lg lead">
+        One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
+        cost of a tank of gas. This is what community trail building looks like.
+      </p>
+      <a
+        href={REG}
+        class="btn btn--amber"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-[0.95rem] px-[3.2rem] py-[1.1rem]"
+        ><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
+      >
       <PhotoCredit
         name="Patrick Hendry"
         url="https://unsplash.com/@worldsbetweenlines"
         source="Unsplash"
+        slot="credit"
       />
-    </section>
+    </Panel>
 
     <footer>
       <span class="footer__rule"></span>
@@ -844,139 +796,10 @@ const JSON_LD = JSON.stringify({
     --f-body: 'Inter', system-ui, sans-serif;
     color-scheme: dark;
   }
-  body {
-    background: var(--c-bg);
-    color: var(--c-text);
-    font-family: var(--f-body);
-  }
-
-  /* ─── SKIP LINK ─── */
-  .skip-link {
-    position: fixed;
-    top: -100%;
-    left: 1rem;
-    z-index: 1000;
-    background: var(--c-accent);
-    color: var(--c-text);
-    padding: 0.5rem 1rem;
-    border-radius: 2px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: top 0.2s;
-  }
-  .skip-link:focus {
-    top: 1rem;
-  }
 
   /* ─── COUNTDOWN ─── */
 
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    inset: 0 0 auto;
-    z-index: 200;
-    padding: 0.75rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition:
-      background 0.35s ease,
-      backdrop-filter 0.35s ease;
-  }
-  nav.nav--scrolled {
-    background: rgba(10, 8, 6, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  .nav__brand img {
-    height: 70px;
-    display: block;
-    width: auto;
-  }
-  .nav__brand span {
-    font-family: var(--f-display);
-    font-size: 1.5rem;
-    letter-spacing: 0.06em;
-    color: var(--c-text);
-  }
-  .nav__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.55rem 1.3rem;
-    background: var(--c-accent);
-    color: var(--c-text);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: background 0.2s;
-  }
-  .nav__cta:hover {
-    background: #df6322;
-  }
-
-  /* ─── PANELS ─── */
-  .panel {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  .panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--c-ol);
-  }
-  .panel--dark::before {
-    background: var(--c-ol-dark);
-  }
-
-  .panel__inner {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 7rem 2rem 5rem;
-    text-align: center;
-  }
-
   /* ─── TYPE SCALE ─── */
-  .eyebrow {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--c-accent);
-    margin-bottom: 1rem;
-  }
-  /* .heading--lg {
-    font-size: clamp(3rem, 9vw, 7rem);
-    margin-bottom: 1rem;
-  }
-  .heading--xl,
-  .heading--lg {
-    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #c56ef5, #ff9ff3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.6));
-  }
-  .heading--md {
-    font-size: clamp(1.6rem, 4vw, 2.6rem);
-    margin-bottom: 0.75rem;
-  } */
   .lead {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     color: rgba(240, 236, 228, 0.85);
@@ -1078,11 +901,6 @@ const JSON_LD = JSON.stringify({
     justify-content: center;
     flex-wrap: wrap;
   }
-  .panel__inner > .btn,
-  .panel__inner > .btn__group {
-    margin-top: 2.5rem;
-  }
-
   /* ─── HERO STAT LINE ─── */
   .hero__stat {
     font-family: var(--f-display);
@@ -1135,12 +953,6 @@ const JSON_LD = JSON.stringify({
   }
 
   /* ─── EXPERIENCE SECTION LINKS ─── */
-  .panel p,
-  .panel .lead,
-  .panel .eyebrow,
-  .panel .hero__datebadge {
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
-  }
   #experience p a {
     color: var(--c-amber);
     text-decoration: underline;
@@ -1648,27 +1460,10 @@ const JSON_LD = JSON.stringify({
     }
   }
 
-  /* Gallery doesn't benefit from parallax — scroll attachment avoids per-frame repaint */
-  .panel--scroll {
-    background-attachment: scroll;
-  }
-
   /* content-visibility removed — breaks IntersectionObserver on child elements */
 
   /* ─── MOBILE ─── */
   @media (max-width: 768px) {
-    .panel {
-      background-attachment: scroll;
-    }
-    nav {
-      padding: 0.4rem 1rem;
-    }
-    .nav__brand img {
-      height: 44px;
-    }
-    .panel__inner {
-      padding: 5.5rem 1.25rem 3.5rem;
-    }
     .btn__group {
       flex-direction: column;
       align-items: center;
