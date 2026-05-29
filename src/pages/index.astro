@@ -8,6 +8,10 @@ import Panel from '../components/Panel.astro';
 import Eyebrow from '../components/Eyebrow.astro';
 import Button from '../components/Button.astro';
 import Lead from '../components/Lead.astro';
+import Rule from '../components/Rule.astro';
+import Content from '../components/Content.astro';
+import ContentLink from '../components/ContentLink.astro';
+import DetailCard from '../components/DetailCard.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -175,7 +179,7 @@ const JSON_LD = JSON.stringify({
     <!-- Skip link for keyboard/screenreader users -->
     <a
       href="#experience"
-      class="fixed -top-full left-4 z-[1000] bg-accent text-text px-4 py-2 rounded-[2px] text-[0.85rem] font-semibold no-underline transition-[top] duration-200 focus:top-4"
+      class="fixed -top-full left-4 z-1000 bg-accent text-text px-4 py-2 rounded-[2px] text-[0.85rem] font-semibold no-underline transition-[top] duration-200 focus:top-4"
       >Skip to content</a
     >
 
@@ -251,53 +255,53 @@ const JSON_LD = JSON.stringify({
       />
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
       <Lead>
         All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
       </Lead>
-      <div class="max-w-2xl mx-auto text-shadow-lg text-muted">
+      <Content>
         <p class="mb-5">
           YBE runs 9am to 4pm. Shuttles load at the <a
             href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
             class="loc"
             target="_blank"
             rel="noopener noreferrer">lower Yacolt Burn Trailhead</a
-          > and drop riders at <a
+          > and drop riders at <ContentLink
             href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
             target="_blank"
-            rel="noopener noreferrer">Five Corners</a
+            rel="noopener noreferrer">Five Corners</ContentLink
           >, gateway to the upper trail system. Ride down. Load back up. Repeat. There are rumors
-          shuttles may go all the way to <a
+          shuttles may go all the way to <ContentLink
             href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
             target="_blank"
-            rel="noopener noreferrer">The Towers</a
+            rel="noopener noreferrer">The Towers</ContentLink
           >.
         </p>
         <p class="mb-5">
           The event caps at {EVENT.capacity} riders and sells out every single year, rain or shine. Demo
           fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
-          even an organized youth ride for ages 3–12 and bike games for all levels.
+          even an organized youth ride for ages 3-12 and bike games for all levels.
         </p>
         <p class="">
-          The trail system is anchored by four standouts: <a
+          The trail system is anchored by four standouts: <ContentLink
             href="https://www.trailforks.com/trails/cold-creek/"
             target="_blank"
-            rel="noopener noreferrer">Cold Creek</a
-          >, wild and rooty and rocky with the occasional burst of flow; <a
+            rel="noopener noreferrer">Cold Creek</ContentLink
+          >, wild and rooty and rocky with the occasional burst of flow; <ContentLink
             href="https://www.trailforks.com/trails/sixth-sense/"
             target="_blank"
-            rel="noopener noreferrer">Sixth Sense</a
-          >, hand-crafted and flowy with the best berms in the forest; <a
+            rel="noopener noreferrer">Sixth Sense</ContentLink
+          >, hand-crafted and flowy with the best berms in the forest; <ContentLink
             href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
             target="_blank"
-            rel="noopener noreferrer">Murphy's Grade</a
-          >, hand-built by Carson Storch with fast doubles and plenty of speed; and <a
+            rel="noopener noreferrer">Murphy's Grade</ContentLink
+          >, hand-built by Carson Storch with fast doubles and plenty of speed; and <ContentLink
             href="https://www.trailforks.com/trails/thrillium/"
             target="_blank"
-            rel="noopener noreferrer">Thrillium</a
+            rel="noopener noreferrer">Thrillium</ContentLink
           >, the sender: big, fast, and full of gnarly tabletops.
         </p>
-      </div>
+      </Content>
       <Button variant="amber" href={REG} target="_blank" rel="noopener noreferrer" class="mt-10"
         ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
       >
@@ -313,43 +317,37 @@ const JSON_LD = JSON.stringify({
     <Panel id="details" bgImage={IMG.details}>
       <Eyebrow>{EVENT.date}</Eyebrow>
       <HeadingRainbow>Event Details</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
 
-      <div class="detail-cards">
-        <div class="detail-cards__card">
-          <div class="detail-cards__label">
-            <CalendarDays size={12} strokeWidth={2.5} /> Date & Time
-          </div>
-          <div class="detail-cards__value">
-            {EVENT.dateDay}<br />{EVENT.startTime} – {EVENT.endTime}
-          </div>
-        </div>
-        <div class="detail-cards__card">
-          <div class="detail-cards__label"><MapPin size={12} strokeWidth={2.5} /> Location</div>
-          <div class="detail-cards__value">
-            <a
-              href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-              class="loc"
-              target="_blank"
-              rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
-            ><br /><small>Park on the west side of the road</small>
-          </div>
-        </div>
-        <div class="detail-cards__card">
-          <div class="detail-cards__label">
-            <Package size={12} strokeWidth={2.5} /> What's Included
-          </div>
-          <div class="detail-cards__value">
-            All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br
-            /><small>Youth ride ages 3–12</small>
-          </div>
-        </div>
-        <div class="detail-cards__card">
-          <div class="detail-cards__label"><Users size={12} strokeWidth={2.5} /> Capacity</div>
-          <div class="detail-cards__value">
-            {EVENT.capacity} riders max<br /><small>Sells out every year. Register early.</small>
-          </div>
-        </div>
+      <div class="detail-cards grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
+        <DetailCard label="Date & Time">
+          <CalendarDays slot="icon" size={12} strokeWidth={2.5} />
+          {EVENT.dateDay}<br />{EVENT.startTime} - {EVENT.endTime}
+        </DetailCard>
+        <DetailCard label="Location">
+          <MapPin slot="icon" size={12} strokeWidth={2.5} />
+          <a
+            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+            class="loc"
+            target="_blank"
+            rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
+          ><br />
+          <small class="block text-muted text-[0.8rem] mt-[0.2rem]"
+            >Park on the west side of the road</small
+          >
+        </DetailCard>
+        <DetailCard label="What's Included">
+          <Package slot="icon" size={12} strokeWidth={2.5} />
+          All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
+          <small class="block text-muted text-[0.8rem] mt-[0.2rem]">Youth ride ages 3-12</small>
+        </DetailCard>
+        <DetailCard label="Capacity">
+          <Users slot="icon" size={12} strokeWidth={2.5} />
+          {EVENT.capacity} riders max<br />
+          <small class="block text-muted text-[0.8rem] mt-[0.2rem]"
+            >Sells out every year. Register early.</small
+          >
+        </DetailCard>
       </div>
 
       <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
@@ -364,7 +362,6 @@ const JSON_LD = JSON.stringify({
             Members <a
               href="https://www.evergreenmtb.org/support-us/become-a-member"
               target="_blank"
-              rel="noopener noreferrer"
               class="text-accent no-underline italic text-[0.8rem]">(join)</a
             ><small>Online · pre-event</small>
           </div>
@@ -391,7 +388,7 @@ const JSON_LD = JSON.stringify({
     <Panel id="gallery" bgImage={IMG.gallery} scroll>
       <Eyebrow>From the Trails</Eyebrow>
       <HeadingRainbow>See You Out There</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
 
       <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
       <div x-data="photoGallery">
@@ -457,12 +454,12 @@ const JSON_LD = JSON.stringify({
     <Panel id="legend" bgImage={IMG.legend}>
       <Eyebrow>A Place With History</Eyebrow>
       <HeadingRainbow>Born From Fire</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
       <Lead>
         The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
         trail was ever cut.
       </Lead>
-      <div class="max-w-2xl mx-auto text-shadow-lg text-muted">
+      <Content>
         <p class="mb-5">
           On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it
           consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street
@@ -478,11 +475,10 @@ const JSON_LD = JSON.stringify({
         <a
           href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
           target="_blank"
-          rel="noopener noreferrer"
           class="inline-block mt-8 text-accent underline underline-offset-[3px] text-[0.9rem]"
           >Read More</a
         >
-      </div>
+      </Content>
       <PhotoCredit
         name="Sebastian Unrau"
         url="https://unsplash.com/@sebastian_unrau"
@@ -499,12 +495,7 @@ const JSON_LD = JSON.stringify({
         hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
         happening.
       </Lead>
-      <Button
-        variant="logo"
-        href="https://www.evergreenmtb.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Button variant="logo" href="https://www.evergreenmtb.org" target="_blank">
         <span class="text-[0.85rem] font-semibold tracking-[0.12em] uppercase"
           >Join <ArrowRight size={13} strokeWidth={2.5} /></span
         >
@@ -526,7 +517,7 @@ const JSON_LD = JSON.stringify({
     <Panel id="faq" bgImage={IMG.faq}>
       <Eyebrow>Questions</Eyebrow>
       <HeadingRainbow>FAQ</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
       <div class="faq">
         <div class="faq__item" x-data="{ open: false }">
           <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
@@ -540,7 +531,7 @@ const JSON_LD = JSON.stringify({
           <div x-show="open" x-collapse>
             <p class="text-shadow-lg faq__answer">
               The upper system accessed from Five Corners is intermediate to advanced terrain. The
-              event welcomes all riders though, including a dedicated youth ride for ages 3–12.
+              event welcomes all riders though, including a dedicated youth ride for ages 3-12.
               Volunteers and the community are there to help you find your line.
             </p>
           </div>
@@ -622,22 +613,22 @@ const JSON_LD = JSON.stringify({
           </button>
           <div x-show="open" x-collapse>
             <p class="text-shadow-lg faq__answer">
-              Four standouts: <a
+              Four standouts: <ContentLink
                 href="https://www.trailforks.com/trails/cold-creek/"
                 target="_blank"
-                rel="noopener noreferrer">Cold Creek</a
-              > is wild and rooty with occasional flow. <a
+                rel="noopener noreferrer">Cold Creek</ContentLink
+              > is wild and rooty with occasional flow. <ContentLink
                 href="https://www.trailforks.com/trails/sixth-sense/"
                 target="_blank"
-                rel="noopener noreferrer">Sixth Sense</a
-              > is hand-crafted and flowy with the best berms in the forest. <a
+                rel="noopener noreferrer">Sixth Sense</ContentLink
+              > is hand-crafted and flowy with the best berms in the forest. <ContentLink
                 href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
                 target="_blank"
-                rel="noopener noreferrer">Murphy's Grade</a
-              > was hand-built by Carson Storch with fast doubles and plenty of speed. <a
+                rel="noopener noreferrer">Murphy's Grade</ContentLink
+              > was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink
                 href="https://www.trailforks.com/trails/thrillium/"
                 target="_blank"
-                rel="noopener noreferrer">Thrillium</a
+                rel="noopener noreferrer">Thrillium</ContentLink
               > is the sender: big, fast, and full of gnarly tabletops.
             </p>
           </div>
@@ -670,7 +661,7 @@ const JSON_LD = JSON.stringify({
     <Panel id="sponsors" bgImage={IMG.sponsors}>
       <Eyebrow>Made Possible By</Eyebrow>
       <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
       <Lead>
         YBE exists because of this community of brands, shops, and people who show up every year to
         make it happen.
@@ -755,7 +746,7 @@ const JSON_LD = JSON.stringify({
       <HeadingRainbow size="xl">
         Register.<br />Ride.<br />Repeat.
       </HeadingRainbow>
-      <span class="rule"></span>
+      <Rule />
       <Lead>
         One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
         cost of a tank of gas. This is what community trail building looks like.
@@ -784,8 +775,7 @@ const JSON_LD = JSON.stringify({
           <p>
             Organized by the <a
               href="https://www.evergreenmtb.org/chapters/southwest"
-              target="_blank"
-              rel="noopener noreferrer">Evergreen MTB Alliance Southwest Chapter</a
+              target="_blank">Evergreen MTB Alliance Southwest Chapter</a
             >
           </p>
         </div>
@@ -844,30 +834,6 @@ const JSON_LD = JSON.stringify({
     color-scheme: dark;
   }
 
-  /* ─── COUNTDOWN ─── */
-
-  /* ─── TYPE SCALE ─── */
-  /* p {
-    color: var(--c-muted);
-    line-height: 1.85;
-    margin-bottom: 1.2rem;
-    max-width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-  } */
-  p:last-child {
-    margin-bottom: 0;
-  }
-
-  /* ─── RULE ─── */
-  .rule {
-    display: block;
-    width: 52px;
-    height: 2px;
-    background: #c56ef5;
-    margin: 1.5rem auto;
-  }
-
   /* ─── ICON UTILS ─── */
   /* Inline icon alignment for buttons and labels */
   .btn svg,
@@ -881,43 +847,6 @@ const JSON_LD = JSON.stringify({
     top: -1px;
   }
 
-  /* ─── HERO STAT LINE ─── */
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* ─── LOCATION LINKS ─── */
-  a.loc {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: rgba(240, 236, 228, 0.35);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.2s;
-  }
-  a.loc:hover {
-    text-decoration-color: var(--c-amber);
-  }
-
-  /* ─── EXPERIENCE SECTION LINKS ─── */
-  #experience p a {
-    color: var(--c-amber);
-    text-decoration: underline;
-    text-decoration-color: rgba(232, 162, 58, 0.4);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.2s;
-  }
-  #experience p a:hover {
-    text-decoration-color: var(--c-amber);
-  }
-
   /* ─── HERO DATE BADGE ─── */
   .hero__datebadge {
     display: inline-block;
@@ -927,40 +856,6 @@ const JSON_LD = JSON.stringify({
     text-transform: uppercase;
     color: var(--c-amber);
     margin-bottom: 1.5rem;
-  }
-
-  /* ─── DETAIL CARDS ─── */
-  .detail-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    margin-top: 3rem;
-    text-align: left;
-  }
-  .detail-cards__card {
-    background: rgba(240, 236, 228, 0.05);
-    border: 1px solid rgba(240, 236, 228, 0.1);
-    border-radius: 3px;
-    padding: 1.4rem 1.5rem;
-  }
-  .detail-cards__label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--c-accent);
-    margin-bottom: 0.5rem;
-  }
-  .detail-cards__value {
-    font-size: 0.95rem;
-    color: var(--c-text);
-    line-height: 1.55;
-  }
-  .detail-cards__value small {
-    display: block;
-    color: var(--c-muted);
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
   }
 
   /* ─── DETAILS ARROW ─── */
@@ -1408,9 +1303,6 @@ const JSON_LD = JSON.stringify({
   @media (max-width: 768px) {
     .pricing {
       padding: 1.25rem 1.25rem 1.5rem;
-    }
-    .detail-cards {
-      grid-template-columns: 1fr;
     }
   }
 </style>

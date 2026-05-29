@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['rule', 'block', 'w-[52px]', 'h-[2px]', 'bg-pink', 'mx-auto', 'my-6', className]}
+></span>

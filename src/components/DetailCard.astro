@@ -1,0 +1,31 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'detail-card',
+    'bg-white/5',
+    'border',
+    'border-white/10',
+    'rounded',
+    'px-6',
+    'py-6',
+    className,
+  ]}
+>
+  <div
+    class="detail-card__label flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-accent mb-2"
+  >
+    <slot name="icon" />
+    {label}
+  </div>
+  <div class="detail-card__value text-sm text-text leading-normal">
+    <slot />
+  </div>
+</div>

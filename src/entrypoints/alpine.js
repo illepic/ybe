@@ -8,14 +8,17 @@ const cdn = (path, params = {}) => {
   return `/.netlify/images?${p}`;
 };
 
-// Swap these for real event photos — drop files into public/photos/ and update filenames
+// Real YBE event photos — drop files into public/photos/ and add entries here
 const GALLERY_PHOTOS = [
-  { file: 'bikes-parked.jpg', caption: 'Bikes lined up at the Yacolt Burn Experience' },
-  { file: 'trail-building.jpg', caption: 'Trail building in the Yacolt Burn' },
-  { file: 'pnw-forest-misty.jpg', caption: 'Pacific Northwest old-growth forest' },
-  { file: 'hood.jpg', caption: 'Southwest Washington mountains' },
-  { file: 'stream.jpg', caption: 'Morning light through the forest' },
-  { file: 'forest-path.jpg', caption: 'Forest trail, Yacolt Burn State Forest' },
+  { file: 'john-bridge.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'shane-dawg.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'yacolt-bench.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'todd-crew.png', caption: 'Yacolt Burn Experience' },
+  { file: 'bike-stand.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'jeep.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'bike-table.jpeg', caption: 'Yacolt Burn Experience' },
+  { file: 'ybe-tents.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'ybe-rain.jpg', caption: 'Yacolt Burn Experience' },
 ];
 
 export default (Alpine) => {
