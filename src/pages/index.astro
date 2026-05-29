@@ -12,6 +12,8 @@ import Rule from '../components/Rule.astro';
 import Content from '../components/Content.astro';
 import ContentLink from '../components/ContentLink.astro';
 import DetailCard from '../components/DetailCard.astro';
+import Pricing from '../components/Pricing.astro';
+import PricingRow from '../components/PricingRow.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -350,37 +352,29 @@ const JSON_LD = JSON.stringify({
         </DetailCard>
       </div>
 
-      <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
-      <div class="pricing">
-        <h3
-          class="heading--md font-bold font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-[0.03em] leading-[0.93] text-text mb-5 text-left"
-        >
-          Registration
-        </h3>
-        <div class="pricing__row">
-          <div class="pricing__label">
-            Members <a
-              href="https://www.evergreenmtb.org/support-us/become-a-member"
-              target="_blank"
-              class="text-accent no-underline italic text-[0.8rem]">(join)</a
-            ><small>Online · pre-event</small>
-          </div>
-          <div class="pricing__amount">${EVENT.priceMember}</div>
-        </div>
-        <div class="pricing__row">
-          <div class="pricing__label">Non-Members <small>Online · pre-event</small></div>
-          <div class="pricing__amount">${EVENT.priceGuest}</div>
-        </div>
-        <div class="pricing__row">
-          <div class="pricing__label">Day-Of <small>All participants</small></div>
-          <div class="pricing__amount">${EVENT.priceDayOf}</div>
-        </div>
-        <div class="mt-6 text-center">
+      <div class="details-arrow flex justify-center my-8 text-pink">
+        <ArrowDown size={24} strokeWidth={2.5} />
+      </div>
+      <Pricing>
+        <PricingRow slot="rows" amount={EVENT.priceMember} note="Online · pre-event">
+          Members <a
+            href="https://www.evergreenmtb.org/support-us/become-a-member"
+            target="_blank"
+            class="text-accent no-underline italic text-[0.8rem]">(join)</a
+          >
+        </PricingRow>
+        <PricingRow slot="rows" amount={EVENT.priceGuest} note="Online · pre-event">
+          Non-Members
+        </PricingRow>
+        <PricingRow slot="rows" amount={EVENT.priceDayOf} note="All participants">
+          Day-Of
+        </PricingRow>
+        <div slot="cta" class="mt-6 text-center">
           <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
             >Register by {EVENT.deadline}</Button
           >
         </div>
-      </div>
+      </Pricing>
       <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
     </Panel>
 
@@ -424,9 +418,13 @@ const JSON_LD = JSON.stringify({
           <div class="gallery__backdrop" @click="close()"></div>
           <div class="gallery__frame">
             <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-              <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"></div>
+              <div
+                class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"
+              >
+              </div>
             </div>
             <img
+              x-ref="fullImg"
               :src="photos[current].full"
               :alt="photos[current].caption"
               @load="onImageLoad()"
@@ -868,50 +866,6 @@ const JSON_LD = JSON.stringify({
   }
 
   /* ─── DETAILS ARROW ─── */
-  .details-arrow {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-    color: #c56ef5;
-  }
-
-  /* ─── PRICING BOX ─── */
-  .pricing {
-    max-width: 460px;
-    margin: 0 auto;
-    background: var(--c-surface);
-    border: 1px solid rgba(240, 236, 228, 0.1);
-    border-radius: 4px;
-    padding: 1.75rem 2rem 2rem;
-  }
-  .pricing__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid rgba(240, 236, 228, 0.09);
-  }
-  .pricing__row:last-of-type {
-    border-bottom: none;
-  }
-  .pricing__label {
-    color: var(--c-text);
-    font-size: 0.95rem;
-    text-align: left;
-  }
-  .pricing__label small {
-    display: block;
-    color: var(--c-muted);
-    font-size: 0.78rem;
-    margin-top: 0.1rem;
-  }
-  .pricing__amount {
-    font-family: var(--f-display);
-    font-size: 2.2rem;
-    color: var(--c-amber);
-    letter-spacing: 0.01em;
-    line-height: 1;
-  }
 
   /* ─── PULL QUOTE ─── */
   .pullquote {
@@ -1310,8 +1264,5 @@ const JSON_LD = JSON.stringify({
 
   /* ─── MOBILE ─── */
   @media (max-width: 768px) {
-    .pricing {
-      padding: 1.25rem 1.25rem 1.5rem;
-    }
   }
 </style>

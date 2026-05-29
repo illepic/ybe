@@ -1,0 +1,18 @@
+---
+interface Props {
+  amount: number;
+  note?: string;
+}
+
+const { amount, note } = Astro.props;
+---
+
+<div class="pricing__row flex items-center justify-between py-3.5">
+  <div class="pricing__label text-sm text-text text-left">
+    <slot />
+    {note && <small class="block text-muted text-xs mt-[0.1rem]">{note}</small>}
+  </div>
+  <div class="pricing__amount font-display text-4xl text-amber tracking-[0.01em] leading-none">
+    ${amount}
+  </div>
+</div>

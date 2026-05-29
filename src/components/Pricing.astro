@@ -1,0 +1,37 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = 'Registration', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'pricing',
+    'max-w-[460px]',
+    'mx-auto',
+    'bg-surface',
+    'border',
+    'border-white/10',
+    'rounded',
+    'px-5',
+    'pt-5',
+    'pb-6',
+    'md:px-8',
+    'md:pt-7',
+    'md:pb-8',
+    className,
+  ]}
+>
+  <h3
+    class="pricing__title font-display font-bold text-[clamp(1.6rem,4vw,2.6rem)] tracking-[0.03em] leading-[0.93] text-text mb-5 text-left"
+  >
+    {title}
+  </h3>
+  <div class="divide-y divide-white/[0.09]">
+    <slot name="rows" />
+  </div>
+  <slot name="cta" />
+</div>

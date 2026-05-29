@@ -47,6 +47,7 @@ export default (Alpine) => {
         this.current = i;
         this.loading = true;
         this.isOpen = true;
+        this.$nextTick(() => { if (this.$refs.fullImg?.complete) this.loading = false; });
       },
       close() {
         this.isOpen = false;
@@ -55,10 +56,12 @@ export default (Alpine) => {
       prev() {
         this.loading = true;
         this.current = (this.current - 1 + this.photos.length) % this.photos.length;
+        this.$nextTick(() => { if (this.$refs.fullImg?.complete) this.loading = false; });
       },
       next() {
         this.loading = true;
         this.current = (this.current + 1) % this.photos.length;
+        this.$nextTick(() => { if (this.$refs.fullImg?.complete) this.loading = false; });
       },
       onImageLoad() {
         this.loading = false;
