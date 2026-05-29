@@ -6,6 +6,7 @@ import HeadingRainbow from '../components/HeadingRainbow.astro';
 import Nav from '../components/Nav.astro';
 import Panel from '../components/Panel.astro';
 import Eyebrow from '../components/Eyebrow.astro';
+import Button from '../components/Button.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -193,13 +194,17 @@ const JSON_LD = JSON.stringify({
       <HeadingRainbow size="xl" as="h1" reveal={false}>
         Yacolt<br />Burn<br />Experience
       </HeadingRainbow>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         A full-day shuttle event deep in the heart of<br />
         <strong
           ><a
             href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
             target="_blank"
-            rel="noopener noreferrer">Yacolt Burn State Forest</a
+            rel="noopener noreferrer"
+            class="text-text underline decoration-accent underline-offset-4 transition-colors duration-200 hover:decoration-amber"
+            >Yacolt Burn State Forest</a
           ></strong
         >.
       </p>
@@ -208,16 +213,23 @@ const JSON_LD = JSON.stringify({
         <span>All the trails.</span>
         <span>One day.</span>
       </p>
-      <div class="btn__group mt-10">
-        <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
-          ><Ticket size={16} strokeWidth={2} /> Register Now</a
+      <div
+        class="btn__group flex flex-col items-center gap-4 flex-wrap md:flex-row md:justify-center mt-10"
+      >
+        <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
+          ><Ticket slot="icon-left" size={16} strokeWidth={2} />Register Now</Button
         >
-        <a href="#experience" class="btn btn--ghost"
-          >What to Expect <ChevronDown size={15} strokeWidth={2} /></a
+        <Button variant="ghost" href="#experience"
+          >What to Expect<ChevronDown slot="icon-right" size={15} strokeWidth={2} /></Button
         >
       </div>
       <Countdown targetDate={EVENT.isoStart} />
-      <PhotoCredit label="Art by" name="Kathryn Jasperson" url="https://kathrynjaspersonart.com/" slot="credit" />
+      <PhotoCredit
+        label="Art by"
+        name="Kathryn Jasperson"
+        url="https://kathrynjaspersonart.com/"
+        slot="credit"
+      />
     </Panel>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
@@ -230,7 +242,9 @@ const JSON_LD = JSON.stringify({
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
       <span class="rule"></span>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
       </p>
       <p class="text-shadow-lg">
@@ -274,10 +288,15 @@ const JSON_LD = JSON.stringify({
           rel="noopener noreferrer">Thrillium</a
         >, the sender: big, fast, and full of gnarly tabletops.
       </p>
-      <a href={REG} class="btn btn--amber" target="_blank" rel="noopener noreferrer"
-        ><CheckCircle size={16} strokeWidth={2} /> Claim Your Spot</a
+      <Button variant="amber" href={REG} target="_blank" rel="noopener noreferrer" class="mt-10"
+        ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
       >
-      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" slot="credit" />
+      <PhotoCredit
+        name="Tim Foster"
+        url="https://unsplash.com/@timberfoster"
+        source="Unsplash"
+        slot="credit"
+      />
     </Panel>
 
     <!-- ── 3 · DETAILS ── -->
@@ -350,8 +369,8 @@ const JSON_LD = JSON.stringify({
           <div class="pricing__amount">${EVENT.priceDayOf}</div>
         </div>
         <div class="mt-6 text-center">
-          <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
-            >Register by {EVENT.deadline}</a
+          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
+            >Register by {EVENT.deadline}</Button
           >
         </div>
       </div>
@@ -416,7 +435,12 @@ const JSON_LD = JSON.stringify({
           </div>
         </div>
       </div>
-      <PhotoCredit name="Sean Benesh" url="https://unsplash.com/@seanbenesh" source="Unsplash" slot="credit" />
+      <PhotoCredit
+        name="Sean Benesh"
+        url="https://unsplash.com/@seanbenesh"
+        source="Unsplash"
+        slot="credit"
+      />
     </Panel>
 
     <!-- ── 5 · LEGEND ── -->
@@ -424,7 +448,9 @@ const JSON_LD = JSON.stringify({
       <Eyebrow>A Place With History</Eyebrow>
       <HeadingRainbow>Born From Fire</HeadingRainbow>
       <span class="rule"></span>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
         trail was ever cut.
       </p>
@@ -458,21 +484,34 @@ const JSON_LD = JSON.stringify({
     <!-- ── 5 · PULL QUOTE ── -->
     <Panel id="trails" bgImage={IMG.quote}>
       <p class="text-shadow-lg pullquote">"The trails you love<br /><em>are not free.</em>"</p>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
         hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
         happening.
       </p>
-      <a
+      <Button
+        variant="logo"
         href="https://www.evergreenmtb.org"
-        class="btn btn--ghost btn--logo"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span>Join <ArrowRight size={13} strokeWidth={2.5} /></span>
-        <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
-      </a>
-      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" slot="credit" />
+        <span class="text-[0.85rem] font-semibold tracking-[0.12em] uppercase"
+          >Join <ArrowRight size={13} strokeWidth={2.5} /></span
+        >
+        <img
+          src="/sponsors/evergreen-mtb.png"
+          alt="Evergreen Mountain Bike Alliance"
+          class="h-[68px] w-auto opacity-90"
+        />
+      </Button>
+      <PhotoCredit
+        name="Tim Foster"
+        url="https://unsplash.com/@timberfoster"
+        source="Unsplash"
+        slot="credit"
+      />
     </Panel>
 
     <!-- ── 6 · FAQ ── -->
@@ -624,7 +663,9 @@ const JSON_LD = JSON.stringify({
       <Eyebrow>Made Possible By</Eyebrow>
       <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
       <span class="rule"></span>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         YBE exists because of this community of brands, shops, and people who show up every year to
         make it happen.
       </p>
@@ -709,17 +750,19 @@ const JSON_LD = JSON.stringify({
         Register.<br />Ride.<br />Repeat.
       </HeadingRainbow>
       <span class="rule"></span>
-      <p class="text-shadow-lg lead">
+      <p
+        class="text-shadow-lg text-[clamp(1rem,2.5vw,1.2rem)] text-[rgba(240,236,228,0.85)] max-w-[600px] mt-5 mx-auto mb-10 leading-[1.7]"
+      >
         One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
         cost of a tank of gas. This is what community trail building looks like.
       </p>
-      <a
+      <Button
+        variant="amber"
         href={REG}
-        class="btn btn--amber"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-[0.95rem] px-[3.2rem] py-[1.1rem]"
-        ><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
+        class="px-[3.2rem] py-[1.1rem] text-[0.95rem]"
+        ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
       >
       <PhotoCredit
         name="Patrick Hendry"
@@ -800,13 +843,6 @@ const JSON_LD = JSON.stringify({
   /* ─── COUNTDOWN ─── */
 
   /* ─── TYPE SCALE ─── */
-  .lead {
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: rgba(240, 236, 228, 0.85);
-    max-width: 600px;
-    margin: 1.25rem auto 2.5rem;
-    line-height: 1.7;
-  }
   p {
     color: var(--c-muted);
     line-height: 1.85;
@@ -841,66 +877,6 @@ const JSON_LD = JSON.stringify({
     top: -1px;
   }
 
-  /* ─── BUTTONS ─── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.95rem 2.4rem;
-    font-family: var(--f-body);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 2px;
-    transition:
-      transform 0.15s ease,
-      opacity 0.2s;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-  }
-  .btn--fire {
-    background: var(--c-accent);
-    color: var(--c-text);
-  }
-  .btn--amber {
-    background: var(--c-amber);
-    color: #180e04;
-  }
-  .btn--ghost {
-    border: 2px solid rgba(240, 236, 228, 0.7);
-    color: var(--c-text);
-  }
-  .btn--ghost:hover {
-    background: rgba(240, 236, 228, 0.08);
-  }
-  .btn--logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-top: 0.6rem;
-    padding-bottom: 0.6rem;
-  }
-  .btn--logo span {
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .btn--logo img {
-    height: 68px;
-    width: auto;
-    opacity: 0.9;
-  }
-  .btn__group {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
   /* ─── HERO STAT LINE ─── */
   .hero__stat {
     font-family: var(--f-display);
@@ -961,18 +937,6 @@ const JSON_LD = JSON.stringify({
     transition: text-decoration-color 0.2s;
   }
   #experience p a:hover {
-    text-decoration-color: var(--c-amber);
-  }
-
-  /* ─── LEAD LINK ─── */
-  .lead a {
-    color: var(--c-text);
-    text-decoration: underline;
-    text-decoration-color: var(--c-accent);
-    text-underline-offset: 4px;
-    transition: text-decoration-color 0.2s;
-  }
-  .lead a:hover {
     text-decoration-color: var(--c-amber);
   }
 
@@ -1464,15 +1428,6 @@ const JSON_LD = JSON.stringify({
 
   /* ─── MOBILE ─── */
   @media (max-width: 768px) {
-    .btn__group {
-      flex-direction: column;
-      align-items: center;
-    }
-    .btn {
-      width: 100%;
-      max-width: 300px;
-      justify-content: center;
-    }
     .pricing {
       padding: 1.25rem 1.25rem 1.5rem;
     }

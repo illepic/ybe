@@ -1,0 +1,41 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'fire' | 'amber' | 'ghost' | 'logo';
+  target?: string;
+  rel?: string;
+  class?: string;
+}
+
+const { href, variant = 'fire', target, rel, class: className = '' } = Astro.props;
+
+const base = [
+  'btn',
+  'inline-flex items-center gap-[0.4rem]',
+  'font-body text-[0.85rem] font-semibold tracking-[0.12em] uppercase no-underline',
+  'rounded-[2px] [transition:transform_0.15s_ease,opacity_0.2s]',
+  'hover:-translate-y-0.5 hover:opacity-90',
+  'w-full max-w-[300px] justify-center md:w-auto',
+];
+
+const variants: Record<string, string[]> = {
+  fire: [...base, 'px-[2.4rem] py-[0.95rem]', 'btn--fire bg-accent text-text'],
+  amber: [...base, 'px-[2.4rem] py-[0.95rem]', 'btn--amber bg-amber text-[#180e04]'],
+  ghost: [
+    ...base,
+    'px-[2.4rem] py-[0.95rem]',
+    'btn--ghost border-2 border-[rgba(240,236,228,0.7)] text-text hover:bg-[rgba(240,236,228,0.08)]',
+  ],
+  logo: [
+    ...base,
+    'px-[2.4rem] py-[0.6rem] gap-3',
+    'btn--logo btn--ghost border-2 border-[rgba(240,236,228,0.7)] text-text hover:bg-[rgba(240,236,228,0.08)]',
+  ],
+};
+---
+
+<a href={href} class:list={[...variants[variant], className]} {target} {rel}>
+  <slot name="icon-left" />
+  <slot />
+  <slot name="icon-right" />
+</a>
