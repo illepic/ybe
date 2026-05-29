@@ -1,6 +1,7 @@
 ---
 import '../styles/fonts.css';
 import {
+  ArrowDown,
   ArrowRight,
   ArrowUp,
   ArrowUpRight,
@@ -212,7 +213,9 @@ const JSON_LD = JSON.stringify({
           <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
             ><Ticket size={16} strokeWidth={2} /> Register Now</a
           >
-          <a href="#experience" class="btn btn--ghost">What to Expect <ChevronDown size={15} strokeWidth={2} /></a>
+          <a href="#experience" class="btn btn--ghost"
+            >What to Expect <ChevronDown size={15} strokeWidth={2} /></a
+          >
         </div>
         <div x-data="countdown" class="hero__countdown">
           <span><b x-text="days"></b> days</span>
@@ -312,7 +315,9 @@ const JSON_LD = JSON.stringify({
 
         <div class="detail-cards">
           <div class="detail-cards__card">
-            <div class="detail-cards__label"><CalendarDays size={12} strokeWidth={2.5} /> Date & Time</div>
+            <div class="detail-cards__label">
+              <CalendarDays size={12} strokeWidth={2.5} /> Date & Time
+            </div>
             <div class="detail-cards__value">
               {EVENT.dateDay}<br />{EVENT.startTime} – {EVENT.endTime}
             </div>
@@ -329,7 +334,9 @@ const JSON_LD = JSON.stringify({
             </div>
           </div>
           <div class="detail-cards__card">
-            <div class="detail-cards__label"><Package size={12} strokeWidth={2.5} /> What's Included</div>
+            <div class="detail-cards__label">
+              <Package size={12} strokeWidth={2.5} /> What's Included
+            </div>
             <div class="detail-cards__value">
               All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br
               /><small>Youth ride ages 3–12</small>
@@ -343,6 +350,7 @@ const JSON_LD = JSON.stringify({
           </div>
         </div>
 
+        <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
         <div class="pricing">
           <h3 class="heading--md" style="margin-bottom: 1.25rem; text-align: left;">
             Registration
@@ -533,7 +541,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What skill level do I need?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -546,7 +558,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Does it sell out?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -559,7 +575,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What if it rains?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -571,7 +591,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Do I need to be an Evergreen member?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -584,7 +608,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Can I try a demo bike?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -596,7 +624,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What trails are there to ride?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -623,7 +655,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Where do I park?
-              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
+              <span class="faq__icon" aria-hidden="true"
+                ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
+                  ><Minus size={16} strokeWidth={2.5} /></span
+                ></span
+              >
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -657,7 +693,9 @@ const JSON_LD = JSON.stringify({
         </p>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--gold"><Medal size={12} strokeWidth={2.5} /> Gold</div>
+          <div class="sponsor-tier__label sponsor-tier__label--gold">
+            <Medal size={12} strokeWidth={2.5} /> Gold
+          </div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--gold">
               <img src="/sponsors/norco.svg" alt="Norco" />
@@ -666,7 +704,9 @@ const JSON_LD = JSON.stringify({
         </div>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--silver"><Medal size={12} strokeWidth={2.5} /> Silver</div>
+          <div class="sponsor-tier__label sponsor-tier__label--silver">
+            <Medal size={12} strokeWidth={2.5} /> Silver
+          </div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--silver">
               <img src="/sponsors/propain.svg" alt="Propain Bikes" />
@@ -689,7 +729,9 @@ const JSON_LD = JSON.stringify({
         </div>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--bronze"><Medal size={12} strokeWidth={2.5} /> Bronze</div>
+          <div class="sponsor-tier__label sponsor-tier__label--bronze">
+            <Medal size={12} strokeWidth={2.5} /> Bronze
+          </div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--bronze">
               <img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" />
@@ -744,7 +786,8 @@ const JSON_LD = JSON.stringify({
           class="btn btn--amber"
           target="_blank"
           rel="noopener noreferrer"
-          style="font-size: 0.95rem; padding: 1.1rem 3.2rem;"><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
+          style="font-size: 0.95rem; padding: 1.1rem 3.2rem;"
+          ><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
         >
       </div>
       <cite class="photo-credit"
@@ -765,12 +808,14 @@ const JSON_LD = JSON.stringify({
             Organized by the <a
               href="https://www.evergreenmtb.org/chapters/southwest"
               target="_blank"
-              rel="noopener noreferrer">Evergreen MTB Alliance Southwest Chapter</a>
+              rel="noopener noreferrer">Evergreen MTB Alliance Southwest Chapter</a
+            >
           </p>
         </div>
         <div class="footer__right">
           <p class="footer__tagline">See you on the trails.</p>
-          <a href="#hero" class="footer__top"><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a>
+          <a href="#hero" class="footer__top"><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
+          >
         </div>
       </div>
     </footer>
@@ -1193,6 +1238,12 @@ const JSON_LD = JSON.stringify({
   }
 
   /* ─── EXPERIENCE SECTION LINKS ─── */
+  .panel p,
+  .panel .lead,
+  .panel .eyebrow,
+  .panel .hero__datebadge {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+  }
   #experience p a {
     color: var(--c-amber);
     text-decoration: underline;
@@ -1261,10 +1312,18 @@ const JSON_LD = JSON.stringify({
     margin-top: 0.2rem;
   }
 
+  /* ─── DETAILS ARROW ─── */
+  .details-arrow {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    color: #c56ef5;
+  }
+
   /* ─── PRICING BOX ─── */
   .pricing {
     max-width: 460px;
-    margin: 3rem auto 0;
+    margin: 0 auto;
     background: var(--c-surface);
     border: 1px solid rgba(240, 236, 228, 0.1);
     border-radius: 4px;
