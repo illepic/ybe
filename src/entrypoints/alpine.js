@@ -10,7 +10,7 @@ const cdn = (path, params = {}) => {
 
 // Swap these for real event photos — drop files into public/photos/ and update filenames
 const GALLERY_PHOTOS = [
-  { file: 'mtb-trail-forest.jpg',   caption: 'Mountain biking the Yacolt Burn trail system' },
+  { file: 'bikes-parked.jpg',        caption: 'Bikes lined up at the Yacolt Burn Experience' },
   { file: 'trail-building.jpg',      caption: 'Trail building in the Yacolt Burn' },
   { file: 'pnw-forest-misty.jpg',   caption: 'Pacific Northwest old-growth forest' },
   { file: 'hood.jpg',               caption: 'Southwest Washington mountains' },
