@@ -1,5 +1,8 @@
 ---
 import '../styles/tailwind.css';
+import PhotoCredit from '../components/PhotoCredit.astro';
+import Countdown from '../components/Countdown.astro';
+import HeadingRainbow from '../components/HeadingRainbow.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -116,7 +119,7 @@ const JSON_LD = JSON.stringify({
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -163,7 +166,7 @@ const JSON_LD = JSON.stringify({
     <!-- JSON-LD Event schema -->
     <script type="application/ld+json" set:html={JSON_LD} />
   </head>
-  <body>
+  <body class="antialiased text-base/relaxed">
     <!-- Skip link for keyboard/screenreader users -->
     <a href="#experience" class="skip-link">Skip to content</a>
 
@@ -193,7 +196,9 @@ const JSON_LD = JSON.stringify({
             rel="noopener noreferrer">Yacolt Burn, SW Washington</a
           ></span
         >
-        <h1 class="heading--xl">Yacolt<br />Burn<br />Experience</h1>
+        <HeadingRainbow size="xl" as="h1" reveal={false}>
+          Yacolt<br />Burn<br />Experience
+        </HeadingRainbow>
         <p class="lead">
           A full-day shuttle event deep in the heart of<br />
           <strong
@@ -217,17 +222,9 @@ const JSON_LD = JSON.stringify({
             >What to Expect <ChevronDown size={15} strokeWidth={2} /></a
           >
         </div>
-        <div x-data="countdown" class="hero__countdown">
-          <span><b x-text="days"></b> days</span>
-          <span><b x-text="hours"></b> hrs</span>
-          <span><b x-text="minutes"></b> min</span>
-        </div>
+        <Countdown targetDate={EVENT.isoStart} />
       </div>
-      <cite class="photo-credit"
-        >Art by <a href="https://kathrynjaspersonart.com/" target="_blank" rel="noopener noreferrer"
-          >Kathryn Jasperson</a
-        ></cite
-      >
+      <PhotoCredit label="Art by" name="Kathryn Jasperson" url="https://kathrynjaspersonart.com/" />
     </section>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
@@ -240,10 +237,10 @@ const JSON_LD = JSON.stringify({
         <img
           src="/logo.png"
           alt="Yacolt Burn Experience"
-          style="height: 120px; width: auto; display: block; margin: 0 auto 1.5rem;"
+          class="h-[120px] w-auto block mx-auto mb-6"
         />
         <span class="eyebrow">The Event</span>
-        <h2 class="heading--lg reveal">The Full Day</h2>
+        <HeadingRainbow>The Full Day</HeadingRainbow>
         <span class="rule"></span>
         <p class="lead">
           All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
@@ -293,13 +290,7 @@ const JSON_LD = JSON.stringify({
           ><CheckCircle size={16} strokeWidth={2} /> Claim Your Spot</a
         >
       </div>
-      <cite class="photo-credit"
-        >Photo: <a
-          href="https://unsplash.com/@timberfoster"
-          target="_blank"
-          rel="noopener noreferrer">Tim Foster</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" />
     </section>
 
     <!-- ── 3 · DETAILS ── -->
@@ -310,7 +301,7 @@ const JSON_LD = JSON.stringify({
     >
       <div class="panel__inner">
         <span class="eyebrow">{EVENT.date}</span>
-        <h2 class="heading--lg reveal">Event Details</h2>
+        <HeadingRainbow>Event Details</HeadingRainbow>
         <span class="rule"></span>
 
         <div class="detail-cards">
@@ -352,7 +343,9 @@ const JSON_LD = JSON.stringify({
 
         <div class="details-arrow"><ArrowDown size={24} strokeWidth={2.5} /></div>
         <div class="pricing">
-          <h3 class="heading--md" style="margin-bottom: 1.25rem; text-align: left;">
+          <h3
+            class="heading--md font-bold font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-[0.03em] leading-[0.93] text-text mb-5 text-left"
+          >
             Registration
           </h3>
           <div class="pricing__row">
@@ -361,8 +354,7 @@ const JSON_LD = JSON.stringify({
                 href="https://www.evergreenmtb.org/support-us/become-a-member"
                 target="_blank"
                 rel="noopener noreferrer"
-                style="color: var(--c-accent); text-decoration: none; font-style: italic; font-size: 0.8rem;"
-                >(join)</a
+                class="text-accent no-underline italic text-[0.8rem]">(join)</a
               ><small>Online · pre-event</small>
             </div>
             <div class="pricing__amount">${EVENT.priceMember}</div>
@@ -375,14 +367,14 @@ const JSON_LD = JSON.stringify({
             <div class="pricing__label">Day-Of <small>All participants</small></div>
             <div class="pricing__amount">${EVENT.priceDayOf}</div>
           </div>
-          <div style="margin-top: 1.5rem; text-align: center;">
+          <div class="mt-6 text-center">
             <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
               >Register by {EVENT.deadline}</a
             >
           </div>
         </div>
       </div>
-      <cite class="photo-credit">Photo by Todd McCarthy</cite>
+      <PhotoCredit label="Photo by" name="Todd McCarthy" />
     </section>
 
     <!-- ── 4 · GALLERY ── -->
@@ -393,7 +385,7 @@ const JSON_LD = JSON.stringify({
     >
       <div class="panel__inner">
         <span class="eyebrow">From the Trails</span>
-        <h2 class="heading--lg reveal">See You Out There</h2>
+        <HeadingRainbow>See You Out There</HeadingRainbow>
         <span class="rule"></span>
 
         <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
@@ -449,11 +441,7 @@ const JSON_LD = JSON.stringify({
           </div>
         </div>
       </div>
-      <cite class="photo-credit"
-        >Photo: <a href="https://unsplash.com/@seanbenesh" target="_blank" rel="noopener noreferrer"
-          >Sean Benesh</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit name="Sean Benesh" url="https://unsplash.com/@seanbenesh" source="Unsplash" />
     </section>
 
     <!-- ── 5 · LEGEND ── -->
@@ -464,7 +452,7 @@ const JSON_LD = JSON.stringify({
     >
       <div class="panel__inner">
         <span class="eyebrow">A Place With History</span>
-        <h2 class="heading--lg reveal">Born From Fire</h2>
+        <HeadingRainbow>Born From Fire</HeadingRainbow>
         <span class="rule"></span>
         <p class="lead">
           The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
@@ -486,17 +474,15 @@ const JSON_LD = JSON.stringify({
           href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
           target="_blank"
           rel="noopener noreferrer"
-          style="display: inline-block; margin-top: 2rem; color: var(--c-accent); text-decoration: underline; text-underline-offset: 3px; font-size: 0.9rem;"
+          class="inline-block mt-8 text-accent underline underline-offset-[3px] text-[0.9rem]"
           >Read More</a
         >
       </div>
-      <cite class="photo-credit"
-        >Photo: <a
-          href="https://unsplash.com/@sebastian_unrau"
-          target="_blank"
-          rel="noopener noreferrer">Sebastian Unrau</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit
+        name="Sebastian Unrau"
+        url="https://unsplash.com/@sebastian_unrau"
+        source="Unsplash"
+      />
     </section>
 
     <!-- ── 5 · PULL QUOTE ── -->
@@ -522,20 +508,14 @@ const JSON_LD = JSON.stringify({
           <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
         </a>
       </div>
-      <cite class="photo-credit"
-        >Photo: <a
-          href="https://unsplash.com/@timberfoster"
-          target="_blank"
-          rel="noopener noreferrer">Tim Foster</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit name="Tim Foster" url="https://unsplash.com/@timberfoster" source="Unsplash" />
     </section>
 
     <!-- ── 6 · FAQ ── -->
     <section id="faq" class="panel panel--deferred" style={`background-image: url('${IMG.faq}')`}>
       <div class="panel__inner">
         <span class="eyebrow">Questions</span>
-        <h2 class="heading--lg reveal">FAQ</h2>
+        <HeadingRainbow>FAQ</HeadingRainbow>
         <span class="rule"></span>
         <div class="faq">
           <div class="faq__item" x-data="{ open: false }">
@@ -674,7 +654,7 @@ const JSON_LD = JSON.stringify({
           </div>
         </div>
       </div>
-      <cite class="photo-credit">Photo by Todd McCarthy</cite>
+      <PhotoCredit label="Photo by" name="Todd McCarthy" />
     </section>
 
     <!-- ── 7 · SPONSORS ── -->
@@ -685,7 +665,7 @@ const JSON_LD = JSON.stringify({
     >
       <div class="panel__inner">
         <span class="eyebrow">Made Possible By</span>
-        <h2 class="heading--lg reveal">{EVENT.year} Sponsors</h2>
+        <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
         <span class="rule"></span>
         <p class="lead">
           YBE exists because of this community of brands, shops, and people who show up every year
@@ -751,13 +731,11 @@ const JSON_LD = JSON.stringify({
           </div>
         </div>
       </div>
-      <cite class="photo-credit"
-        >Photo: <a
-          href="https://unsplash.com/@szmigieldesign"
-          target="_blank"
-          rel="noopener noreferrer">Lukasz Szmigiel</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit
+        name="Lukasz Szmigiel"
+        url="https://unsplash.com/@szmigieldesign"
+        source="Unsplash"
+      />
     </section>
 
     <!-- ── 8 · FINAL CTA ── -->
@@ -775,7 +753,9 @@ const JSON_LD = JSON.stringify({
             rel="noopener noreferrer">Yacolt Burn, SW Washington</a
           ></span
         >
-        <h2 class="heading--xl reveal">Register.<br />Ride.<br />Repeat.</h2>
+        <HeadingRainbow size="xl">
+          Register.<br />Ride.<br />Repeat.
+        </HeadingRainbow>
         <span class="rule"></span>
         <p class="lead">
           One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for
@@ -786,17 +766,15 @@ const JSON_LD = JSON.stringify({
           class="btn btn--amber"
           target="_blank"
           rel="noopener noreferrer"
-          style="font-size: 0.95rem; padding: 1.1rem 3.2rem;"
+          class="text-[0.95rem] px-[3.2rem] py-[1.1rem]"
           ><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
         >
       </div>
-      <cite class="photo-credit"
-        >Photo: <a
-          href="https://unsplash.com/@worldsbetweenlines"
-          target="_blank"
-          rel="noopener noreferrer">Patrick Hendry</a
-        > / Unsplash</cite
-      >
+      <PhotoCredit
+        name="Patrick Hendry"
+        url="https://unsplash.com/@worldsbetweenlines"
+        source="Unsplash"
+      />
     </section>
 
     <footer>
@@ -866,43 +844,10 @@ const JSON_LD = JSON.stringify({
     --f-body: 'Inter', system-ui, sans-serif;
     color-scheme: dark;
   }
-  html {
-    scroll-behavior: smooth;
-  }
   body {
     background: var(--c-bg);
     color: var(--c-text);
     font-family: var(--f-body);
-    font-size: 1rem;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  a {
-    color: inherit;
-  }
-
-  /* ─── PHOTO CREDIT ─── */
-  .photo-credit {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 2;
-    font-style: normal;
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    color: rgba(240, 236, 228, 0.35);
-    pointer-events: none;
-  }
-  .photo-credit a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    pointer-events: all;
-    transition: color 0.2s;
-  }
-  .photo-credit a:hover {
-    color: rgba(240, 236, 228, 0.7);
   }
 
   /* ─── SKIP LINK ─── */
@@ -925,34 +870,6 @@ const JSON_LD = JSON.stringify({
   }
 
   /* ─── COUNTDOWN ─── */
-  .hero__countdown {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    margin-top: 2rem;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--c-muted);
-  }
-  .hero__countdown b {
-    display: block;
-    font-family: var(--f-display);
-    font-size: 2rem;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    margin-bottom: 0.2rem;
-  }
-  .hero__countdown span:nth-child(1) b {
-    color: #feca57;
-  }
-  .hero__countdown span:nth-child(2) b {
-    color: #48dbfb;
-  }
-  .hero__countdown span:nth-child(3) b {
-    color: #c56ef5;
-  }
 
   /* ─── NAV ─── */
   nav {
@@ -1035,14 +952,6 @@ const JSON_LD = JSON.stringify({
   }
 
   /* ─── TYPE SCALE ─── */
-  h1,
-  h2,
-  h3 {
-    font-family: var(--f-display);
-    letter-spacing: 0.03em;
-    line-height: 0.93;
-    color: var(--c-text);
-  }
   .eyebrow {
     display: inline-block;
     font-size: 0.75rem;
@@ -1052,11 +961,7 @@ const JSON_LD = JSON.stringify({
     color: var(--c-accent);
     margin-bottom: 1rem;
   }
-  .heading--xl {
-    font-size: clamp(4.5rem, 16vw, 11rem);
-    margin-bottom: 0.5rem;
-  }
-  .heading--lg {
+  /* .heading--lg {
     font-size: clamp(3rem, 9vw, 7rem);
     margin-bottom: 1rem;
   }
@@ -1071,7 +976,7 @@ const JSON_LD = JSON.stringify({
   .heading--md {
     font-size: clamp(1.6rem, 4vw, 2.6rem);
     margin-bottom: 0.75rem;
-  }
+  } */
   .lead {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     color: rgba(240, 236, 228, 0.85);
@@ -1334,6 +1239,7 @@ const JSON_LD = JSON.stringify({
   .pricing__label {
     color: var(--c-text);
     font-size: 0.95rem;
+    text-align: left;
   }
   .pricing__label small {
     display: block;

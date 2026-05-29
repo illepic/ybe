@@ -1,0 +1,50 @@
+---
+interface Props {
+  name: string;
+  url?: string;
+  label?: string; // defaults to "Photo:"
+  source?: string; // e.g. "Unsplash"
+}
+
+const { name, url, label = 'Photo:', source } = Astro.props;
+---
+
+<cite class="photo-credit">
+  {label}
+  {
+    url ? (
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {name}
+      </a>
+    ) : (
+      name
+    )
+  }
+  {source && <> / {source}</>}
+</cite>
+
+<style>
+  .photo-credit {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2;
+    font-style: normal;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: rgba(240, 236, 228, 0.35);
+    pointer-events: none;
+  }
+
+  .photo-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    pointer-events: all;
+    transition: color 0.2s;
+  }
+
+  .photo-credit a:hover {
+    color: rgba(240, 236, 228, 0.7);
+  }
+</style>

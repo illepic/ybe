@@ -1,0 +1,28 @@
+---
+interface Props {
+  size?: 'xl' | 'lg';
+  as?: 'h1' | 'h2';
+  reveal?: boolean;
+  class?: string;
+}
+
+const { size = 'lg', as: Tag = 'h2', reveal = true, class: className = '' } = Astro.props;
+
+const sizeClasses: Record<string, string> = {
+  xl: 'text-[clamp(4.5rem,16vw,11rem)] mb-2',
+  lg: 'text-[clamp(3rem,9vw,7rem)] mb-4',
+};
+---
+
+<Tag
+  class:list={[
+    'font-display tracking-[0.03em] leading-[0.93] font-bold',
+    'bg-[linear-gradient(135deg,#ff6b6b,#feca57,#48dbfb,#c56ef5,#ff9ff3)] bg-clip-text [-webkit-text-fill-color:transparent]',
+    '[filter:drop-shadow(2px_4px_12px_rgba(0,0,0,0.6))]',
+    sizeClasses[size],
+    reveal && 'reveal',
+    className,
+  ]}
+>
+  <slot />
+</Tag>
