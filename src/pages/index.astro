@@ -49,7 +49,7 @@ const IMG = {
   <meta name="twitter:description" content="A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. June 20, 2026." />
   <meta name="twitter:image" content={OG_IMAGE} />
 
-  <!-- Favicons -->
+<!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
@@ -490,11 +490,13 @@ const IMG = {
       display: block;
       font-family: var(--f-display);
       font-size: 2rem;
-      color: var(--c-text);
       letter-spacing: 0.04em;
       line-height: 1;
       margin-bottom: 0.2rem;
     }
+    .hero__countdown span:nth-child(1) b { color: #feca57; }
+    .hero__countdown span:nth-child(2) b { color: #48dbfb; }
+    .hero__countdown span:nth-child(3) b { color: #c56ef5; }
 
     /* ─── NAV ─── */
     nav {
@@ -582,6 +584,12 @@ const IMG = {
     }
     .heading--xl { font-size: clamp(4.5rem, 16vw, 11rem); margin-bottom: 0.5rem; }
     .heading--lg { font-size: clamp(3rem, 9vw, 7rem);  margin-bottom: 1rem; }
+    .heading--xl, .heading--lg {
+      background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #c56ef5, #ff9ff3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .heading--md { font-size: clamp(1.6rem, 4vw, 2.6rem); margin-bottom: 0.75rem; }
     .lead {
       font-size: clamp(1rem, 2.5vw, 1.2rem);
@@ -604,8 +612,8 @@ const IMG = {
     .rule {
       display: block;
       width: 52px;
-      height: 3px;
-      background: var(--c-accent);
+      height: 2px;
+      background: #c56ef5;
       margin: 1.5rem auto;
     }
 
