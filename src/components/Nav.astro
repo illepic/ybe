@@ -4,9 +4,10 @@ import { ArrowRight } from 'lucide-astro';
 interface Props {
   reg: string;
   dateShort: string;
+  datetime: string;
 }
 
-const { reg, dateShort } = Astro.props;
+const { reg, dateShort, datetime } = Astro.props;
 ---
 
 <nav
@@ -38,6 +39,6 @@ const { reg, dateShort } = Astro.props;
            transition-colors duration-200 hover:bg-[#df6322]"
   >
     Register <ArrowRight size={14} strokeWidth={2.5} />
-    {dateShort}
+    <time datetime={datetime}>{dateShort}</time>
   </a>
 </nav>

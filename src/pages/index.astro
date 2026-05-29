@@ -14,6 +14,9 @@ import ContentLink from '../components/ContentLink.astro';
 import DetailCard from '../components/DetailCard.astro';
 import Pricing from '../components/Pricing.astro';
 import PricingRow from '../components/PricingRow.astro';
+import DateLocation from '../components/DateLocation.astro';
+import Faq from '../components/Faq.astro';
+import FaqItem from '../components/FaqItem.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -186,18 +189,11 @@ const JSON_LD = JSON.stringify({
     >
 
     <!-- NAV -->
-    <Nav reg={REG} dateShort={EVENT.dateShort} />
+    <Nav reg={REG} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
     <!-- ── 1 · HERO ── -->
     <Panel id="hero" bgImage={POSTER}>
-      <span class="hero__datebadge"
-        >{EVENT.date} &nbsp;·&nbsp; <a
-          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-          class="loc"
-          target="_blank"
-          rel="noopener noreferrer">Yacolt Burn, SW Washington</a
-        ></span
-      >
+      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
       <HeadingRainbow size="xl" as="h1" reveal={false}>
         Yacolt<br />Burn<br />Experience
       </HeadingRainbow>
@@ -317,14 +313,16 @@ const JSON_LD = JSON.stringify({
 
     <!-- ── 3 · DETAILS ── -->
     <Panel id="details" bgImage={IMG.details}>
-      <Eyebrow>{EVENT.date}</Eyebrow>
+      <Eyebrow><time datetime={EVENT.isoStart}>{EVENT.date}</time></Eyebrow>
       <HeadingRainbow>Event Details</HeadingRainbow>
       <Rule />
 
       <div class="detail-cards grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
         <DetailCard label="Date & Time">
           <CalendarDays slot="icon" size={12} strokeWidth={2.5} />
-          {EVENT.dateDay}<br />{EVENT.startTime} - {EVENT.endTime}
+          <time datetime={EVENT.isoStart}>{EVENT.dateDay}</time><br />{EVENT.startTime} – <time
+            datetime={EVENT.isoEnd}>{EVENT.endTime}</time
+          >
         </DetailCard>
         <DetailCard label="Location">
           <MapPin slot="icon" size={12} strokeWidth={2.5} />
@@ -496,7 +494,11 @@ const JSON_LD = JSON.stringify({
 
     <!-- ── 5 · PULL QUOTE ── -->
     <Panel id="trails" bgImage={IMG.quote}>
-      <p class="text-shadow-lg pullquote">"The trails you love<br /><em>are not free.</em>"</p>
+      <p
+        class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-text max-w-3xl mx-auto mb-6"
+      >
+        "The trails you love<br /><em class="text-accent not-italic">are not free.</em>"
+      </p>
       <Lead>
         Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
         hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
@@ -525,142 +527,31 @@ const JSON_LD = JSON.stringify({
       <Eyebrow>Questions</Eyebrow>
       <HeadingRainbow>FAQ</HeadingRainbow>
       <Rule />
-      <div class="faq">
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            What skill level do I need?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              The upper system accessed from Five Corners is intermediate to advanced terrain. The
-              event welcomes all riders though, including a dedicated youth ride for ages 3-12.
-              Volunteers and the community are there to help you find your line.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            Does it sell out?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              Every single year. Space is capped at {EVENT.capacity} riders. Register online by {
-                EVENT.deadline
-              } to lock in your spot and your best rate.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            What if it rains?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
-              Northwest. Pack a rain shell, bring layers, and embrace it.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            Do I need to be an Evergreen member?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              Nope, everyone is welcome. Members save $25 on registration though, and your trails
-              depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays
-              for itself at events like this.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            Can I try a demo bike?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              Yep. Norco and Propain both bring demo fleets to the event. Availability is
-              first-come, first-served on the day.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            What trails are there to ride?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              Four standouts: <ContentLink
-                href="https://www.trailforks.com/trails/cold-creek/"
-                target="_blank"
-                rel="noopener noreferrer">Cold Creek</ContentLink
-              > is wild and rooty with occasional flow. <ContentLink
-                href="https://www.trailforks.com/trails/sixth-sense/"
-                target="_blank"
-                rel="noopener noreferrer">Sixth Sense</ContentLink
-              > is hand-crafted and flowy with the best berms in the forest. <ContentLink
-                href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
-                target="_blank"
-                rel="noopener noreferrer">Murphy's Grade</ContentLink
-              > was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink
-                href="https://www.trailforks.com/trails/thrillium/"
-                target="_blank"
-                rel="noopener noreferrer">Thrillium</ContentLink
-              > is the sender: big, fast, and full of gnarly tabletops.
-            </p>
-          </div>
-        </div>
-        <div class="faq__item" x-data="{ open: false }">
-          <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
-            Where do I park?
-            <span class="faq__icon" aria-hidden="true"
-              ><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"
-                ><Minus size={16} strokeWidth={2.5} /></span
-              ></span
-            >
-          </button>
-          <div x-show="open" x-collapse>
-            <p class="text-shadow-lg faq__answer">
-              <a
-                href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-                class="loc"
-                target="_blank"
-                rel="noopener noreferrer">Yacolt Burn Trailhead</a
-              >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
-            </p>
-          </div>
-        </div>
-      </div>
+      <Faq>
+        <FaqItem question="What skill level do I need?">
+          The upper system accessed from Five Corners is intermediate to advanced terrain. The event
+          welcomes all riders though, including a dedicated youth ride for ages 3-12. Volunteers and
+          the community are there to help you find your line.
+        </FaqItem>
+        <FaqItem question="Does it sell out?">
+          Every single year. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock in your spot and your best rate.
+        </FaqItem>
+        <FaqItem question="What if it rains?">
+          The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific Northwest. Pack a rain shell, bring layers, and embrace it.
+        </FaqItem>
+        <FaqItem question="Do I need to be an Evergreen member?">
+          Nope, everyone is welcome. Members save $25 on registration though, and your trails depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself at events like this.
+        </FaqItem>
+        <FaqItem question="Can I try a demo bike?">
+          Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come, first-served on the day.
+        </FaqItem>
+        <FaqItem question="What trails are there to ride?">
+          Four standouts: <ContentLink href="https://www.trailforks.com/trails/cold-creek/" target="_blank" rel="noopener noreferrer">Cold Creek</ContentLink> is wild and rooty with occasional flow. <ContentLink href="https://www.trailforks.com/trails/sixth-sense/" target="_blank" rel="noopener noreferrer">Sixth Sense</ContentLink> is hand-crafted and flowy with the best berms in the forest. <ContentLink href="https://www.trailforks.com/trails/murphy-s-grade-98596/" target="_blank" rel="noopener noreferrer">Murphy's Grade</ContentLink> was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink href="https://www.trailforks.com/trails/thrillium/" target="_blank" rel="noopener noreferrer">Thrillium</ContentLink> is the sender: big, fast, and full of gnarly tabletops.
+        </FaqItem>
+        <FaqItem question="Where do I park?">
+          <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead</a>. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
+        </FaqItem>
+      </Faq>
       <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
     </Panel>
 
@@ -742,14 +633,7 @@ const JSON_LD = JSON.stringify({
 
     <!-- ── 8 · FINAL CTA ── -->
     <Panel id="register" bgImage={IMG.cta}>
-      <span class="hero__datebadge"
-        >{EVENT.date} &nbsp;·&nbsp; <a
-          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-          class="loc"
-          target="_blank"
-          rel="noopener noreferrer">Yacolt Burn, SW Washington</a
-        ></span
-      >
+      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
       <HeadingRainbow size="xl">
         Register.<br />Ride.<br />Repeat.
       </HeadingRainbow>
@@ -854,77 +738,8 @@ const JSON_LD = JSON.stringify({
     top: -1px;
   }
 
-  /* ─── HERO DATE BADGE ─── */
-  .hero__datebadge {
-    display: inline-block;
-    font-size: clamp(0.8rem, 2vw, 0.95rem);
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--c-amber);
-    margin-bottom: 1.5rem;
-  }
-
   /* ─── DETAILS ARROW ─── */
 
-  /* ─── PULL QUOTE ─── */
-  .pullquote {
-    font-family: var(--f-display);
-    font-size: clamp(2rem, 6vw, 4rem);
-    line-height: 1.05;
-    color: var(--c-text);
-    max-width: 780px;
-    margin: 0 auto 1.5rem;
-  }
-  .pullquote em {
-    color: var(--c-accent);
-    font-style: normal;
-  }
-
-  /* ─── FAQ ─── */
-  .faq {
-    text-align: left;
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--c-surface);
-    border: 1px solid rgba(240, 236, 228, 0.1);
-    border-radius: 4px;
-    padding: 0.5rem 2rem 1rem;
-  }
-  .faq__item {
-    border-bottom: 1px solid rgba(240, 236, 228, 0.11);
-  }
-  .faq__item:last-child {
-    border-bottom: none;
-  }
-  .faq__question {
-    all: unset;
-    cursor: pointer;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    font-family: var(--f-display);
-    font-size: clamp(1.15rem, 3vw, 1.7rem);
-    color: var(--c-text);
-    padding: 1.5rem 0;
-    box-sizing: border-box;
-  }
-  .faq__item:first-child .faq__question {
-    padding-top: 0.5rem;
-  }
-  .faq__icon {
-    flex-shrink: 0;
-    color: var(--c-accent);
-    display: flex;
-  }
-  .faq__answer {
-    color: var(--c-muted);
-    font-size: 0.93rem;
-    max-width: none;
-    margin: 0 0 1rem;
-  }
 
   /* ─── SPONSOR TIERS ─── */
   .sponsor-tier {
