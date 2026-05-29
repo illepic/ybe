@@ -18,7 +18,8 @@
     "@fontsource/inter": "^5.2.8",
     "@types/alpinejs": "^3.13.11",
     "alpinejs": "^3.15.12",
-    "astro": "^6.4.2"
+    "astro": "^6.4.2",
+    "lucide-astro": "^0.556.0"
   },
   "devDependencies": {
     "prettier": "^3.8.3",

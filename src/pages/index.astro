@@ -1,5 +1,27 @@
 ---
 import '../styles/fonts.css';
+import {
+  ArrowRight,
+  ArrowUp,
+  ArrowUpRight,
+  Bike,
+  CalendarDays,
+  CheckCircle,
+  Flame,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Medal,
+  Minus,
+  Package,
+  Plus,
+  Tag,
+  Ticket,
+  Users,
+  X,
+} from 'lucide-astro';
 
 // ─── UPDATE THESE EACH YEAR ───────────────────────────────────────────────
 const EVENT = {
@@ -155,7 +177,7 @@ const JSON_LD = JSON.stringify({
         <img src="/logo.png" alt="Yacolt Burn Experience" width="2796" height="2743" />
       </a>
       <a href={REG} class="nav__cta" target="_blank" rel="noopener noreferrer"
-        >Register → {EVENT.dateShort}</a
+        >Register <ArrowRight size={14} strokeWidth={2.5} /> {EVENT.dateShort}</a
       >
     </nav>
 
@@ -188,9 +210,9 @@ const JSON_LD = JSON.stringify({
         </p>
         <div class="btn__group">
           <a href={REG} class="btn btn--fire" target="_blank" rel="noopener noreferrer"
-            >Register Now</a
+            ><Ticket size={16} strokeWidth={2} /> Register Now</a
           >
-          <a href="#experience" class="btn btn--ghost">What to Expect</a>
+          <a href="#experience" class="btn btn--ghost">What to Expect <ChevronDown size={15} strokeWidth={2} /></a>
         </div>
         <div x-data="countdown" class="hero__countdown">
           <span><b x-text="days"></b> days</span>
@@ -242,7 +264,7 @@ const JSON_LD = JSON.stringify({
         </p>
         <p>
           The event caps at {EVENT.capacity} riders and sells out every single year, rain or shine. Demo
-          fleets from Propain and Norco are on-site. Vendors, food, and raffles round out the day. There's
+          fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
           even an organized youth ride for ages 3–12 and bike games for all levels.
         </p>
         <p>
@@ -265,7 +287,7 @@ const JSON_LD = JSON.stringify({
           >, the sender: big, fast, and full of gnarly tabletops.
         </p>
         <a href={REG} class="btn btn--amber" target="_blank" rel="noopener noreferrer"
-          >Claim Your Spot</a
+          ><CheckCircle size={16} strokeWidth={2} /> Claim Your Spot</a
         >
       </div>
       <cite class="photo-credit"
@@ -290,13 +312,13 @@ const JSON_LD = JSON.stringify({
 
         <div class="detail-cards">
           <div class="detail-cards__card">
-            <div class="detail-cards__label">Date & Time</div>
+            <div class="detail-cards__label"><CalendarDays size={12} strokeWidth={2.5} /> Date & Time</div>
             <div class="detail-cards__value">
               {EVENT.dateDay}<br />{EVENT.startTime} – {EVENT.endTime}
             </div>
           </div>
           <div class="detail-cards__card">
-            <div class="detail-cards__label">Location</div>
+            <div class="detail-cards__label"><MapPin size={12} strokeWidth={2.5} /> Location</div>
             <div class="detail-cards__value">
               <a
                 href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
@@ -307,14 +329,14 @@ const JSON_LD = JSON.stringify({
             </div>
           </div>
           <div class="detail-cards__card">
-            <div class="detail-cards__label">What's Included</div>
+            <div class="detail-cards__label"><Package size={12} strokeWidth={2.5} /> What's Included</div>
             <div class="detail-cards__value">
-              All-day shuttles<br />Demo bikes (Propain · Norco)<br />Food · Raffles · Vendors<br
+              All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br
               /><small>Youth ride ages 3–12</small>
             </div>
           </div>
           <div class="detail-cards__card">
-            <div class="detail-cards__label">Capacity</div>
+            <div class="detail-cards__label"><Users size={12} strokeWidth={2.5} /> Capacity</div>
             <div class="detail-cards__value">
               {EVENT.capacity} riders max<br /><small>Sells out every year. Register early.</small>
             </div>
@@ -403,17 +425,17 @@ const JSON_LD = JSON.stringify({
               <button
                 class="gallery__btn gallery__btn--close"
                 @click="close()"
-                aria-label="Close gallery">✕</button
+                aria-label="Close gallery"><X size={18} strokeWidth={2} /></button
               >
               <button
                 class="gallery__btn gallery__btn--prev"
                 @click.stop="prev()"
-                aria-label="Previous photo">←</button
+                aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button
               >
               <button
                 class="gallery__btn gallery__btn--next"
                 @click.stop="next()"
-                aria-label="Next photo">→</button
+                aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button
               >
             </div>
           </div>
@@ -488,7 +510,7 @@ const JSON_LD = JSON.stringify({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span>Join</span>
+          <span>Join <ArrowRight size={13} strokeWidth={2.5} /></span>
           <img src="/sponsors/evergreen-mtb.png" alt="Evergreen Mountain Bike Alliance" />
         </a>
       </div>
@@ -511,7 +533,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What skill level do I need?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -524,7 +546,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Does it sell out?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -537,7 +559,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What if it rains?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -549,7 +571,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Do I need to be an Evergreen member?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -562,11 +584,11 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Can I try a demo bike?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
-                Yep. Propain and Norco both bring demo fleets to the event. Availability is
+                Yep. Norco and Propain both bring demo fleets to the event. Availability is
                 first-come, first-served on the day.
               </p>
             </div>
@@ -574,7 +596,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               What trails are there to ride?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -601,7 +623,7 @@ const JSON_LD = JSON.stringify({
           <div class="faq__item" x-data="{ open: false }">
             <button class="faq__question" @click="open = !open" :aria-expanded="open.toString()">
               Where do I park?
-              <span class="faq__icon" :class="{ rotate: open }" aria-hidden="true">+</span>
+              <span class="faq__icon" aria-hidden="true"><span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span><span x-show="open"><Minus size={16} strokeWidth={2.5} /></span></span>
             </button>
             <div x-show="open" x-collapse>
               <p class="faq__answer">
@@ -635,7 +657,7 @@ const JSON_LD = JSON.stringify({
         </p>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--gold">Gold</div>
+          <div class="sponsor-tier__label sponsor-tier__label--gold"><Medal size={12} strokeWidth={2.5} /> Gold</div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--gold">
               <img src="/sponsors/norco.svg" alt="Norco" />
@@ -644,7 +666,7 @@ const JSON_LD = JSON.stringify({
         </div>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--silver">Silver</div>
+          <div class="sponsor-tier__label sponsor-tier__label--silver"><Medal size={12} strokeWidth={2.5} /> Silver</div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--silver">
               <img src="/sponsors/propain.svg" alt="Propain Bikes" />
@@ -667,7 +689,7 @@ const JSON_LD = JSON.stringify({
         </div>
 
         <div class="sponsor-tier">
-          <div class="sponsor-tier__label sponsor-tier__label--bronze">Bronze</div>
+          <div class="sponsor-tier__label sponsor-tier__label--bronze"><Medal size={12} strokeWidth={2.5} /> Bronze</div>
           <div class="sponsor-tier__row">
             <div class="sponsor-logo sponsor-logo--bronze">
               <img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" />
@@ -722,7 +744,7 @@ const JSON_LD = JSON.stringify({
           class="btn btn--amber"
           target="_blank"
           rel="noopener noreferrer"
-          style="font-size: 0.95rem; padding: 1.1rem 3.2rem;">Secure Your Spot</a
+          style="font-size: 0.95rem; padding: 1.1rem 3.2rem;"><Flame size={18} strokeWidth={2} /> Secure Your Spot</a
         >
       </div>
       <cite class="photo-credit"
@@ -748,7 +770,7 @@ const JSON_LD = JSON.stringify({
         </div>
         <div class="footer__right">
           <p class="footer__tagline">See you on the trails.</p>
-          <a href="#hero" class="footer__top">Back to top ↑</a>
+          <a href="#hero" class="footer__top"><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a>
         </div>
       </div>
     </footer>
@@ -925,7 +947,9 @@ const JSON_LD = JSON.stringify({
     color: var(--c-text);
   }
   .nav__cta {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     padding: 0.55rem 1.3rem;
     background: var(--c-accent);
     color: var(--c-text);
@@ -1039,9 +1063,24 @@ const JSON_LD = JSON.stringify({
     margin: 1.5rem auto;
   }
 
+  /* ─── ICON UTILS ─── */
+  /* Inline icon alignment for buttons and labels */
+  .btn svg,
+  .detail-cards__label svg,
+  .footer__top svg,
+  .faq__question svg,
+  .sponsor-tier__label svg {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
   /* ─── BUTTONS ─── */
   .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     padding: 0.95rem 2.4rem;
     font-family: var(--f-body);
     font-size: 0.85rem;
@@ -1308,13 +1347,8 @@ const JSON_LD = JSON.stringify({
   }
   .faq__icon {
     flex-shrink: 0;
-    font-size: 1.3rem;
-    font-family: var(--f-body);
-    transition: transform 0.25s ease;
     color: var(--c-accent);
-  }
-  .faq__icon.rotate {
-    transform: rotate(45deg);
+    display: flex;
   }
   .faq__answer {
     color: var(--c-muted);
@@ -1514,7 +1548,6 @@ const JSON_LD = JSON.stringify({
     border-radius: 2px;
     width: 42px;
     height: 42px;
-    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
