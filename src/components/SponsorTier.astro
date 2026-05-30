@@ -35,21 +35,21 @@ const CONFIG = {
   },
   silver: {
     label: 'Silver',
-    labelColor: 'text-[#c0bdb8]',
+    labelColor: 'text-stone-300',
     gridCols: 'grid-cols-2 md:grid-cols-4',
     gridMaxW: '',
     logoOpacity: 'opacity-70',
     nameSize: 'text-xs',
-    cellBg: 'bg-[#c0bdb8]/10 border-[#c0bdb8]/20',
+    cellBg: 'bg-stone-300/10 border-stone-300/20',
   },
   bronze: {
     label: 'Bronze',
-    labelColor: 'text-[#c0855a]',
+    labelColor: 'text-amber-600',
     gridCols: 'grid-cols-2 md:grid-cols-5',
     gridMaxW: '',
     logoOpacity: 'opacity-60',
     nameSize: 'text-xs',
-    cellBg: 'bg-[#c0855a]/10 border-[#c0855a]/20',
+    cellBg: 'bg-amber-600/10 border-amber-600/20',
   },
 };
 
@@ -60,7 +60,7 @@ const c = CONFIG[tier];
   <div
     class:list={[
       'sponsor-tier__label',
-      'flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[0.22em] uppercase mb-5',
+      'flex items-center justify-center gap-1.5 text-xs font-semibold tracking-loose uppercase mb-5',
       c.labelColor,
     ]}
   >
