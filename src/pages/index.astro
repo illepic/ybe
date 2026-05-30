@@ -26,6 +26,7 @@ import {
   ArrowUpRight,
   Bike,
   CalendarDays,
+  Check,
   CheckCircle,
   Flame,
   ChevronDown,
@@ -35,6 +36,7 @@ import {
   Minus,
   Package,
   Plus,
+  Share2,
   Tag,
   Ticket,
   Users,
@@ -195,6 +197,7 @@ const SPONSORS = sponsorsEntry.data;
     x-data
     :class="{ 'overflow-hidden': $store.ui.galleryOpen }"
     class="antialiased text-base/relaxed bg-bg text-stone-100 font-body"
+    data-event-start={EVENT.isoStart}
   >
     <!-- Skip link for keyboard/screenreader users -->
     <a
@@ -239,14 +242,42 @@ const SPONSORS = sponsorsEntry.data;
       <div
         class="btn__group flex flex-col items-center gap-4 flex-wrap md:flex-row md:justify-center mt-10"
       >
-        <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
-          ><Ticket slot="icon-left" size={16} strokeWidth={2} />Register Now</Button
-        >
+        <div x-show="!$store.ybe.isPast">
+          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
+            ><Ticket slot="icon-left" size={16} strokeWidth={2} />Register Now</Button
+          >
+        </div>
+        <div x-show="$store.ybe.isPast" x-cloak>
+          <p class="text-sm font-semibold tracking-widest uppercase text-stone-400">
+            Registration closed — follow <a
+              href="https://www.evergreenmtb.org"
+              target="_blank"
+              rel="noopener"
+              class="text-amber-600 hover:text-amber-500 transition-colors">Evergreen MTB</a
+            > for {EVENT.year + 1} dates
+          </p>
+        </div>
         <Button variant="ghost" href="#experience"
           >What to Expect<ChevronDown slot="icon-right" size={15} strokeWidth={2} /></Button
         >
       </div>
+      <p class="text-xs text-stone-500 tracking-widest uppercase mt-4">
+        Limited to <span class="text-amber-600">{EVENT.capacity} riders</span> — register early
+      </p>
       <Countdown targetDate={EVENT.isoStart} />
+      <!-- Share button -->
+      <button
+        x-data="shareBtn"
+        @click="share()"
+        class="mt-5 text-xs font-semibold tracking-widest uppercase text-stone-500 hover:text-stone-200 transition-colors duration-200 cursor-pointer"
+      >
+        <span x-show="!shared" class="flex items-center gap-1.5">
+          <Share2 size={12} strokeWidth={2} />Share this ride
+        </span>
+        <span x-show="shared" x-cloak class="flex items-center gap-1.5 text-amber-500">
+          <Check size={12} strokeWidth={2.5} />Link copied
+        </span>
+      </button>
       <PhotoCredit
         label="Art by"
         name="Kathryn Jasperson"
@@ -542,9 +573,9 @@ const SPONSORS = sponsorsEntry.data;
         make it happen.
       </Lead>
 
-      <SponsorTier tier="gold" sponsors={SPONSORS.gold} />
-      <SponsorTier tier="silver" sponsors={SPONSORS.silver} />
-      <SponsorTier tier="bronze" sponsors={SPONSORS.bronze} />
+      <SponsorTier tier="gold" sponsors={SPONSORS.gold} campaign={`ybe${EVENT.year}`} />
+      <SponsorTier tier="silver" sponsors={SPONSORS.silver} campaign={`ybe${EVENT.year}`} />
+      <SponsorTier tier="bronze" sponsors={SPONSORS.bronze} campaign={`ybe${EVENT.year}`} />
       <PhotoCredit
         name="Lukasz Szmigiel"
         url="https://unsplash.com/@szmigieldesign"
@@ -552,66 +583,73 @@ const SPONSORS = sponsorsEntry.data;
         slot="credit"
       />
     </Panel>
-  </body>
 
-  <!-- ── 8 · FINAL CTA ── -->
-  <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
-    <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
-    <HeadingRainbow size="xl">
-      Register.<br />Ride.<br />Repeat.
-    </HeadingRainbow>
-    <Rule />
-    <Lead>
-      One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
-      cost of a tank of gas. This is what community trail building looks like.
-    </Lead>
-    <Button
-      variant="amber"
-      href={REG}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="px-14 py-4 text-base"
-      ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
-    >
-    <PhotoCredit
-      name="Patrick Hendry"
-      url="https://unsplash.com/@worldsbetweenlines"
-      source="Unsplash"
-      slot="credit"
-    />
-  </Panel>
-
-  <footer class="bg-stone-950 pb-10">
-    <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
-    <div
-      class="footer__inner flex flex-col gap-10 max-w-4xl mx-auto px-8 md:flex-row md:justify-between md:items-end"
-    >
-      <div class="footer__left flex flex-col gap-2">
-        <div class="footer__title font-display text-xl tracking-[0.06em] gradient-rainbow-text">
-          {EVENT.name}
-        </div>
-        <p class="text-stone-400 text-sm">
-          Organized by the <a
-            href="https://www.evergreenmtb.org/chapters/southwest"
-            target="_blank"
-            class="underline">Evergreen MTB Alliance Southwest Chapter</a
-          >
+    <!-- ── 8 · FINAL CTA ── -->
+    <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
+      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
+      <HeadingRainbow size="xl">
+        Register.<br />Ride.<br />Repeat.
+      </HeadingRainbow>
+      <Rule />
+      <Lead>
+        One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
+        cost of a tank of gas. This is what community trail building looks like.
+      </Lead>
+      <div x-show="!$store.ybe.isPast">
+        <Button
+          variant="amber"
+          href={REG}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-14 py-4 text-base"
+          ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
+        >
+      </div>
+      <div x-show="$store.ybe.isPast" x-cloak>
+        <p class="text-stone-400 text-sm font-semibold tracking-widest uppercase">
+          Registration closed · See you next year
         </p>
       </div>
-      <div class="footer__right flex flex-col gap-3">
-        <div
-          class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
-        >
-          See you on the trails.
+      <PhotoCredit
+        name="Patrick Hendry"
+        url="https://unsplash.com/@worldsbetweenlines"
+        source="Unsplash"
+        slot="credit"
+      />
+    </Panel>
+
+    <footer class="bg-stone-950 pb-10">
+      <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
+      <div
+        class="footer__inner flex flex-col gap-10 max-w-4xl mx-auto px-8 md:flex-row md:justify-between md:items-end"
+      >
+        <div class="footer__left flex flex-col gap-2">
+          <div class="footer__title font-display text-xl tracking-[0.06em] gradient-rainbow-text">
+            {EVENT.name}
+          </div>
+          <p class="text-stone-400 text-sm">
+            Organized by the <a
+              href="https://www.evergreenmtb.org/chapters/southwest"
+              target="_blank"
+              class="underline">Evergreen MTB Alliance Southwest Chapter</a
+            >
+          </p>
         </div>
-        <a
-          href="#hero"
-          class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
-          ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
-        >
+        <div class="footer__right flex flex-col gap-3">
+          <div
+            class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
+          >
+            See you on the trails.
+          </div>
+          <a
+            href="#hero"
+            class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
+            ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
+          >
+        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </body>
 </html>
 
 <script>

@@ -30,6 +30,28 @@ export default (Alpine) => {
 
   Alpine.store('ui', { galleryOpen: false });
 
+  // Post-event state — driven by data-event-start on <body>
+  const eventStart = document.body.dataset.eventStart;
+  Alpine.store('ybe', { isPast: eventStart ? new Date() >= new Date(eventStart) : false });
+
+  // Share button — Web Share API on mobile, clipboard fallback on desktop
+  Alpine.data('shareBtn', () => ({
+    shared: false,
+    share() {
+      const url = window.location.href;
+      const text = 'A full-day MTB shuttle event in the Yacolt Burn State Forest — check it out';
+      if (navigator.share) {
+        navigator.share({ title: document.title, text, url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url);
+        this.shared = true;
+        setTimeout(() => {
+          this.shared = false;
+        }, 2000);
+      }
+    },
+  }));
+
   // Photo gallery with focus management
   Alpine.data('photoGallery', () => {
     const photos = GALLERY_PHOTOS.map(({ file, caption }) => ({
