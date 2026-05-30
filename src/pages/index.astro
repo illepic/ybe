@@ -168,12 +168,13 @@ const SPONSORS = {
       logo: '/sponsors/spank.png',
       url: 'https://thegravitycartel.com',
     },
-    {
-      name: 'Red Bull',
-      logo: '/sponsors/red-bull.svg',
-      raw: true,
-      url: 'https://www.redbull.com',
-    },
+    // Not verified yet
+    // {
+    //   name: 'Red Bull',
+    //   logo: '/sponsors/red-bull.svg',
+    //   raw: true,
+    //   url: 'https://www.redbull.com',
+    // },
     { name: 'SRAM', logo: '/sponsors/sram.svg', url: 'https://www.sram.com' },
     { name: 'DT Swiss', logo: '/sponsors/dt-swiss.svg', raw: true, url: 'https://www.dtswiss.com' },
     {
@@ -290,17 +291,13 @@ const SPONSORS = {
       <p
         class="hero__stat text-shadow-lg font-display text-[clamp(1.6rem,5vw,2.8rem)] tracking-[0.06em] leading-none flex flex-wrap justify-center gap-x-[1.1rem] gap-y-[0.3rem] mt-5 mx-auto max-w-none"
       >
-        <span
-          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.5s]"
+        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.5s]"
           >{EVENT.capacity} riders.</span
         >
-        <span
-          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.85s]"
+        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.85s]"
           >All the trails.</span
         >
-        <span
-          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]"
-          >One day.</span
+        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]">One day.</span
         >
       </p>
       <div
@@ -324,11 +321,7 @@ const SPONSORS = {
 
     <!-- ── 2 · THE EXPERIENCE ── -->
     <Panel id="experience" bgImage={IMG.ride}>
-      <img
-        src="/logo.png"
-        alt="Yacolt Burn Experience"
-        class="h-30 w-auto block mx-auto mb-6"
-      />
+      <img src="/logo.png" alt="Yacolt Burn Experience" class="h-30 w-auto block mx-auto mb-6" />
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
       <Rule />
