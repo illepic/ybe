@@ -10,7 +10,7 @@ const { name, url, label = 'Photo:', source } = Astro.props;
 ---
 
 <cite
-  class="not-italic text-xs tracking-[0.06em] text-[rgba(240,236,228,0.35)] pointer-events-none"
+  class="not-italic text-xs tracking-[0.06em] text-stone-100/35 pointer-events-none"
 >
   {label}
   {
@@ -19,7 +19,7 @@ const { name, url, label = 'Photo:', source } = Astro.props;
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        class="underline underline-offset-2 pointer-events-auto transition-colors duration-200 hover:text-[rgba(240,236,228,0.7)]"
+        class="underline underline-offset-2 pointer-events-auto transition-colors duration-200 hover:text-stone-100/70"
       >
         {name}
       </a>

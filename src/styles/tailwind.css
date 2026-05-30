@@ -8,6 +8,10 @@
   --font-body: 'Inter', system-ui, sans-serif;
 }
 
+@utility animate-fade-up {
+  animation: fadeUp 0.55s ease forwards;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;

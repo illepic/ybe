@@ -147,7 +147,7 @@ const SPONSORS = {
       logo: '/sponsors/crankbrothers.svg',
       url: 'https://www.crankbrothers.com',
     },
-    { name: 'Cushcore', logo: '/sponsors/cushcore.svg', url: 'https://cushcore.com' },
+    { name: 'Cushcore', logo: '/sponsors/cushcore.svg', url: 'https://cushcore.com', raw: true },
     {
       name: 'Camas Bike and Sport',
       logo: '/sponsors/camas-bikes.jpg',
@@ -291,15 +291,15 @@ const SPONSORS = {
         class="hero__stat text-shadow-lg font-display text-[clamp(1.6rem,5vw,2.8rem)] tracking-[0.06em] leading-none flex flex-wrap justify-center gap-x-[1.1rem] gap-y-[0.3rem] mt-5 mx-auto max-w-none"
       >
         <span
-          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.5s]"
+          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.5s]"
           >{EVENT.capacity} riders.</span
         >
         <span
-          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.85s]"
+          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.85s]"
           >All the trails.</span
         >
         <span
-          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:1.2s]"
+          class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]"
           >One day.</span
         >
       </p>
@@ -327,7 +327,7 @@ const SPONSORS = {
       <img
         src="/logo.png"
         alt="Yacolt Burn Experience"
-        class="h-[120px] w-auto block mx-auto mb-6"
+        class="h-30 w-auto block mx-auto mb-6"
       />
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
@@ -523,7 +523,7 @@ const SPONSORS = {
           <img
             src="/sponsors/evergreen-mtb.png"
             alt="Evergreen Mountain Bike Alliance"
-            class="h-[68px] w-auto opacity-90"
+            class="h-17 w-auto opacity-90"
           />
         </span>
       </Button>
@@ -644,7 +644,7 @@ const SPONSORS = {
     />
   </Panel>
 
-  <footer class="bg-[#090806] pb-10">
+  <footer class="bg-stone-950 pb-10">
     <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
     <div
       class="footer__inner flex flex-col gap-10 max-w-[860px] mx-auto px-8 md:flex-row md:justify-between md:items-end"
@@ -669,7 +669,7 @@ const SPONSORS = {
         </div>
         <a
           href="#hero"
-          class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-[0.1em] uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
+          class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
           ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
         >
       </div>

@@ -69,7 +69,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Close -->
       <button
-        class="gallery__btn gallery__btn--close absolute top-[-48px] right-0 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
+        class="gallery__btn gallery__btn--close absolute -top-12 right-0 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
         @click="close()"
         aria-label="Close gallery"
       >
@@ -78,7 +78,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Prev -->
       <button
-        class="gallery__btn gallery__btn--prev absolute left-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:left-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:left-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
+        class="gallery__btn gallery__btn--prev absolute -left-13 top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:-left-13 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:left-0 max-sm:-bottom-13 max-sm:top-auto max-sm:translate-y-0"
         @click.stop="prev()"
         aria-label="Previous photo"
       >
@@ -87,7 +87,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Next -->
       <button
-        class="gallery__btn gallery__btn--next absolute right-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:right-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:right-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
+        class="gallery__btn gallery__btn--next absolute -right-13 top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:-right-13 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:right-0 max-sm:-bottom-13 max-sm:top-auto max-sm:translate-y-0"
         @click.stop="next()"
         aria-label="Next photo"
       >
