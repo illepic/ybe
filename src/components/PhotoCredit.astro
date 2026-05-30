@@ -9,9 +9,7 @@ interface Props {
 const { name, url, label = 'Photo:', source } = Astro.props;
 ---
 
-<cite
-  class="not-italic text-xs tracking-[0.06em] text-stone-100/35 pointer-events-none"
->
+<cite class="not-italic text-xs tracking-[0.06em] text-stone-100/35 pointer-events-none">
   {label}
   {
     url ? (

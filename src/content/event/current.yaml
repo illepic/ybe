@@ -1,0 +1,15 @@
+year: 2026
+name: Yacolt Burn Experience 2026
+date: 'June 20, 2026'
+dateShort: June 20
+dateDay: 'Saturday, June 20, 2026'
+startTime: '9:00 AM'
+endTime: '4:00 PM'
+deadline: June 19th
+isoStart: '2026-06-20T09:00:00-07:00'
+isoEnd: '2026-06-20T16:00:00-07:00'
+capacity: 299
+priceMember: 35
+priceGuest: 60
+priceDayOf: 70
+reg: 'https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398'

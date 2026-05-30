@@ -13,6 +13,12 @@ const IS_DEV = import.meta.env.DEV;
 const logoSrc = IS_DEV
   ? '/logo.png'
   : `/.netlify/images?${new URLSearchParams({ url: '/logo.png', format: 'webp', w: '160', h: '160' })}`;
+const logoSrcset = IS_DEV
+  ? undefined
+  : [
+      `/.netlify/images?${new URLSearchParams({ url: '/logo.png', format: 'webp', w: '90', h: '90' })} 90w`,
+      `/.netlify/images?${new URLSearchParams({ url: '/logo.png', format: 'webp', w: '160', h: '160' })} 160w`,
+    ].join(', ');
 ---
 
 <nav
@@ -28,6 +34,8 @@ const logoSrc = IS_DEV
   <a href="#hero">
     <img
       src={logoSrc}
+      srcset={logoSrcset}
+      sizes="(min-width: 769px) 80px, 44px"
       alt="Yacolt Burn Experience"
       width="2796"
       height="2743"

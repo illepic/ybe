@@ -1,12 +1,23 @@
 @import 'tailwindcss';
 @import './fonts.css';
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+  display: none !important;
+}
+
+/* Responsive panel backgrounds — mobile URL via --bg-mobile, desktop via --bg-desktop */
+.panel {
+  background-image: var(--bg-mobile, var(--bg-desktop));
+}
+@media (min-width: 769px) {
+  .panel {
+    background-image: var(--bg-desktop);
+  }
+}
 
 @theme {
   --font-display: 'Bebas Neue', Impact, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
-
 }
 
 @utility animate-fade-up {

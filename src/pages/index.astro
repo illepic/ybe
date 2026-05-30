@@ -41,27 +41,16 @@ import {
   X,
   SquareArrowOutUpRight,
 } from 'lucide-astro';
+import { getEntry } from 'astro:content';
 
-// ─── UPDATE THESE EACH YEAR ───────────────────────────────────────────────
-const EVENT = {
-  year: 2026,
-  name: 'Yacolt Burn Experience 2026',
-  date: 'June 20, 2026',
-  dateShort: 'June 20',
-  dateDay: 'Saturday, June 20, 2026',
-  startTime: '9:00 AM',
-  endTime: '4:00 PM',
-  deadline: 'June 19th',
-  isoStart: '2026-06-20T09:00:00-07:00',
-  isoEnd: '2026-06-20T16:00:00-07:00',
-  capacity: 299,
-  priceMember: 35,
-  priceGuest: 60,
-  priceDayOf: 70,
-};
+// ─── LOAD EVENT + SPONSOR DATA FROM CONTENT COLLECTIONS ──────────────────
+const eventEntry = await getEntry('event', 'current');
+const sponsorsEntry = await getEntry('sponsors', 'current');
 
-const REG =
-  'https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398';
+if (!eventEntry || !sponsorsEntry) throw new Error('Missing content: event or sponsors');
+
+const EVENT = eventEntry.data;
+const REG = EVENT.reg;
 const SITE = import.meta.env.SITE ?? 'https://yacoltburn.bike';
 
 // Netlify Image CDN helper — transforms on deploy, raw path in local dev
@@ -73,6 +62,7 @@ const cdn = (path: string, params: Record<string, string> = {}) => {
 };
 
 const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '85' });
+const MOBILE_POSTER = cdn('/photos/poster.jpg', { w: '828', q: '75' });
 
 // og:image — absolute URL, JPG (not WebP), standard portrait crop
 const OG_IMAGE = `${SITE}/.netlify/images?url=/photos/poster.jpg&w=800&format=jpg&q=85`;
@@ -86,6 +76,17 @@ const IMG = {
   faq: cdn('/photos/hanging-bike.jpg', { w: '1920', q: '80' }),
   sponsors: cdn('/photos/forest-path.jpg', { w: '1920', q: '80' }),
   cta: cdn('/photos/mtb-sunset.jpg', { w: '1920', q: '80' }),
+};
+
+const MOBILE_IMG = {
+  legend: cdn('/photos/pnw-forest-misty.jpg', { w: '828', q: '70' }),
+  ride: cdn('/photos/mtb-trail-forest.jpg', { w: '828', q: '70' }),
+  gallery: cdn('/photos/bikes-parked.jpg', { w: '828', q: '70' }),
+  details: cdn('/photos/hood.jpg', { w: '828', q: '70' }),
+  quote: cdn('/photos/trail-building.jpg', { w: '828', q: '70' }),
+  faq: cdn('/photos/hanging-bike.jpg', { w: '828', q: '70' }),
+  sponsors: cdn('/photos/forest-path.jpg', { w: '828', q: '70' }),
+  cta: cdn('/photos/mtb-sunset.jpg', { w: '828', q: '70' }),
 };
 
 const JSON_LD = JSON.stringify({
@@ -127,88 +128,12 @@ const JSON_LD = JSON.stringify({
     priceCurrency: 'USD',
     validFrom: '2026-01-01',
     validThrough: `${EVENT.year}-06-19`,
-    url: 'https://www.evergreenmtb.org/component/civicrm?task=civicrm/event/info&reset=1&id=5398',
+    url: REG,
     availability: 'https://schema.org/LimitedAvailability',
   },
 });
 
-// ─── SPONSOR DATA ──────────────────────────────────────────────────────────
-const SPONSORS = {
-  gold: [{ name: 'Norco', logo: '/sponsors/norco.svg', url: 'https://www.norco.com' }],
-  silver: [
-    { name: 'Propain Bikes', logo: '/sponsors/propain.svg', url: 'https://www.propainbikes.com' },
-    {
-      name: 'PNW Components',
-      logo: '/sponsors/pnw-components.webp',
-      url: 'https://www.pnwcomponents.com',
-    },
-    {
-      name: 'Crankbrothers',
-      logo: '/sponsors/crankbrothers.svg',
-      url: 'https://www.crankbrothers.com',
-    },
-    { name: 'Cushcore', logo: '/sponsors/cushcore.svg', url: 'https://cushcore.com', raw: true },
-    {
-      name: 'Camas Bike and Sport',
-      logo: '/sponsors/camas-bikes.jpg',
-      raw: true,
-      url: 'https://www.camasbikes.com',
-    },
-    {
-      name: 'Formula 100',
-      logo: '/sponsors/formula-100.svg',
-      raw: true,
-      url: 'https://formula100.com',
-    },
-    { name: 'Evo Portland', logo: '/sponsors/evo.svg', url: 'https://www.evo.com', raw: true },
-  ],
-  bronze: [
-    {
-      name: 'Gravity Cartel / Spank',
-      logo: '/sponsors/spank.png',
-      url: 'https://thegravitycartel.com',
-    },
-    // Not verified yet
-    // {
-    //   name: 'Red Bull',
-    //   logo: '/sponsors/red-bull.svg',
-    //   raw: true,
-    //   url: 'https://www.redbull.com',
-    // },
-    { name: 'SRAM', logo: '/sponsors/sram.svg', url: 'https://www.sram.com' },
-    { name: 'DT Swiss', logo: '/sponsors/dt-swiss.svg', raw: true, url: 'https://www.dtswiss.com' },
-    {
-      name: 'Kenda',
-      logo: '/sponsors/kenda.svg',
-      raw: true,
-      url: 'https://bicycle.kendatire.com/en-us/',
-    },
-    {
-      name: 'All City Print',
-      logo: '/sponsors/allcityprint.png',
-      raw: true,
-      url: 'https://www.allcityprint.com',
-    },
-    {
-      name: 'You Move Me',
-      logo: '/sponsors/youmoveme.svg',
-      raw: true,
-      url: 'https://portland-vancouver.youmoveme.com',
-    },
-    {
-      name: 'Pull Caffè Coffee Roasters',
-      logo: '/sponsors/pull-cafe.jpg',
-      raw: true,
-      url: 'https://pullcaffe.com',
-    },
-    {
-      name: 'Frito Lay',
-      logo: '/sponsors/frito-lay.svg',
-      raw: true,
-      url: 'https://www.fritolay.com',
-    },
-  ],
-};
+const SPONSORS = sponsorsEntry.data;
 ---
 
 <!doctype html>
@@ -248,8 +173,15 @@ const SPONSORS = {
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- Preload LCP image -->
-    <link rel="preload" as="image" href={POSTER} fetchpriority="high" />
+    <!-- Preload LCP image — mobile and desktop sizes -->
+    <link
+      rel="preload"
+      as="image"
+      href={MOBILE_POSTER}
+      fetchpriority="high"
+      media="(max-width: 768px)"
+    />
+    <link rel="preload" as="image" href={POSTER} fetchpriority="high" media="(min-width: 769px)" />
 
     <!-- DNS prefetch for external links -->
     <link rel="dns-prefetch" href="https://maps.app.goo.gl" />
@@ -275,7 +207,7 @@ const SPONSORS = {
     <Nav reg={REG} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
     <!-- ── 1 · HERO ── -->
-    <Panel id="hero" bgImage={POSTER}>
+    <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER}>
       <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
       <HeadingRainbow size="xl" as="h1" reveal={false}>
         Yacolt<br />Burn<br />Experience
@@ -324,7 +256,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
-    <Panel id="experience" bgImage={IMG.ride}>
+    <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride}>
       <img
         src={cdn('/logo.png', { w: '288', h: '288' })}
         alt="Yacolt Burn Experience"
@@ -393,7 +325,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 3 · DETAILS ── -->
-    <Panel id="details" bgImage={IMG.details}>
+    <Panel id="details" bgImage={IMG.details} mobileBgImage={MOBILE_IMG.details}>
       <Eyebrow><time datetime={EVENT.isoStart}>{EVENT.date}</time></Eyebrow>
       <HeadingRainbow>Event Details</HeadingRainbow>
       <Rule />
@@ -456,7 +388,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 4 · GALLERY ── -->
-    <Panel id="gallery" bgImage={IMG.gallery} scroll>
+    <Panel id="gallery" bgImage={IMG.gallery} mobileBgImage={MOBILE_IMG.gallery} scroll>
       <Eyebrow>From the Trails</Eyebrow>
       <HeadingRainbow>See You Out There</HeadingRainbow>
       <Rule />
@@ -471,7 +403,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 5 · LEGEND ── -->
-    <Panel id="legend" bgImage={IMG.legend}>
+    <Panel id="legend" bgImage={IMG.legend} mobileBgImage={MOBILE_IMG.legend}>
       <Eyebrow>A Place With History</Eyebrow>
       <HeadingRainbow>Born From Fire</HeadingRainbow>
       <Rule />
@@ -509,7 +441,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 5 · PULL QUOTE ── -->
-    <Panel id="trails" bgImage={IMG.quote}>
+    <Panel id="trails" bgImage={IMG.quote} mobileBgImage={MOBILE_IMG.quote}>
       <p
         class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-stone-100 max-w-3xl mx-auto mb-6"
       >
@@ -524,7 +456,7 @@ const SPONSORS = {
         <span class="text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
           Join <ArrowRight size={13} strokeWidth={2.5} />
           <img
-            src="/sponsors/evergreen-mtb.png"
+            src={cdn('/sponsors/evergreen-mtb.png', { w: '400' })}
             width="553"
             height="200"
             alt="Evergreen Mountain Bike Alliance"
@@ -541,7 +473,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 6 · FAQ ── -->
-    <Panel id="faq" bgImage={IMG.faq}>
+    <Panel id="faq" bgImage={IMG.faq} mobileBgImage={MOBILE_IMG.faq}>
       <Eyebrow>Questions</Eyebrow>
       <HeadingRainbow>FAQ</HeadingRainbow>
       <Rule />
@@ -601,7 +533,7 @@ const SPONSORS = {
     </Panel>
 
     <!-- ── 7 · SPONSORS ── -->
-    <Panel id="sponsors" bgImage={IMG.sponsors}>
+    <Panel id="sponsors" bgImage={IMG.sponsors} mobileBgImage={MOBILE_IMG.sponsors}>
       <Eyebrow>Made Possible By</Eyebrow>
       <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
       <Rule />
@@ -623,7 +555,7 @@ const SPONSORS = {
   </body>
 
   <!-- ── 8 · FINAL CTA ── -->
-  <Panel id="register" bgImage={IMG.cta}>
+  <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
     <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
     <HeadingRainbow size="xl">
       Register.<br />Ride.<br />Repeat.

@@ -1,0 +1,63 @@
+gold:
+  - name: Norco
+    logo: /sponsors/norco.svg
+    url: https://www.norco.com
+
+silver:
+  - name: Propain Bikes
+    logo: /sponsors/propain.svg
+    url: https://www.propainbikes.com
+  - name: PNW Components
+    logo: /sponsors/pnw-components.webp
+    url: https://www.pnwcomponents.com
+  - name: Crankbrothers
+    logo: /sponsors/crankbrothers.svg
+    url: https://www.crankbrothers.com
+  - name: Cushcore
+    logo: /sponsors/cushcore.svg
+    raw: true
+    url: https://cushcore.com
+  - name: Camas Bike and Sport
+    logo: /sponsors/camas-bikes.jpg
+    raw: true
+    url: https://www.camasbikes.com
+  - name: Formula 100
+    logo: /sponsors/formula-100.svg
+    raw: true
+    url: https://formula100.com
+  - name: Evo Portland
+    logo: /sponsors/evo.svg
+    raw: true
+    url: https://www.evo.com
+
+bronze:
+  - name: Gravity Cartel / Spank
+    logo: /sponsors/spank.png
+    url: https://thegravitycartel.com
+  - name: SRAM
+    logo: /sponsors/sram.svg
+    url: https://www.sram.com
+  - name: DT Swiss
+    logo: /sponsors/dt-swiss.svg
+    raw: true
+    url: https://www.dtswiss.com
+  - name: Kenda
+    logo: /sponsors/kenda.svg
+    raw: true
+    url: https://bicycle.kendatire.com/en-us/
+  - name: All City Print
+    logo: /sponsors/allcityprint.png
+    raw: true
+    url: https://www.allcityprint.com
+  - name: You Move Me
+    logo: /sponsors/youmoveme.svg
+    raw: true
+    url: https://portland-vancouver.youmoveme.com
+  - name: 'Pull Caffè Coffee Roasters'
+    logo: /sponsors/pull-cafe.jpg
+    raw: true
+    url: https://pullcaffe.com
+  - name: Frito Lay
+    logo: /sponsors/frito-lay.svg
+    raw: true
+    url: https://www.fritolay.com
