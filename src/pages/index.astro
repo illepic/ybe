@@ -272,16 +272,17 @@ const SPONSORS = sponsorsEntry.data;
       <div
         class="absolute inset-0 pointer-events-none"
         style="background:
-          radial-gradient(ellipse 35% 80% at 12% 50%, rgba(255,107,107,0.18) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 32% 50%, rgba(254,202,87,0.15) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 52% 50%, rgba(72,219,251,0.14) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 72% 50%, rgba(197,110,245,0.16) 0%, transparent 55%),
-          radial-gradient(ellipse 30% 80% at 90% 50%, rgba(255,159,243,0.13) 0%, transparent 55%)"
+          radial-gradient(ellipse 35% 80% at 12% 50%, rgba(255,107,107,0.26) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 32% 50%, rgba(254,202,87,0.22) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 52% 50%, rgba(72,219,251,0.20) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 72% 50%, rgba(197,110,245,0.24) 0%, transparent 55%),
+          radial-gradient(ellipse 30% 80% at 90% 50%, rgba(255,159,243,0.20) 0%, transparent 55%),
+          radial-gradient(ellipse 60% 100% at 50% 50%, rgba(180,83,9,0.25) 0%, transparent 60%)"
       ></div>
       <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
 
         <!-- Headline -->
-        <p class="text-sm font-semibold tracking-widest uppercase text-stone-400 italic">
+        <p class="text-base font-bold italic tracking-widest uppercase text-stone-100">
           First come, first send.
         </p>
 
@@ -292,22 +293,22 @@ const SPONSORS = sponsorsEntry.data;
         >
           <span
             x-text="displayed"
-            class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums"
+            class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums drop-shadow-[0_0_40px_rgba(245,158,11,0.5)]"
           ></span>
-          <span class="text-xs tracking-widest uppercase text-stone-500">spots left</span>
+          <span class="text-xs tracking-widest uppercase text-stone-400">spots left</span>
         </div>
 
         <!-- Progress bar -->
         <div class="w-full flex flex-col items-center gap-2.5">
-          <div class="w-full h-1 rounded-full bg-stone-800 overflow-hidden">
+          <div class="w-full h-2.5 rounded-full bg-stone-800 overflow-hidden">
             <div
               x-data={`{ pct: 0 }`}
               x-init={`setTimeout(() => pct = ${Math.round((EVENT.registered / EVENT.capacity) * 100)}, 80)`}
               :style="'width: ' + pct + '%'"
-              class="h-full bg-amber-500 rounded-full transition-[width] duration-[1400ms] ease-out"
+              class="h-full bg-amber-500 rounded-full transition-[width] duration-[1400ms] ease-out shadow-[0_0_12px_rgba(245,158,11,0.8)]"
             ></div>
           </div>
-          <p class="text-xs tracking-widest uppercase text-stone-600">
+          <p class="text-xs tracking-widest uppercase text-stone-500">
             {EVENT.registered} of {EVENT.capacity} spots claimed
           </p>
         </div>
@@ -315,17 +316,17 @@ const SPONSORS = sponsorsEntry.data;
         <!-- Countdown — compact single line -->
         <div
           x-data={`countdown('${EVENT.isoStart}')`}
-          class="flex items-baseline justify-center gap-1.5 text-stone-500"
+          class="flex items-baseline justify-center gap-1.5"
         >
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400" x-text="days"></span>
-          <span class="text-xs tracking-widest uppercase">d</span>
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]" x-text="days"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
           <span class="text-stone-700 mx-1">·</span>
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400" x-text="hours"></span>
-          <span class="text-xs tracking-widest uppercase">h</span>
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]" x-text="hours"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
           <span class="text-stone-700 mx-1">·</span>
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400" x-text="minutes"></span>
-          <span class="text-xs tracking-widest uppercase">m</span>
-          <span class="text-xs tracking-widest uppercase text-stone-600 ml-1.5">to register</span>
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]" x-text="minutes"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
+          <span class="text-xs tracking-widest uppercase text-stone-400 ml-1.5">to register</span>
         </div>
 
       </div>
@@ -610,7 +611,8 @@ const SPONSORS = sponsorsEntry.data;
             name="volunteer"
             data-netlify="true"
             method="POST"
-            class="mt-6 flex flex-col gap-4 text-left"
+            action="/thank-you"
+            class="mt-6 mb-4 flex flex-col gap-4 text-left"
           >
             <input type="hidden" name="form-name" value="volunteer" />
             <label class="flex flex-col gap-1.5">

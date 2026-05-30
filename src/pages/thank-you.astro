@@ -1,0 +1,44 @@
+---
+import '../styles/tailwind.css';
+import Panel from '../components/Panel.astro';
+import HeadingRainbow from '../components/HeadingRainbow.astro';
+import Rule from '../components/Rule.astro';
+import Lead from '../components/Lead.astro';
+import Button from '../components/Button.astro';
+import { ArrowLeft } from 'lucide-astro';
+import { getEntry } from 'astro:content';
+
+const eventEntry = await getEntry('event', 'current');
+const EVENT = eventEntry!.data;
+
+const IS_DEV = import.meta.env.DEV;
+const cdn = (path: string, params: Record<string, string> = {}) => {
+  if (IS_DEV) return path;
+  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
+  return `/.netlify/images?${p}`;
+};
+
+const bg = cdn('/photos/hanging-bike.jpg', { w: '1920', q: '80' });
+const mobileBg = cdn('/photos/hanging-bike.jpg', { w: '828', q: '70' });
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thank you — {EVENT.name}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  </head>
+  <body class="antialiased bg-bg text-stone-100 font-body">
+    <Panel bgImage={bg} mobileBgImage={mobileBg}>
+      <HeadingRainbow size="xl" reveal={false}>Thank you</HeadingRainbow>
+      <Rule />
+      <Lead>Your message has been received. We'll be in touch soon.</Lead>
+      <Button variant="ghost" href="/">
+        <ArrowLeft slot="icon-left" size={15} strokeWidth={2} />Back to our site
+      </Button>
+    </Panel>
+  </body>
+</html>
