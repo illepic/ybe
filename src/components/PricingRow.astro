@@ -10,7 +10,7 @@ const { amount, note } = Astro.props;
 <div class="pricing__row flex items-center justify-between py-3.5">
   <div class="pricing__label text-sm text-stone-100 text-left">
     <slot />
-    {note && <small class="block text-stone-400 text-xs mt-[0.1rem]">{note}</small>}
+    {note && <small class="block text-stone-400 text-xs mt-0.5">{note}</small>}
   </div>
   <div class="pricing__amount font-display text-4xl text-amber-500 tracking-[0.01em] leading-none">
     ${amount}

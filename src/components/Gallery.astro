@@ -4,9 +4,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
 <div x-data="photoGallery">
   <!-- Thumbnail grid: 2-up mobile, 3-up sm+ -->
-  <div
-    class="gallery__grid grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-w-[640px] mx-auto mt-10"
-  >
+  <div class="gallery__grid grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-w-[640px] mx-auto mt-10">
     <template x-for="(photo, i) in photos" :key="i">
       <button
         class="gallery__thumb block aspect-square overflow-hidden rounded cursor-pointer border-0 p-0 bg-white/5 group"
@@ -46,10 +44,8 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
     @keydown.arrow-right="next()"
   >
     <!-- Backdrop -->
-    <div
-      class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer"
-      @click="close()"
-    ></div>
+    <div class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer" @click="close()">
+    </div>
 
     <!-- Frame -->
     <div
@@ -57,8 +53,8 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
     >
       <!-- Spinner -->
       <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-        <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"
-        ></div>
+        <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin">
+        </div>
       </div>
 
       <!-- Full image -->
@@ -73,7 +69,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Close -->
       <button
-        class="gallery__btn gallery__btn--close absolute top-[-48px] right-0 z-[2] flex items-center justify-center w-[42px] h-[42px] rounded-[2px] border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
+        class="gallery__btn gallery__btn--close absolute top-[-48px] right-0 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
         @click="close()"
         aria-label="Close gallery"
       >
@@ -82,7 +78,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Prev -->
       <button
-        class="gallery__btn gallery__btn--prev absolute left-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-[42px] h-[42px] rounded-[2px] border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:left-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:left-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
+        class="gallery__btn gallery__btn--prev absolute left-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:left-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:left-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
         @click.stop="prev()"
         aria-label="Previous photo"
       >
@@ -91,7 +87,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
 
       <!-- Next -->
       <button
-        class="gallery__btn gallery__btn--next absolute right-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-[42px] h-[42px] rounded-[2px] border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:right-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:right-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
+        class="gallery__btn gallery__btn--next absolute right-[-52px] top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-[rgba(10,8,6,0.7)] text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:right-[-52px] sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:right-0 max-sm:bottom-[-52px] max-sm:top-auto max-sm:translate-y-0"
         @click.stop="next()"
         aria-label="Next photo"
       >

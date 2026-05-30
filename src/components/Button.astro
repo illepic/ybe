@@ -11,26 +11,26 @@ const { href, variant = 'fire', target, rel, class: className = '' } = Astro.pro
 
 const base = [
   'btn',
-  'inline-flex items-center gap-[0.4rem]',
-  'font-body text-[0.85rem] font-semibold tracking-[0.12em] uppercase no-underline',
-  'rounded-[2px] [transition:transform_0.15s_ease,opacity_0.2s]',
-  'hover:-translate-y-0.5 hover:opacity-90',
-  'w-full  justify-center md:w-auto',
+  'inline-flex items-center gap-1.5',
+  'font-body text-sm font-semibold tracking-widest uppercase no-underline',
+  'rounded-sm border-2',
+  'transition hover:-translate-y-0.5 hover:opacity-90',
+  'w-full justify-center md:w-auto',
 ];
 
 const variants: Record<string, string[]> = {
-  fire: [...base, 'px-[2.4rem] py-[0.95rem]', 'btn--fire bg-amber-700 text-stone-100 border-2 border-transparent'],
-  amber: [...base, 'px-[2.4rem] py-[0.95rem]', 'btn--amber bg-amber-500 text-[#180e04] border-2 border-transparent'],
-  ghost: [
+  fire: [
     ...base,
-    'px-[2.4rem] py-[0.95rem]',
-    'btn--ghost border-2 border-[rgba(240,236,228,0.7)] text-stone-100 hover:bg-[rgba(240,236,228,0.08)]',
+    'px-10 py-4',
+    'bg-amber-700 text-stone-100 border-transparent hover:bg-amber-600',
   ],
-  logo: [
+  amber: [
     ...base,
-    'px-[2.4rem] py-[0.6rem] gap-3',
-    'btn--logo btn--ghost border-2 border-[rgba(240,236,228,0.7)] text-stone-100 hover:bg-[rgba(240,236,228,0.08)]',
+    'px-10 py-4',
+    'bg-amber-500 text-stone-950 border-transparent hover:bg-amber-400',
   ],
+  ghost: [...base, 'px-10 py-4', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
+  logo: [...base, 'px-10 py-2.5 gap-3', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
 };
 ---
 

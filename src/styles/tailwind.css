@@ -17,6 +17,17 @@
   }
 }
 
+@utility gradient-rainbow-text {
+  background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #c56ef5, #ff9ff3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility gradient-rainbow-rule {
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #c56ef5);
+}
+
 @utility reveal {
   @media (min-width: 769px) {
     opacity: 0;

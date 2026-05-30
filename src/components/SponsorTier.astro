@@ -6,7 +6,7 @@ export interface Sponsor {
   logo?: string;
   url?: string;
   screen?: boolean; // invert + screen blend (white-bg logos)
-  raw?: boolean;    // no filter — show as-is (opaque JPGs)
+  raw?: boolean; // no filter — show as-is (opaque JPGs)
 }
 
 interface Props {
@@ -41,7 +41,7 @@ const CONFIG = {
     gridCols: 'grid-cols-2 md:grid-cols-5',
     gridMaxW: '',
     logoOpacity: 'opacity-60',
-    nameSize: 'text-[0.65rem]',
+    nameSize: 'text-xs',
     cellBg: 'bg-[#c0855a]/10 border-[#c0855a]/20',
   },
 };
@@ -53,7 +53,7 @@ const c = CONFIG[tier];
   <div
     class:list={[
       'sponsor-tier__label',
-      'flex items-center justify-center gap-1.5 text-[0.7rem] font-semibold tracking-[0.22em] uppercase mb-5',
+      'flex items-center justify-center gap-1.5 text-xs font-semibold tracking-[0.22em] uppercase mb-5',
       c.labelColor,
     ]}
   >
@@ -86,7 +86,12 @@ const c = CONFIG[tier];
         );
 
         const cell = (
-          <div class:list={['group aspect-square flex items-center justify-center p-4 border rounded', c.cellBg]}>
+          <div
+            class:list={[
+              'group aspect-square flex items-center justify-center p-4 border rounded',
+              c.cellBg,
+            ]}
+          >
             {inner}
           </div>
         );

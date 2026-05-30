@@ -23,12 +23,12 @@ npm run dev
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server at localhost:4321 |
-| `npm run build` | Build to `dist/` |
-| `npm run preview` | Preview the production build |
-| `npm run format` | Run Prettier across all source files |
+| Command           | Description                          |
+| ----------------- | ------------------------------------ |
+| `npm run dev`     | Start dev server at localhost:4321   |
+| `npm run build`   | Build to `dist/`                     |
+| `npm run preview` | Preview the production build         |
+| `npm run format`  | Run Prettier across all source files |
 
 ## Updating for Next Year
 
