@@ -741,6 +741,10 @@ const SPONSORS = sponsorsEntry.data;
 </html>
 
 <script>
+  // Prevent the browser restoring scroll position on refresh, which combined
+  // with scroll-behavior: smooth on <html> causes a visible scroll-to-top animation
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   const registerHashClear = () => {
     if (!location.hash) return;
     window.addEventListener(
