@@ -1,0 +1,104 @@
+---
+import { Medal } from 'lucide-astro';
+
+export interface Sponsor {
+  name: string;
+  logo?: string;
+  url?: string;
+  screen?: boolean; // invert + screen blend (white-bg logos)
+  raw?: boolean;    // no filter — show as-is (opaque JPGs)
+}
+
+interface Props {
+  tier: 'gold' | 'silver' | 'bronze';
+  sponsors: Sponsor[];
+}
+
+const { tier, sponsors } = Astro.props;
+
+const CONFIG = {
+  gold: {
+    label: 'Gold',
+    labelColor: 'text-amber-500',
+    gridCols: 'grid-cols-1',
+    gridMaxW: 'max-w-[220px] mx-auto',
+    logoOpacity: 'opacity-90',
+    nameSize: 'text-sm',
+    cellBg: 'bg-amber-500/10 border-amber-500/30',
+  },
+  silver: {
+    label: 'Silver',
+    labelColor: 'text-[#c0bdb8]',
+    gridCols: 'grid-cols-2 md:grid-cols-4',
+    gridMaxW: '',
+    logoOpacity: 'opacity-70',
+    nameSize: 'text-xs',
+    cellBg: 'bg-[#c0bdb8]/10 border-[#c0bdb8]/20',
+  },
+  bronze: {
+    label: 'Bronze',
+    labelColor: 'text-[#c0855a]',
+    gridCols: 'grid-cols-2 md:grid-cols-5',
+    gridMaxW: '',
+    logoOpacity: 'opacity-60',
+    nameSize: 'text-[0.65rem]',
+    cellBg: 'bg-[#c0855a]/10 border-[#c0855a]/20',
+  },
+};
+
+const c = CONFIG[tier];
+---
+
+<div class="sponsor-tier mt-11">
+  <div
+    class:list={[
+      'sponsor-tier__label',
+      'flex items-center justify-center gap-1.5 text-[0.7rem] font-semibold tracking-[0.22em] uppercase mb-5',
+      c.labelColor,
+    ]}
+  >
+    <Medal size={12} strokeWidth={2.5} />
+    {c.label}
+  </div>
+
+  <div class:list={['grid gap-3', c.gridCols, c.gridMaxW]}>
+    {
+      sponsors.map((sponsor) => {
+        const inner = sponsor.logo ? (
+          <img
+            src={sponsor.logo}
+            alt={sponsor.name}
+            class:list={[
+              'w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-100',
+              c.logoOpacity,
+              sponsor.screen ? 'invert mix-blend-screen' : sponsor.raw ? '' : 'brightness-0 invert',
+            ]}
+          />
+        ) : (
+          <span
+            class:list={[
+              'font-semibold tracking-wide uppercase text-center text-stone-400 leading-tight',
+              c.nameSize,
+            ]}
+          >
+            {sponsor.name}
+          </span>
+        );
+
+        const cell = (
+          <div class:list={['group aspect-square flex items-center justify-center p-4 border rounded', c.cellBg]}>
+            {inner}
+          </div>
+        );
+
+        return sponsor.url ? (
+          <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+            {cell}
+          </a>
+        ) : (
+          cell
+        );
+      })
+    }
+  </div>
+</div>

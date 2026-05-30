@@ -8,23 +8,23 @@ const { targetDate } = Astro.props;
 
 <div
   x-data={`countdown('${targetDate}')`}
-  class="flex justify-center gap-6 mt-8 text-[0.78rem] font-medium tracking-[0.12em] uppercase text-muted"
+  class="flex justify-center gap-6 mt-8 text-[0.78rem] font-medium tracking-[0.12em] uppercase text-stone-400"
 >
   <span>
     <b
-      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-amber"
+      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-amber-500"
       x-text="days"></b>
     days
   </span>
   <span>
     <b
-      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-cyan"
+      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-cyan-400"
       x-text="hours"></b>
     hrs
   </span>
   <span>
     <b
-      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-pink"
+      class="block font-display text-[2rem] tracking-[0.04em] leading-none mb-[0.2rem] text-purple-400"
       x-text="minutes"></b>
     min
   </span>

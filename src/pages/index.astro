@@ -17,6 +17,8 @@ import PricingRow from '../components/PricingRow.astro';
 import DateLocation from '../components/DateLocation.astro';
 import Faq from '../components/Faq.astro';
 import FaqItem from '../components/FaqItem.astro';
+import SponsorTier from '../components/SponsorTier.astro';
+import Gallery from '../components/Gallery.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -27,8 +29,6 @@ import {
   CheckCircle,
   Flame,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Clock,
   MapPin,
   Medal,
@@ -130,6 +130,31 @@ const JSON_LD = JSON.stringify({
     availability: 'https://schema.org/LimitedAvailability',
   },
 });
+
+// ─── SPONSOR DATA ──────────────────────────────────────────────────────────
+const SPONSORS = {
+  gold: [{ name: 'Norco', logo: '/sponsors/norco.svg' }],
+  silver: [
+    { name: 'Propain Bikes', logo: '/sponsors/propain.svg' },
+    { name: 'PNW Components', logo: '/sponsors/pnw-components-transparent.webp' },
+    { name: 'Crankbrothers', logo: '/sponsors/crankbrothers.svg' },
+    { name: 'Cushcore', logo: '/sponsors/cushcore.svg' },
+    { name: 'Camas Bike and Sport', logo: '/sponsors/camas-bikes.jpg', raw: true },
+    { name: 'Formula 100' },
+    { name: 'Evo Portland', logo: '/sponsors/evo.svg' },
+  ],
+  bronze: [
+    { name: 'Gravity Cartel / Spank', logo: '/sponsors/spank.png' },
+    { name: 'Red Bull' },
+    { name: 'SRAM', logo: '/sponsors/sram.svg' },
+    { name: 'DT Swiss', logo: '/sponsors/dt-swiss.svg', raw: true },
+    { name: 'Kenda' },
+    { name: 'All City Print' },
+    { name: 'You Move Me' },
+    { name: 'Pull Caffè Coffee Roasters' },
+    { name: 'Frito Lay' },
+  ],
+};
 ---
 
 <!doctype html>
@@ -180,11 +205,11 @@ const JSON_LD = JSON.stringify({
     <!-- JSON-LD Event schema -->
     <script type="application/ld+json" set:html={JSON_LD} />
   </head>
-  <body class="antialiased text-base/relaxed bg-bg text-text font-body">
+  <body class="antialiased text-base/relaxed bg-bg text-stone-100 font-body">
     <!-- Skip link for keyboard/screenreader users -->
     <a
       href="#experience"
-      class="fixed -top-full left-4 z-1000 bg-accent text-text px-4 py-2 rounded-[2px] text-[0.85rem] font-semibold no-underline transition-[top] duration-200 focus:top-4"
+      class="fixed -top-full left-4 z-1000 bg-amber-700 text-stone-100 px-4 py-2 rounded-[2px] text-[0.85rem] font-semibold no-underline transition-[top] duration-200 focus:top-4"
       >Skip to content</a
     >
 
@@ -204,7 +229,7 @@ const JSON_LD = JSON.stringify({
             href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text underline decoration-accent underline-offset-4 transition-colors duration-200 hover:decoration-amber"
+            class="text-stone-100 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:decoration-amber-500"
             >Yacolt Burn State Forest</a
           ></strong
         >.
@@ -213,15 +238,15 @@ const JSON_LD = JSON.stringify({
         class="hero__stat text-shadow-lg font-display text-[clamp(1.6rem,5vw,2.8rem)] tracking-[0.06em] leading-none flex flex-wrap justify-center gap-x-[1.1rem] gap-y-[0.3rem] mt-5 mx-auto max-w-none"
       >
         <span
-          class="text-amber opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.5s]"
+          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.5s]"
           >{EVENT.capacity} riders.</span
         >
         <span
-          class="text-amber opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.85s]"
+          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:0.85s]"
           >All the trails.</span
         >
         <span
-          class="text-amber opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:1.2s]"
+          class="text-amber-500 opacity-0 [animation:fadeUp_0.55s_ease_forwards] [animation-delay:1.2s]"
           >One day.</span
         >
       </p>
@@ -328,29 +353,29 @@ const JSON_LD = JSON.stringify({
           <MapPin slot="icon" size={12} strokeWidth={2.5} />
           <a
             href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
+            class="loc underline underline-offset-2"
             target="_blank"
             rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
           ><br />
-          <small class="block text-muted text-[0.8rem] mt-[0.2rem]"
+          <small class="block text-stone-400 text-[0.8rem] mt-[0.2rem]"
             >Park on the west side of the road</small
           >
         </DetailCard>
         <DetailCard label="What's Included">
           <Package slot="icon" size={12} strokeWidth={2.5} />
           All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
-          <small class="block text-muted text-[0.8rem] mt-[0.2rem]">Youth ride ages 3-12</small>
+          <small class="block text-stone-400 text-[0.8rem] mt-[0.2rem]">Youth ride ages 3-12</small>
         </DetailCard>
         <DetailCard label="Capacity">
           <Users slot="icon" size={12} strokeWidth={2.5} />
           {EVENT.capacity} riders max<br />
-          <small class="block text-muted text-[0.8rem] mt-[0.2rem]"
+          <small class="block text-stone-400 text-[0.8rem] mt-[0.2rem]"
             >Sells out every year. Register early.</small
           >
         </DetailCard>
       </div>
 
-      <div class="details-arrow flex justify-center my-8 text-pink">
+      <div class="details-arrow flex justify-center my-8 text-purple-400">
         <ArrowDown size={24} strokeWidth={2.5} />
       </div>
       <Pricing>
@@ -358,7 +383,7 @@ const JSON_LD = JSON.stringify({
           Members <a
             href="https://www.evergreenmtb.org/support-us/become-a-member"
             target="_blank"
-            class="text-accent no-underline italic text-[0.8rem]">(join)</a
+            class="text-amber-700 no-underline italic text-[0.8rem]">(join)</a
           >
         </PricingRow>
         <PricingRow slot="rows" amount={EVENT.priceGuest} note="Online · pre-event">
@@ -382,71 +407,7 @@ const JSON_LD = JSON.stringify({
       <HeadingRainbow>See You Out There</HeadingRainbow>
       <Rule />
 
-      <!-- Replace Unsplash placeholders with real event photos in src/entrypoints/alpine.js -->
-      <div x-data="photoGallery">
-        <div class="gallery__grid">
-          <template x-for="(photo, i) in photos" :key="i">
-            <button class="gallery__thumb" @click="openAt(i)">
-              <img :src="photo.thumb" :alt="photo.caption" loading="lazy" decoding="async" />
-            </button>
-          </template>
-        </div>
-
-        <div
-          class="gallery__modal"
-          x-cloak
-          x-show="isOpen"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"
-          x-trap="isOpen"
-          x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
-          x-ref="modal"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Photo gallery"
-          tabindex="-1"
-          @keydown.escape="close()"
-          @keydown.arrow-left="prev()"
-          @keydown.arrow-right="next()"
-        >
-          <div class="gallery__backdrop" @click="close()"></div>
-          <div class="gallery__frame">
-            <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-              <div
-                class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"
-              >
-              </div>
-            </div>
-            <img
-              x-ref="fullImg"
-              :src="photos[current].full"
-              :alt="photos[current].caption"
-              @load="onImageLoad()"
-              :class="loading ? 'opacity-0' : 'opacity-100'"
-              class="transition-opacity duration-300"
-            />
-            <button
-              class="gallery__btn gallery__btn--close"
-              @click="close()"
-              aria-label="Close gallery"><X size={18} strokeWidth={2} /></button
-            >
-            <button
-              class="gallery__btn gallery__btn--prev"
-              @click.stop="prev()"
-              aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button
-            >
-            <button
-              class="gallery__btn gallery__btn--next"
-              @click.stop="next()"
-              aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button
-            >
-          </div>
-        </div>
-      </div>
+      <Gallery />
       <PhotoCredit
         name="Sean Benesh"
         url="https://unsplash.com/@seanbenesh"
@@ -480,7 +441,7 @@ const JSON_LD = JSON.stringify({
         <a
           href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
           target="_blank"
-          class="inline-block mt-8 text-accent underline underline-offset-[3px] text-[0.9rem]"
+          class="inline-block mt-8 text-amber-700 underline underline-offset-[3px] text-[0.9rem]"
           >Read More</a
         >
       </Content>
@@ -495,9 +456,9 @@ const JSON_LD = JSON.stringify({
     <!-- ── 5 · PULL QUOTE ── -->
     <Panel id="trails" bgImage={IMG.quote}>
       <p
-        class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-text max-w-3xl mx-auto mb-6"
+        class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-stone-100 max-w-3xl mx-auto mb-6"
       >
-        "The trails you love<br /><em class="text-accent not-italic">are not free.</em>"
+        "The trails you love<br /><em class="text-amber-700 not-italic">are not free.</em>"
       </p>
       <Lead>
         Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
@@ -534,22 +495,49 @@ const JSON_LD = JSON.stringify({
           the community are there to help you find your line.
         </FaqItem>
         <FaqItem question="Does it sell out?">
-          Every single year. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock in your spot and your best rate.
+          Every single year. Space is capped at {EVENT.capacity} riders. Register online by {
+            EVENT.deadline
+          } to lock in your spot and your best rate.
         </FaqItem>
         <FaqItem question="What if it rains?">
-          The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific Northwest. Pack a rain shell, bring layers, and embrace it.
+          The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
+          Northwest. Pack a rain shell, bring layers, and embrace it.
         </FaqItem>
         <FaqItem question="Do I need to be an Evergreen member?">
-          Nope, everyone is welcome. Members save $25 on registration though, and your trails depend on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself at events like this.
+          Nope, everyone is welcome. Members save $25 on registration though, and your trails depend
+          on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself
+          at events like this.
         </FaqItem>
         <FaqItem question="Can I try a demo bike?">
-          Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come, first-served on the day.
+          Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,
+          first-served on the day.
         </FaqItem>
         <FaqItem question="What trails are there to ride?">
-          Four standouts: <ContentLink href="https://www.trailforks.com/trails/cold-creek/" target="_blank" rel="noopener noreferrer">Cold Creek</ContentLink> is wild and rooty with occasional flow. <ContentLink href="https://www.trailforks.com/trails/sixth-sense/" target="_blank" rel="noopener noreferrer">Sixth Sense</ContentLink> is hand-crafted and flowy with the best berms in the forest. <ContentLink href="https://www.trailforks.com/trails/murphy-s-grade-98596/" target="_blank" rel="noopener noreferrer">Murphy's Grade</ContentLink> was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink href="https://www.trailforks.com/trails/thrillium/" target="_blank" rel="noopener noreferrer">Thrillium</ContentLink> is the sender: big, fast, and full of gnarly tabletops.
+          Four standouts: <ContentLink
+            href="https://www.trailforks.com/trails/cold-creek/"
+            target="_blank"
+            rel="noopener noreferrer">Cold Creek</ContentLink
+          > is wild and rooty with occasional flow. <ContentLink
+            href="https://www.trailforks.com/trails/sixth-sense/"
+            target="_blank"
+            rel="noopener noreferrer">Sixth Sense</ContentLink
+          > is hand-crafted and flowy with the best berms in the forest. <ContentLink
+            href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
+            target="_blank"
+            rel="noopener noreferrer">Murphy's Grade</ContentLink
+          > was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink
+            href="https://www.trailforks.com/trails/thrillium/"
+            target="_blank"
+            rel="noopener noreferrer">Thrillium</ContentLink
+          > is the sender: big, fast, and full of gnarly tabletops.
         </FaqItem>
         <FaqItem question="Where do I park?">
-          <a href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA" class="loc" target="_blank" rel="noopener noreferrer">Yacolt Burn Trailhead</a>. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
+          <a
+            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+            class="loc"
+            target="_blank"
+            rel="noopener noreferrer">Yacolt Burn Trailhead</a
+          >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
         </FaqItem>
       </Faq>
       <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
@@ -565,64 +553,9 @@ const JSON_LD = JSON.stringify({
         make it happen.
       </Lead>
 
-      <div class="sponsor-tier">
-        <div class="sponsor-tier__label sponsor-tier__label--gold">
-          <Medal size={12} strokeWidth={2.5} /> Gold
-        </div>
-        <div class="sponsor-tier__row">
-          <div class="sponsor-logo sponsor-logo--gold">
-            <img src="/sponsors/norco.svg" alt="Norco" />
-          </div>
-        </div>
-      </div>
-
-      <div class="sponsor-tier">
-        <div class="sponsor-tier__label sponsor-tier__label--silver">
-          <Medal size={12} strokeWidth={2.5} /> Silver
-        </div>
-        <div class="sponsor-tier__row">
-          <div class="sponsor-logo sponsor-logo--silver">
-            <img src="/sponsors/propain.svg" alt="Propain Bikes" />
-          </div>
-          <div class="sponsor-logo sponsor-logo--silver">
-            <img src="/sponsors/pnw-components.png" alt="PNW Components" />
-          </div>
-          <div class="sponsor-logo sponsor-logo--silver">
-            <img src="/sponsors/crankbrothers.svg" alt="Crankbrothers" />
-          </div>
-          <div class="sponsor-logo sponsor-logo--silver">
-            <img src="/sponsors/cushcore.svg" alt="Cushcore" />
-          </div>
-          <span class="sponsor-badge sponsor-badge--silver">Camas Bikes</span>
-          <span class="sponsor-badge sponsor-badge--silver">Formula 100</span>
-          <div class="sponsor-logo sponsor-logo--silver">
-            <img src="/sponsors/evo.svg" alt="Evo Portland" />
-          </div>
-        </div>
-      </div>
-
-      <div class="sponsor-tier">
-        <div class="sponsor-tier__label sponsor-tier__label--bronze">
-          <Medal size={12} strokeWidth={2.5} /> Bronze
-        </div>
-        <div class="sponsor-tier__row">
-          <div class="sponsor-logo sponsor-logo--bronze">
-            <img src="/sponsors/spank.png" alt="Gravity Cartel / Spank" />
-          </div>
-          <span class="sponsor-badge sponsor-badge--bronze">Red Bull</span>
-          <div class="sponsor-logo sponsor-logo--bronze">
-            <img src="/sponsors/sram.svg" alt="SRAM" />
-          </div>
-          <div class="sponsor-logo sponsor-logo--bronze">
-            <img src="/sponsors/dt-swiss.svg" alt="DT Swiss" />
-          </div>
-          <span class="sponsor-badge sponsor-badge--bronze">Kenda</span>
-          <span class="sponsor-badge sponsor-badge--bronze">All City Print</span>
-          <span class="sponsor-badge sponsor-badge--bronze">You Move Me</span>
-          <span class="sponsor-badge sponsor-badge--bronze">Pull Caffè Coffee Roasters</span>
-          <span class="sponsor-badge sponsor-badge--bronze">Frito Lay</span>
-        </div>
-      </div>
+      <SponsorTier tier="gold" sponsors={SPONSORS.gold} />
+      <SponsorTier tier="silver" sponsors={SPONSORS.silver} />
+      <SponsorTier tier="bronze" sponsors={SPONSORS.bronze} />
       <PhotoCredit
         name="Lukasz Szmigiel"
         url="https://unsplash.com/@szmigieldesign"
@@ -630,54 +563,70 @@ const JSON_LD = JSON.stringify({
         slot="credit"
       />
     </Panel>
-
-    <!-- ── 8 · FINAL CTA ── -->
-    <Panel id="register" bgImage={IMG.cta}>
-      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
-      <HeadingRainbow size="xl">
-        Register.<br />Ride.<br />Repeat.
-      </HeadingRainbow>
-      <Rule />
-      <Lead>
-        One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
-        cost of a tank of gas. This is what community trail building looks like.
-      </Lead>
-      <Button
-        variant="amber"
-        href={REG}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="px-[3.2rem] py-[1.1rem] text-[0.95rem]"
-        ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
-      >
-      <PhotoCredit
-        name="Patrick Hendry"
-        url="https://unsplash.com/@worldsbetweenlines"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <footer>
-      <span class="footer__rule"></span>
-      <div class="footer__inner">
-        <div class="footer__left">
-          <p class="footer__title">{EVENT.name}</p>
-          <p>
-            Organized by the <a
-              href="https://www.evergreenmtb.org/chapters/southwest"
-              target="_blank">Evergreen MTB Alliance Southwest Chapter</a
-            >
-          </p>
-        </div>
-        <div class="footer__right">
-          <p class="footer__tagline">See you on the trails.</p>
-          <a href="#hero" class="footer__top"><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
-          >
-        </div>
-      </div>
-    </footer>
   </body>
+
+  <!-- ── 8 · FINAL CTA ── -->
+  <Panel id="register" bgImage={IMG.cta}>
+    <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
+    <HeadingRainbow size="xl">
+      Register.<br />Ride.<br />Repeat.
+    </HeadingRainbow>
+    <Rule />
+    <Lead>
+      One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
+      cost of a tank of gas. This is what community trail building looks like.
+    </Lead>
+    <Button
+      variant="amber"
+      href={REG}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="px-[3.2rem] py-[1.1rem] text-[0.95rem]"
+      ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
+    >
+    <PhotoCredit
+      name="Patrick Hendry"
+      url="https://unsplash.com/@worldsbetweenlines"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <footer
+    class="bg-[#090806] pb-10 [&_p]:text-stone-400 [&_p]:text-[0.82rem] [&_p]:mb-1 [&_a]:text-stone-400 [&_a]:underline"
+  >
+    <span
+      class="footer__rule block w-full h-[2px] bg-gradient-to-r from-[#ff6b6b] via-[#48dbfb] to-[#c56ef5] mb-8"
+    ></span>
+    <div
+      class="footer__inner flex flex-col gap-8 max-w-[860px] mx-auto px-8 md:flex-row md:justify-between md:items-end"
+    >
+      <div class="footer__left">
+        <p
+          class="footer__title font-display text-[1.1rem] tracking-[0.06em] mb-[0.6rem] bg-gradient-to-br from-[#ff6b6b] via-[#feca57] to-[#c56ef5] bg-clip-text [-webkit-text-fill-color:transparent]"
+        >
+          {EVENT.name}
+        </p>
+        <p>
+          Organized by the <a href="https://www.evergreenmtb.org/chapters/southwest" target="_blank"
+            >Evergreen MTB Alliance Southwest Chapter</a
+          >
+        </p>
+      </div>
+      <div class="footer__right">
+        <p
+          class="footer__tagline font-display text-[1.4rem] tracking-[0.04em] text-[rgba(240,236,228,0.15)] mb-3 text-left md:text-right"
+        >
+          See you on the trails.
+        </p>
+        <a
+          href="#hero"
+          class="footer__top flex items-center gap-1.5 text-[0.75rem] font-semibold tracking-[0.1em] uppercase no-underline text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
+          ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
+        >
+      </div>
+    </div>
+  </footer>
 </html>
 
 <script>
@@ -709,375 +658,3 @@ const JSON_LD = JSON.stringify({
 
   document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
 </script>
-
-<style is:global>
-  :root {
-    --c-bg: #100e0c;
-    --c-accent: #c8571b;
-    --c-amber: #e8a23a;
-    --c-text: #f0ece4;
-    --c-muted: #aba49a;
-    --c-ol: rgba(10, 8, 6, 0.62);
-    --c-ol-dark: rgba(10, 8, 6, 0.8);
-    --c-surface: rgba(10, 8, 6, 0.65);
-    --f-display: 'Bebas Neue', Impact, sans-serif;
-    --f-body: 'Inter', system-ui, sans-serif;
-    color-scheme: dark;
-  }
-
-  /* ─── ICON UTILS ─── */
-  /* Inline icon alignment for buttons and labels */
-  .btn svg,
-  .detail-cards__label svg,
-  .footer__top svg,
-  .faq__question svg,
-  .sponsor-tier__label svg {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
-  }
-
-  /* ─── DETAILS ARROW ─── */
-
-
-  /* ─── SPONSOR TIERS ─── */
-  .sponsor-tier {
-    margin-top: 2.75rem;
-  }
-  .sponsor-tier__label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: 0.85rem;
-  }
-  .sponsor-tier__label--gold {
-    color: var(--c-amber);
-  }
-  .sponsor-tier__label--silver {
-    color: #c0bdb8;
-  }
-  .sponsor-tier__label--bronze {
-    color: #c0855a;
-  }
-  .sponsor-tier__label--partners {
-    color: var(--c-muted);
-  }
-
-  .sponsor-tier__row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    justify-content: center;
-  }
-  .sponsor-badge {
-    border-radius: 2px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid;
-  }
-  .sponsor-badge--gold {
-    padding: 0.7rem 2rem;
-    font-size: 1rem;
-    color: var(--c-amber);
-    border-color: rgba(232, 162, 58, 0.45);
-    background: rgba(232, 162, 58, 0.07);
-  }
-  .sponsor-badge--silver {
-    padding: 0.6rem 1.4rem;
-    font-size: 0.82rem;
-    color: #d4d0cb;
-    border-color: rgba(212, 208, 203, 0.3);
-    background: rgba(212, 208, 203, 0.05);
-  }
-  .sponsor-badge--bronze {
-    padding: 0.55rem 1.2rem;
-    font-size: 0.78rem;
-    color: #c0855a;
-    border-color: rgba(192, 133, 90, 0.3);
-    background: rgba(192, 133, 90, 0.05);
-  }
-  .sponsor-badge--partner {
-    padding: 0.45rem 1rem;
-    font-size: 0.72rem;
-    color: rgba(240, 236, 228, 0.45);
-    border-color: rgba(240, 236, 228, 0.12);
-    font-weight: 500;
-  }
-
-  /* ─── SPONSOR LOGO IMAGES ─── */
-  .sponsor-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.4rem 0.6rem;
-  }
-  .sponsor-logo img {
-    display: block;
-    object-fit: contain;
-    max-width: 100%;
-    filter: brightness(0) invert(1);
-    transition: opacity 0.2s;
-  }
-  .sponsor-logo--gold {
-    max-width: 180px;
-  }
-  .sponsor-logo--silver {
-    max-width: 140px;
-  }
-  .sponsor-logo--bronze {
-    max-width: 120px;
-  }
-  .sponsor-logo--partner {
-    max-width: 100px;
-  }
-  .sponsor-logo--gold img {
-    height: 46px;
-    opacity: 0.92;
-  }
-  .sponsor-logo--silver img {
-    height: 30px;
-    opacity: 0.68;
-  }
-  .sponsor-logo--bronze img {
-    height: 26px;
-    opacity: 0.6;
-  }
-  .sponsor-logo--partner img {
-    height: 20px;
-    opacity: 0.38;
-  }
-  .sponsor-logo:hover img {
-    opacity: 1;
-  }
-
-  /* ─── GALLERY ─── */
-  [x-cloak] {
-    display: none !important;
-  }
-
-  .gallery__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.4rem;
-    max-width: 640px;
-    margin: 2.5rem auto 0;
-  }
-  .gallery__thumb {
-    display: block;
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 3px;
-    cursor: pointer;
-    border: none;
-    padding: 0;
-    background: rgba(240, 236, 228, 0.05);
-  }
-  .gallery__thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition:
-      transform 0.3s ease,
-      opacity 0.2s;
-    display: block;
-    will-change: transform;
-  }
-  .gallery__thumb:hover img {
-    transform: scale(1.06);
-    opacity: 0.8;
-  }
-
-  .gallery__modal:focus {
-    outline: none;
-  }
-  .gallery__modal {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-  }
-  .gallery__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.92);
-    cursor: pointer;
-  }
-  .gallery__frame {
-    position: relative;
-    z-index: 1;
-    max-width: min(90vw, 1100px);
-    max-height: 90vh;
-    display: flex;
-    align-items: center;
-  }
-  .gallery__frame img {
-    display: block;
-    max-width: 100%;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 3px;
-  }
-  .gallery__btn {
-    position: absolute;
-    background: rgba(10, 8, 6, 0.7);
-    border: 1px solid rgba(240, 236, 228, 0.2);
-    color: var(--c-text);
-    cursor: pointer;
-    border-radius: 2px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-    z-index: 2;
-  }
-  .gallery__btn:hover {
-    background: var(--c-accent);
-    border-color: var(--c-accent);
-  }
-  .gallery__btn--prev {
-    left: -52px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .gallery__btn--next {
-    right: -52px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .gallery__btn--close {
-    top: -48px;
-    right: 0;
-  }
-
-  @media (max-width: 600px) {
-    .gallery__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .gallery__btn--prev {
-      left: 0;
-      bottom: -52px;
-      top: auto;
-      transform: none;
-    }
-    .gallery__btn--next {
-      right: 0;
-      bottom: -52px;
-      top: auto;
-      transform: none;
-    }
-    .gallery__btn--close {
-      top: -48px;
-      right: 0;
-    }
-  }
-
-  /* ─── FOOTER ─── */
-  footer {
-    background: #090806;
-    padding: 0 0 2.5rem;
-  }
-  footer p {
-    color: var(--c-muted);
-    font-size: 0.82rem;
-    margin: 0 0 0.3rem;
-  }
-  footer a {
-    color: var(--c-muted);
-    text-decoration: underline;
-  }
-  .footer__rule {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #c56ef5);
-    margin-bottom: 2rem;
-  }
-  .footer__inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 2rem;
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  .footer__title {
-    font-family: var(--f-display);
-    font-size: 1.1rem;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.6rem !important;
-    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #c56ef5, #ff9ff3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .footer__tagline {
-    font-family: var(--f-display);
-    font-size: 1.4rem;
-    letter-spacing: 0.04em;
-    color: rgba(240, 236, 228, 0.15) !important;
-    margin-bottom: 0.75rem !important;
-    text-align: right;
-  }
-  .footer__top {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--c-muted) !important;
-    text-decoration: none !important;
-    text-align: right;
-    transition: color 0.2s;
-  }
-  .footer__top:hover {
-    color: var(--c-accent) !important;
-  }
-  @media (max-width: 768px) {
-    .footer__inner {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .footer__tagline,
-    .footer__top {
-      text-align: left;
-    }
-  }
-
-  /* ─── REVEAL ─── */
-  @media (min-width: 769px) {
-    .reveal {
-      opacity: 0;
-      transform: translateY(16px);
-      transition:
-        opacity 0.5s ease,
-        transform 0.5s ease;
-      transition-delay: 0.15s;
-    }
-    .reveal.in-view {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      transition: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  /* content-visibility removed — breaks IntersectionObserver on child elements */
-
-  /* ─── MOBILE ─── */
-  @media (max-width: 768px) {
-  }
-</style>

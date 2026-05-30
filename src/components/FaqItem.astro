@@ -10,18 +10,18 @@ const { question } = Astro.props;
 
 <div class="faq__item" x-data="{ open: false }">
   <button
-    class="faq__question appearance-none bg-transparent p-0 m-0 border-0 cursor-pointer flex w-full justify-between items-center gap-4 font-display text-xl md:text-3xl text-text py-6"
+    class="faq__question appearance-none bg-transparent p-0 m-0 border-0 cursor-pointer flex w-full justify-between items-center gap-4 font-display text-xl md:text-3xl text-stone-100 py-6"
     @click="open = !open"
     :aria-expanded="open.toString()"
   >
     {question}
-    <span class="faq__icon shrink-0 flex text-accent" aria-hidden="true">
+    <span class="faq__icon shrink-0 flex text-amber-700" aria-hidden="true">
       <span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span>
       <span x-show="open"><Minus size={16} strokeWidth={2.5} /></span>
     </span>
   </button>
   <div x-show="open" x-collapse>
-    <p class="faq__answer text-muted text-sm max-w-none mb-4 text-shadow-lg">
+    <p class="faq__answer text-stone-400 text-sm max-w-none mb-4 text-shadow-lg">
       <slot />
     </p>
   </div>
