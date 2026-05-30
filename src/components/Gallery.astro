@@ -47,9 +47,10 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
     <div class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer" @click="close()">
     </div>
 
-    <!-- Frame -->
+    <!-- Frame: min size while loading so absolute-positioned buttons don't collapse -->
     <div
       class="gallery__frame relative z-[1] flex items-center max-w-[min(90vw,1100px)] max-h-[90vh]"
+      :class="loading ? 'min-w-[min(90vw,600px)] min-h-[40vh]' : ''"
     >
       <!-- Spinner -->
       <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
