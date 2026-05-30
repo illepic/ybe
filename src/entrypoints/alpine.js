@@ -28,6 +28,8 @@ export default (Alpine) => {
   Alpine.plugin(focus);
   Alpine.plugin(collapse);
 
+  Alpine.store('ui', { galleryOpen: false });
+
   // Photo gallery with focus management
   Alpine.data('photoGallery', () => {
     const photos = GALLERY_PHOTOS.map(({ file, caption }) => ({
@@ -47,12 +49,14 @@ export default (Alpine) => {
         this.current = i;
         this.loading = true;
         this.isOpen = true;
+        this.$store.ui.galleryOpen = true;
         this.$nextTick(() => {
           if (this.$refs.fullImg?.complete) this.loading = false;
         });
       },
       close() {
         this.isOpen = false;
+        this.$store.ui.galleryOpen = false;
         this.$nextTick(() => this._trigger?.focus());
       },
       prev() {
