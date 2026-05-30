@@ -16,6 +16,13 @@ interface Props {
 
 const { tier, sponsors } = Astro.props;
 
+const IS_DEV = import.meta.env.DEV;
+const optimizeLogo = (path: string) => {
+  if (IS_DEV || path.endsWith('.svg')) return path;
+  const p = new URLSearchParams({ url: path, format: 'webp', w: '200', h: '200' });
+  return `/.netlify/images?${p}`;
+};
+
 const CONFIG = {
   gold: {
     label: 'Gold',
@@ -66,7 +73,7 @@ const c = CONFIG[tier];
       sponsors.map((sponsor) => {
         const inner = sponsor.logo ? (
           <img
-            src={sponsor.logo}
+            src={optimizeLogo(sponsor.logo)}
             alt={sponsor.name}
             class:list={[
               'w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-100',
