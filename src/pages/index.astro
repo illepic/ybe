@@ -237,12 +237,17 @@ const SPONSORS = sponsorsEntry.data;
         <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]">One day.</span
         >
       </p>
-      <div
-        class="btn__group flex flex-row flex-wrap items-center justify-center gap-3 mt-10"
-      >
+      <div class="btn__group flex flex-row flex-wrap items-center justify-center gap-3 mt-10">
         <div x-show="!$store.ybe.isPast" class="contents">
-          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer" class="!w-auto"
-            ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden">Register</span><span class="hidden md:inline">Register Now</span></Button
+          <Button
+            variant="fire"
+            href={REG}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="!w-auto"
+            ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden"
+              >Register</span
+            ><span class="hidden md:inline">Register Now</span></Button
           >
         </div>
         <div x-show="$store.ybe.isPast" x-cloak>
@@ -256,7 +261,8 @@ const SPONSORS = sponsorsEntry.data;
           </p>
         </div>
         <Button variant="naked" href="#experience" class="!w-auto"
-          ><span class="md:hidden">Explore</span><span class="hidden md:inline">What to Expect</span><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
+          ><span class="md:hidden">Explore</span><span class="hidden md:inline">What to Expect</span
+          ><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
         >
       </div>
       <PhotoCredit
@@ -278,9 +284,9 @@ const SPONSORS = sponsorsEntry.data;
           radial-gradient(ellipse 35% 80% at 72% 50%, rgba(197,110,245,0.24) 0%, transparent 55%),
           radial-gradient(ellipse 30% 80% at 90% 50%, rgba(255,159,243,0.20) 0%, transparent 55%),
           radial-gradient(ellipse 60% 100% at 50% 50%, rgba(180,83,9,0.25) 0%, transparent 60%)"
-      ></div>
+      >
+      </div>
       <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
-
         <!-- Headline -->
         <p class="text-base font-bold italic tracking-widest uppercase text-stone-100">
           First come, first send.
@@ -306,7 +312,8 @@ const SPONSORS = sponsorsEntry.data;
               x-init={`setTimeout(() => pct = ${Math.round((EVENT.registered / EVENT.capacity) * 100)}, 80)`}
               :style="'width: ' + pct + '%'"
               class="h-full bg-amber-500 rounded-full transition-[width] duration-[1400ms] ease-out shadow-[0_0_12px_rgba(245,158,11,0.8)]"
-            ></div>
+            >
+            </div>
           </div>
           <p class="text-xs tracking-widest uppercase text-stone-500">
             {EVENT.registered} of {EVENT.capacity} spots claimed
@@ -318,17 +325,22 @@ const SPONSORS = sponsorsEntry.data;
           x-data={`countdown('${EVENT.isoStart}')`}
           class="flex items-baseline justify-center gap-1.5"
         >
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]" x-text="days"></span>
+          <span
+            class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
+            x-text="days"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
           <span class="text-stone-700 mx-1">·</span>
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]" x-text="hours"></span>
+          <span
+            class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
+            x-text="hours"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
           <span class="text-stone-700 mx-1">·</span>
-          <span class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]" x-text="minutes"></span>
+          <span
+            class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
+            x-text="minutes"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
           <span class="text-xs tracking-widest uppercase text-stone-400 ml-1.5">to register</span>
         </div>
-
       </div>
     </section>
 
@@ -572,7 +584,13 @@ const SPONSORS = sponsorsEntry.data;
         <FaqItem question="Do I need to be an Evergreen member?">
           Nope, everyone is welcome. Members save $25 on registration though, and your trails depend
           on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself
-          at events like this. <a href="https://www.evergreenmtb.org/support-us/become-a-member" target="_blank" rel="noopener" class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors">Join now.</a>
+          at events like this. <a
+            href="https://www.evergreenmtb.org/support-us/become-a-member"
+            target="_blank"
+            rel="noopener"
+            class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors"
+            >Join now.</a
+          >
         </FaqItem>
         <FaqItem question="Can I try a demo bike?">
           Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,

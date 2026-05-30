@@ -29,9 +29,17 @@ const variants: Record<string, string[]> = {
     'px-6 py-4 md:px-10',
     'bg-amber-500 text-stone-950 border-transparent hover:bg-amber-400',
   ],
-  ghost: [...base, 'px-6 py-4 md:px-10', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
+  ghost: [
+    ...base,
+    'px-6 py-4 md:px-10',
+    'border-stone-100/70 text-stone-100 hover:bg-stone-100/10',
+  ],
   naked: [...base, 'px-6 py-4 md:px-10', 'border-transparent text-stone-100'],
-  logo: [...base, 'px-6 py-2.5 gap-3 md:px-10', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
+  logo: [
+    ...base,
+    'px-6 py-2.5 gap-3 md:px-10',
+    'border-stone-100/70 text-stone-100 hover:bg-stone-100/10',
+  ],
 };
 ---
 
