@@ -325,7 +325,13 @@ const SPONSORS = {
 
     <!-- ── 2 · THE EXPERIENCE ── -->
     <Panel id="experience" bgImage={IMG.ride}>
-      <img src="/logo.png" alt="Yacolt Burn Experience" class="h-30 w-auto block mx-auto mb-6" />
+      <img
+        src={cdn('/logo.png', { w: '240', h: '240' })}
+        alt="Yacolt Burn Experience"
+        width="2796"
+        height="2743"
+        class="h-30 w-auto block mx-auto mb-6"
+      />
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
       <Rule />
@@ -491,7 +497,7 @@ const SPONSORS = {
           target="_blank"
           class="flex justify-center items-center gap-1.5 mt-8 text-amber-700 underline underline-offset-2 text-sm"
         >
-          Read More <SquareArrowOutUpRight size={13} strokeWidth={2.5} />
+          Read the history of YBE <SquareArrowOutUpRight size={13} strokeWidth={2.5} />
         </a>
       </Content>
       <PhotoCredit
@@ -519,6 +525,8 @@ const SPONSORS = {
           Join <ArrowRight size={13} strokeWidth={2.5} />
           <img
             src="/sponsors/evergreen-mtb.png"
+            width="553"
+            height="200"
             alt="Evergreen Mountain Bike Alliance"
             class="h-17 w-auto opacity-90"
           />
@@ -660,7 +668,7 @@ const SPONSORS = {
       </div>
       <div class="footer__right flex flex-col gap-3">
         <div
-          class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/15 text-left md:text-right"
+          class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
         >
           See you on the trails.
         </div>
