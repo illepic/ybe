@@ -8,6 +8,11 @@ interface Props {
 }
 
 const { reg, dateShort, datetime } = Astro.props;
+
+const IS_DEV = import.meta.env.DEV;
+const logoSrc = IS_DEV
+  ? '/logo.png'
+  : `/.netlify/images?${new URLSearchParams({ url: '/logo.png', format: 'webp', w: '160', h: '160' })}`;
 ---
 
 <nav
@@ -22,7 +27,7 @@ const { reg, dateShort, datetime } = Astro.props;
 >
   <a href="#hero">
     <img
-      src="/logo.png"
+      src={logoSrc}
       alt="Yacolt Burn Experience"
       width="2796"
       height="2743"
