@@ -1,7 +1,7 @@
 ---
 interface Props {
   href?: string;
-  variant?: 'fire' | 'amber' | 'ghost' | 'logo';
+  variant?: 'fire' | 'amber' | 'ghost' | 'naked' | 'logo';
   target?: string;
   rel?: string;
   class?: string;
@@ -21,16 +21,17 @@ const base = [
 const variants: Record<string, string[]> = {
   fire: [
     ...base,
-    'px-10 py-4',
+    'px-6 py-4 md:px-10',
     'bg-amber-700 text-stone-100 border-transparent hover:bg-amber-600',
   ],
   amber: [
     ...base,
-    'px-10 py-4',
+    'px-6 py-4 md:px-10',
     'bg-amber-500 text-stone-950 border-transparent hover:bg-amber-400',
   ],
-  ghost: [...base, 'px-10 py-4', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
-  logo: [...base, 'px-10 py-2.5 gap-3', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
+  ghost: [...base, 'px-6 py-4 md:px-10', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
+  naked: [...base, 'px-6 py-4 md:px-10', 'border-transparent text-stone-100'],
+  logo: [...base, 'px-6 py-2.5 gap-3 md:px-10', 'border-stone-100/70 text-stone-100 hover:bg-stone-100/10'],
 };
 ---
 

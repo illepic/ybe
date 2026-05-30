@@ -1,5 +1,5 @@
 ---
-import { Flame } from 'lucide-astro';
+import { Flame, Share2 } from 'lucide-astro';
 
 interface Props {
   reg: string;
@@ -42,16 +42,26 @@ const logoSrcset = IS_DEV
       class="block h-11 w-auto md:h-20"
     />
   </a>
-  <a
-    href={reg}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-flex items-center gap-1.5 rounded-xs
-           bg-amber-700 px-5 py-2
-           text-sm font-semibold tracking-widest uppercase no-underline text-stone-100
-           transition-colors duration-200 hover:bg-amber-600"
-  >
-    Register <Flame size={14} strokeWidth={2.5} />
-    <time datetime={datetime}>{dateShort}</time>
-  </a>
+  <div class="flex items-center gap-4">
+    <button
+      x-data="shareBtn"
+      @click="share()"
+      class="inline-flex items-center gap-1.5
+             text-sm font-semibold tracking-widest uppercase text-stone-100
+             transition-colors duration-200 hover:text-amber-500 cursor-pointer"
+    >
+      <Share2 size={14} strokeWidth={2} />Share
+    </button>
+    <a
+      href={reg}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1.5 rounded-xs
+             bg-amber-700 px-5 py-2
+             text-sm font-semibold tracking-widest uppercase no-underline text-stone-100
+             transition-colors duration-200 hover:bg-amber-600"
+    >
+      Register <Flame size={14} strokeWidth={2.5} /> now
+    </a>
+  </div>
 </nav>

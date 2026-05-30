@@ -24,6 +24,7 @@ const event = defineCollection({
     isoStart: z.string(),
     isoEnd: z.string(),
     capacity: z.number().int().positive(),
+    registered: z.number().int().min(0).default(0),
     priceMember: z.number().positive(),
     priceGuest: z.number().positive(),
     priceDayOf: z.number().positive(),

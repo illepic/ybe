@@ -26,7 +26,6 @@ import {
   ArrowUpRight,
   Bike,
   CalendarDays,
-  Check,
   CheckCircle,
   Flame,
   ChevronDown,
@@ -36,7 +35,6 @@ import {
   Minus,
   Package,
   Plus,
-  Share2,
   Tag,
   Ticket,
   Users,
@@ -240,11 +238,11 @@ const SPONSORS = sponsorsEntry.data;
         >
       </p>
       <div
-        class="btn__group flex flex-col items-center gap-4 flex-wrap md:flex-row md:justify-center mt-10"
+        class="btn__group flex flex-row flex-wrap items-center justify-center gap-3 mt-10"
       >
-        <div x-show="!$store.ybe.isPast">
-          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
-            ><Ticket slot="icon-left" size={16} strokeWidth={2} />Register Now</Button
+        <div x-show="!$store.ybe.isPast" class="contents">
+          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer" class="!w-auto"
+            ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden">Register</span><span class="hidden md:inline">Register Now</span></Button
           >
         </div>
         <div x-show="$store.ybe.isPast" x-cloak>
@@ -257,27 +255,10 @@ const SPONSORS = sponsorsEntry.data;
             > for {EVENT.year + 1} dates
           </p>
         </div>
-        <Button variant="ghost" href="#experience"
-          >What to Expect<ChevronDown slot="icon-right" size={15} strokeWidth={2} /></Button
+        <Button variant="naked" href="#experience" class="!w-auto"
+          ><span class="md:hidden">Explore</span><span class="hidden md:inline">What to Expect</span><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
         >
       </div>
-      <p class="text-xs text-stone-500 tracking-widest uppercase mt-4">
-        Limited to <span class="text-amber-600">{EVENT.capacity} riders</span> — register early
-      </p>
-      <Countdown targetDate={EVENT.isoStart} />
-      <!-- Share button -->
-      <button
-        x-data="shareBtn"
-        @click="share()"
-        class="mt-5 text-xs font-semibold tracking-widest uppercase text-stone-500 hover:text-stone-200 transition-colors duration-200 cursor-pointer"
-      >
-        <span x-show="!shared" class="flex items-center gap-1.5">
-          <Share2 size={12} strokeWidth={2} />Share this ride
-        </span>
-        <span x-show="shared" x-cloak class="flex items-center gap-1.5 text-amber-500">
-          <Check size={12} strokeWidth={2.5} />Link copied
-        </span>
-      </button>
       <PhotoCredit
         label="Art by"
         name="Kathryn Jasperson"
@@ -285,6 +266,70 @@ const SPONSORS = sponsorsEntry.data;
         slot="credit"
       />
     </Panel>
+
+    <!-- ── STATS BAND ── -->
+    <section class="relative overflow-hidden bg-stone-950 py-16 md:py-20 text-center">
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="background:
+          radial-gradient(ellipse 35% 80% at 12% 50%, rgba(255,107,107,0.18) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 32% 50%, rgba(254,202,87,0.15) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 52% 50%, rgba(72,219,251,0.14) 0%, transparent 55%),
+          radial-gradient(ellipse 35% 80% at 72% 50%, rgba(197,110,245,0.16) 0%, transparent 55%),
+          radial-gradient(ellipse 30% 80% at 90% 50%, rgba(255,159,243,0.13) 0%, transparent 55%)"
+      ></div>
+      <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
+
+        <!-- Headline -->
+        <p class="text-sm font-semibold tracking-widest uppercase text-stone-400 italic">
+          First come, first send.
+        </p>
+
+        <!-- Spots remaining -->
+        <div
+          x-data={`seatsLeft(${EVENT.capacity}, ${EVENT.registered})`}
+          class="flex flex-col items-center gap-2"
+        >
+          <span
+            x-text="displayed"
+            class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums"
+          ></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">spots left</span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full flex flex-col items-center gap-2.5">
+          <div class="w-full h-1 rounded-full bg-stone-800 overflow-hidden">
+            <div
+              x-data={`{ pct: 0 }`}
+              x-init={`setTimeout(() => pct = ${Math.round((EVENT.registered / EVENT.capacity) * 100)}, 80)`}
+              :style="'width: ' + pct + '%'"
+              class="h-full bg-amber-500 rounded-full transition-[width] duration-[1400ms] ease-out"
+            ></div>
+          </div>
+          <p class="text-xs tracking-widest uppercase text-stone-600">
+            {EVENT.registered} of {EVENT.capacity} spots claimed
+          </p>
+        </div>
+
+        <!-- Countdown — compact single line -->
+        <div
+          x-data={`countdown('${EVENT.isoStart}')`}
+          class="flex items-baseline justify-center gap-1.5 text-stone-500"
+        >
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400" x-text="days"></span>
+          <span class="text-xs tracking-widest uppercase">d</span>
+          <span class="text-stone-700 mx-1">·</span>
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400" x-text="hours"></span>
+          <span class="text-xs tracking-widest uppercase">h</span>
+          <span class="text-stone-700 mx-1">·</span>
+          <span class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400" x-text="minutes"></span>
+          <span class="text-xs tracking-widest uppercase">m</span>
+          <span class="text-xs tracking-widest uppercase text-stone-600 ml-1.5">to register</span>
+        </div>
+
+      </div>
+    </section>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
     <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride}>

@@ -34,12 +34,44 @@ export default (Alpine) => {
   const eventStart = document.body.dataset.eventStart;
   Alpine.store('ybe', { isPast: eventStart ? new Date() >= new Date(eventStart) : false });
 
+  // Remaining seats counter — animates from capacity down to remaining
+  // Starts only when the element crosses the viewport midpoint
+  Alpine.data('seatsLeft', (capacity, registered) => ({
+    displayed: capacity,
+    init() {
+      const end = capacity - registered;
+      const duration = 2800;
+
+      const run = () => {
+        const startTime = performance.now();
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+          this.displayed = Math.round(capacity - (capacity - end) * eased);
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            observer.disconnect();
+            run();
+          }
+        },
+        { rootMargin: '0px 0px -50% 0px' }
+      );
+      observer.observe(this.$el);
+    },
+  }));
+
   // Share button — Web Share API on mobile, clipboard fallback on desktop
   Alpine.data('shareBtn', () => ({
     shared: false,
     share() {
       const url = window.location.href;
-      const text = 'A full-day MTB shuttle event in the Yacolt Burn State Forest — check it out';
+      const text = 'A full-day MTB shuttle event in the Yacolt Burn State Forest. Check it out!';
       if (navigator.share) {
         navigator.share({ title: document.title, text, url }).catch(() => {});
       } else {

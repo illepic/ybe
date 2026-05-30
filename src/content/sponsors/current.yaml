@@ -18,8 +18,7 @@ silver:
     raw: true
     url: https://cushcore.com
   - name: Camas Bike and Sport
-    logo: /sponsors/camas-bikes.jpg
-    raw: true
+    logo: /sponsors/camas-bikes.svg
     url: https://www.camasbikes.com
   - name: Formula 100
     logo: /sponsors/formula-100.svg
