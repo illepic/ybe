@@ -7,11 +7,6 @@
   --font-display: 'Bebas Neue', Impact, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 
-  --tracking-loose: 0.22em;
-
-  --leading-display: 0.93;
-
-  --width-content: 53.75rem; /* 860px — main content column */
 }
 
 @utility animate-fade-up {
