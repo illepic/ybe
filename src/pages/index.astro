@@ -326,11 +326,11 @@ const SPONSORS = {
     <!-- ── 2 · THE EXPERIENCE ── -->
     <Panel id="experience" bgImage={IMG.ride}>
       <img
-        src={cdn('/logo.png', { w: '240', h: '240' })}
+        src={cdn('/logo.png', { w: '288', h: '288' })}
         alt="Yacolt Burn Experience"
         width="2796"
         height="2743"
-        class="h-30 w-auto block mx-auto mb-6"
+        class="h-36 w-auto block mx-auto mb-6"
       />
       <Eyebrow>The Event</Eyebrow>
       <HeadingRainbow>The Full Day</HeadingRainbow>
@@ -340,7 +340,7 @@ const SPONSORS = {
       </Lead>
       <Content>
         <p class="mb-5">
-          YBE runs 9am to 4pm. Shuttles load at the <a
+          YBE runs {EVENT.startTime} to {EVENT.endTime}. Shuttles load at the <a
             href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
             class="loc"
             target="_blank"
