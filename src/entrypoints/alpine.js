@@ -22,6 +22,8 @@ const GALLERY_PHOTOS = [
   { file: 'ybe-rain.jpg', caption: 'Yacolt Burn Experience' },
   { file: 'ybe-mud.jpg', caption: 'Yacolt Burn Experience' },
   { file: 'ybe-shred-mud.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'derrick-uhaul.jpg', caption: 'Yacolt Burn Experience' },
+  { file: 'duff-shred.png', caption: 'Yacolt Burn Experience' },
 ];
 
 export default (Alpine) => {

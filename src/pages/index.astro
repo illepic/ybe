@@ -571,7 +571,7 @@ const SPONSORS = sponsorsEntry.data;
         <FaqItem question="Do I need to be an Evergreen member?">
           Nope, everyone is welcome. Members save $25 on registration though, and your trails depend
           on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself
-          at events like this.
+          at events like this. <a href="https://www.evergreenmtb.org/support-us/become-a-member" target="_blank" rel="noopener" class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors">Join now.</a>
         </FaqItem>
         <FaqItem question="Can I try a demo bike?">
           Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,
@@ -603,6 +603,49 @@ const SPONSORS = sponsorsEntry.data;
             target="_blank"
             rel="noopener noreferrer">Yacolt Burn Trailhead</a
           >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
+        </FaqItem>
+        <FaqItem question="How do I volunteer? I have questions!">
+          We'd love to have you. Fill out the form below and we'll be in touch.
+          <form
+            name="volunteer"
+            data-netlify="true"
+            method="POST"
+            class="mt-6 flex flex-col gap-4 text-left"
+          >
+            <input type="hidden" name="form-name" value="volunteer" />
+            <label class="flex flex-col gap-1.5">
+              <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
+              <input
+                type="text"
+                name="name"
+                required
+                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5">
+              <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors"
+              />
+            </label>
+            <label class="flex flex-col gap-1.5">
+              <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
+              <textarea
+                name="message"
+                rows="3"
+                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors resize-none"
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="self-start inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
+            >
+              Send
+            </button>
+          </form>
         </FaqItem>
       </Faq>
       <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
