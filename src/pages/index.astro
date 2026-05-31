@@ -208,7 +208,7 @@ const SPONSORS = sponsorsEntry.data;
     <Nav reg={REG} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
     <!-- ── 1 · HERO ── -->
-    <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER}>
+    <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
       <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
       <HeadingRainbow size="xl" as="h1" reveal={false}>
         Yacolt<br />Burn<br />Experience
@@ -275,17 +275,6 @@ const SPONSORS = sponsorsEntry.data;
 
     <!-- ── STATS BAND ── -->
     <section class="relative overflow-hidden bg-stone-950 py-16 md:py-20 text-center">
-      <div
-        class="absolute inset-0 pointer-events-none"
-        style="background:
-          radial-gradient(ellipse 35% 80% at 12% 50%, rgba(255,107,107,0.26) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 32% 50%, rgba(254,202,87,0.22) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 52% 50%, rgba(72,219,251,0.20) 0%, transparent 55%),
-          radial-gradient(ellipse 35% 80% at 72% 50%, rgba(197,110,245,0.24) 0%, transparent 55%),
-          radial-gradient(ellipse 30% 80% at 90% 50%, rgba(255,159,243,0.20) 0%, transparent 55%),
-          radial-gradient(ellipse 60% 100% at 50% 50%, rgba(180,83,9,0.25) 0%, transparent 60%)"
-      >
-      </div>
       <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
         <!-- Headline -->
         <p class="text-base font-bold italic tracking-widest uppercase text-stone-100">
@@ -345,7 +334,7 @@ const SPONSORS = sponsorsEntry.data;
     </section>
 
     <!-- ── 2 · THE EXPERIENCE ── -->
-    <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride}>
+    <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride} fadeUp>
       <img
         src={cdn('/logo.png', { w: '288', h: '288' })}
         alt="Yacolt Burn Experience"

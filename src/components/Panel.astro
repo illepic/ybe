@@ -7,9 +7,11 @@ interface Props {
   mobileBgImage?: string;
   scroll?: boolean; // disables parallax fixed attachment (e.g. gallery)
   class?: string;
+  fadeDown?: boolean; // gradient from transparent → stone-950 at bottom
+  fadeUp?: boolean;   // gradient from stone-950 → transparent at top
 }
 
-const { id, bgImage, mobileBgImage, scroll = false, class: className = '' } = Astro.props;
+const { id, bgImage, mobileBgImage, scroll = false, class: className = '', fadeDown = false, fadeUp = false } = Astro.props;
 
 const bgStyle = bgImage
   ? [`--bg-desktop: url('${bgImage}')`, mobileBgImage ? `--bg-mobile: url('${mobileBgImage}')` : '']
@@ -69,7 +71,14 @@ const bgStyle = bgImage
   }
 
   <!-- Position wrapper owns the absolute placement; PhotoCredit is unaware -->
-  <div class="absolute bottom-4 right-4 z-[2]">
+  <div class="absolute bottom-4 right-4 z-[4]">
     <slot name="credit" />
   </div>
+
+  {fadeDown && (
+    <div class="absolute bottom-0 inset-x-0 h-32 md:h-64 pointer-events-none z-[2] bg-gradient-to-b from-transparent to-stone-950" aria-hidden="true"></div>
+  )}
+  {fadeUp && (
+    <div class="absolute top-0 inset-x-0 h-32 md:h-64 pointer-events-none z-[2] bg-gradient-to-t from-transparent to-stone-950" aria-hidden="true"></div>
+  )}
 </section>
