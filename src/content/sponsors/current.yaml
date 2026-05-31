@@ -53,8 +53,7 @@ bronze:
     raw: true
     url: https://portland-vancouver.youmoveme.com
   - name: 'Pull Caffè Coffee Roasters'
-    logo: /sponsors/pull-cafe.jpg
-    raw: true
+    logo: /sponsors/pull-caffe-transparent.webp
     url: https://pullcaffe.com
   - name: Frito Lay
     logo: /sponsors/frito-lay.svg
