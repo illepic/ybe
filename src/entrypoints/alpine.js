@@ -8,24 +8,8 @@ const cdn = (path, params = {}) => {
   return `/.netlify/images?${p}`;
 };
 
-// Real YBE event photos — drop files into public/photos/ and add entries here
-const GALLERY_PHOTOS = [
-  { file: 'poster.jpg', caption: 'Yacolt Burn Experience 2026' },
-  { file: 'john-bridge.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'shane-dawg.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'yacolt-bench.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'todd-crew.png', caption: 'Yacolt Burn Experience' },
-  { file: 'bike-stand.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'jeep.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'bike-table.jpeg', caption: 'Yacolt Burn Experience' },
-  { file: 'ybe-tents.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'ybe-rain.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'ybe-mud.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'ybe-shred-mud.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'derrick-uhaul.jpg', caption: 'Yacolt Burn Experience' },
-  { file: 'duff-shred.png', caption: 'Yacolt Burn Experience' },
-  { file: 'stump-jump.JPG', caption: 'Yacolt Burn Experience' },
-];
+// Gallery photos — source of truth lives in src/data/gallery.ts (shared with Astro build)
+import { GALLERY_PHOTOS } from '../data/gallery.ts';
 
 export default (Alpine) => {
   Alpine.plugin(focus);
@@ -87,51 +71,29 @@ export default (Alpine) => {
     },
   }));
 
-  // Photo gallery with focus management
+  // Photo gallery — thumbnail grid state + modal open/close
+  // Slide navigation inside the modal is handled by Embla (Starwind Carousel)
   Alpine.data('photoGallery', () => {
     const photos = GALLERY_PHOTOS.map(({ file, caption }) => ({
       thumb: cdn(`/photos/${file}`, { w: '400', h: '400', fit: 'cover', q: '75' }),
-      full: cdn(`/photos/${file}`, { w: '1600', q: '85' }),
       caption,
     }));
 
     return {
       isOpen: false,
-      current: 0,
-      loading: false,
       _trigger: null,
       photos,
       openAt(i) {
         this._trigger = document.activeElement;
-        this.current = i;
-        this.loading = true;
         this.isOpen = true;
         this.$store.ui.galleryOpen = true;
-        this.$nextTick(() => {
-          if (this.$refs.fullImg?.complete) this.loading = false;
-        });
+        // Tell Embla to jump to the clicked slide (no animation — instant)
+        this.$nextTick(() => window.__galleryEmbla?.scrollTo(i, true));
       },
       close() {
         this.isOpen = false;
         this.$store.ui.galleryOpen = false;
         this.$nextTick(() => this._trigger?.focus());
-      },
-      prev() {
-        this.loading = true;
-        this.current = (this.current - 1 + this.photos.length) % this.photos.length;
-        this.$nextTick(() => {
-          if (this.$refs.fullImg?.complete) this.loading = false;
-        });
-      },
-      next() {
-        this.loading = true;
-        this.current = (this.current + 1) % this.photos.length;
-        this.$nextTick(() => {
-          if (this.$refs.fullImg?.complete) this.loading = false;
-        });
-      },
-      onImageLoad() {
-        this.loading = false;
       },
     };
   });

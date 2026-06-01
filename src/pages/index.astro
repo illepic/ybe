@@ -19,6 +19,7 @@ import Faq from '../components/Faq.astro';
 import FaqItem from '../components/FaqItem.astro';
 import SponsorTier from '../components/SponsorTier.astro';
 import Gallery from '../components/Gallery.astro';
+import { GALLERY_PHOTOS } from '../data/gallery';
 import {
   ArrowDown,
   ArrowRight,
@@ -137,7 +138,7 @@ const SPONSORS = sponsorsEntry.data;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -471,7 +472,7 @@ const SPONSORS = sponsorsEntry.data;
       <HeadingRainbow>See You Out There</HeadingRainbow>
       <Rule />
 
-      <Gallery />
+      <Gallery photos={GALLERY_PHOTOS} />
       <PhotoCredit
         name="Sean Benesh"
         url="https://unsplash.com/@seanbenesh"

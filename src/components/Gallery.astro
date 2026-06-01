@@ -1,9 +1,29 @@
 ---
-import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
+import { X } from 'lucide-astro';
+import type { GalleryPhoto } from '../data/gallery';
+import Carousel from './starwind/carousel/Carousel.astro';
+import CarouselContent from './starwind/carousel/CarouselContent.astro';
+import CarouselItem from './starwind/carousel/CarouselItem.astro';
+import CarouselNext from './starwind/carousel/CarouselNext.astro';
+import CarouselPrevious from './starwind/carousel/CarouselPrevious.astro';
+
+interface Props {
+  photos: GalleryPhoto[];
+}
+
+const { photos } = Astro.props;
+
+const IS_DEV = import.meta.env.DEV;
+const cdn = (path: string, params: Record<string, string> = {}) => {
+  if (IS_DEV) return path;
+  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
+  return `/.netlify/images?${p}`;
+};
 ---
 
 <div x-data="photoGallery">
-  <!-- Thumbnail grid: 2-up mobile, 3-up sm+ -->
+
+  <!-- Thumbnail grid: 2-up mobile, 3-up sm+ — unchanged -->
   <div class="gallery__grid grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-w-[640px] mx-auto mt-10">
     <template x-for="(photo, i) in photos" :key="i">
       <button
@@ -21,9 +41,62 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
     </template>
   </div>
 
-  <!-- Modal -->
+  <!--
+  ═══════════════════════════════════════════════════════════════════════════
+  OLD CUSTOM MODAL — replaced by Starwind Carousel modal below
+  ═══════════════════════════════════════════════════════════════════════════
+
   <div
     class="gallery__modal fixed inset-0 z-500 flex items-center justify-center p-6 focus:outline-none"
+    x-cloak x-show="isOpen"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+    x-trap="isOpen"
+    x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
+    x-ref="modal"
+    role="dialog" aria-modal="true" aria-label="Photo gallery"
+    tabindex="-1"
+    @keydown.escape="close()"
+    @keydown.arrow-left="prev()"
+    @keydown.arrow-right="next()"
+  >
+    <div class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer" @click="close()"></div>
+    <div
+      class="gallery__frame relative z-[1] flex items-center max-w-[min(90vw,1100px)] max-h-[90vh]"
+      :class="loading ? 'min-w-[min(90vw,600px)] min-h-[40vh]' : ''"
+    >
+      <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
+        <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"></div>
+      </div>
+      <img
+        x-ref="fullImg"
+        :src="photos[current].full"
+        :alt="photos[current].caption"
+        @load="onImageLoad()"
+        :class="loading ? 'opacity-0' : 'opacity-100'"
+        class="block max-w-full max-h-[90vh] object-contain rounded transition-opacity duration-300"
+      />
+      <button class="gallery__btn gallery__btn--close absolute -top-12 right-0 z-[2] ..."
+        @click="close()" aria-label="Close gallery"><X size={18} strokeWidth={2} /></button>
+      <button class="gallery__btn gallery__btn--prev absolute -left-13 ..."
+        @click.stop="prev()" aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button>
+      <button class="gallery__btn gallery__btn--next absolute -right-13 ..."
+        @click.stop="next()" aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button>
+    </div>
+  </div>
+  ═══════════════════════════════════════════════════════════════════════════
+  END OLD MODAL
+  ═══════════════════════════════════════════════════════════════════════════
+  -->
+
+  <!-- ── STARWIND CAROUSEL MODAL ──
+       x-teleport moves this to <body> so it escapes panel__inner's z-index
+       stacking context (which would otherwise let citations paint above it) -->
+  <template x-teleport="body">
+  <div
+    class="gallery__modal fixed inset-0 z-500 flex items-center justify-center"
     x-cloak
     x-show="isOpen"
     x-transition:enter="transition ease-out duration-200"
@@ -33,67 +106,69 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-astro';
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     x-trap="isOpen"
-    x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
     x-ref="modal"
+    x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
     role="dialog"
     aria-modal="true"
     aria-label="Photo gallery"
     tabindex="-1"
     @keydown.escape="close()"
-    @keydown.arrow-left="prev()"
-    @keydown.arrow-right="next()"
   >
-    <!-- Backdrop -->
-    <div class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer" @click="close()">
-    </div>
+    <!-- Backdrop — closes on any click outside the carousel -->
+    <div class="absolute inset-0 bg-black/92 cursor-pointer" @click="close()"></div>
 
-    <!-- Frame: min size while loading so absolute-positioned buttons don't collapse -->
-    <div
-      class="gallery__frame relative z-[1] flex items-center max-w-[min(90vw,1100px)] max-h-[90vh]"
-      :class="loading ? 'min-w-[min(90vw,600px)] min-h-[40vh]' : ''"
+    <!-- Close -->
+    <button
+      class="absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 rounded-sm
+             border border-white/20 bg-black/70 text-stone-100
+             transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
+      @click="close()"
+      aria-label="Close gallery"
     >
-      <!-- Spinner -->
-      <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-        <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin">
-        </div>
-      </div>
+      <X size={18} strokeWidth={2} />
+    </button>
 
-      <!-- Full image -->
-      <img
-        x-ref="fullImg"
-        :src="photos[current].full"
-        :alt="photos[current].caption"
-        @load="onImageLoad()"
-        :class="loading ? 'opacity-0' : 'opacity-100'"
-        class="block max-w-full max-h-[90vh] object-contain rounded transition-opacity duration-300"
-      />
+    <!-- Starwind Carousel -->
+    <div class="relative z-[1] w-full max-w-[min(90vw,1100px)] px-14">
+      <Carousel id="gallery-carousel" opts={{ loop: true }} autoInit={false}>
+        <CarouselContent>
+          {photos.map(({ file, caption }) => (
+            <CarouselItem class="flex items-center justify-center">
+              <img
+                src={cdn(`/photos/${file}`, { w: '1600', q: '85' })}
+                alt={caption}
+                class="block max-h-[90vh] w-auto object-contain rounded"
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
 
-      <!-- Close -->
-      <button
-        class="gallery__btn gallery__btn--close absolute -top-12 right-0 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
-        @click="close()"
-        aria-label="Close gallery"
-      >
-        <X size={18} strokeWidth={2} />
-      </button>
-
-      <!-- Prev -->
-      <button
-        class="gallery__btn gallery__btn--prev absolute -left-13 top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:-left-13 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:left-0 max-sm:-bottom-13 max-sm:top-auto max-sm:translate-y-0"
-        @click.stop="prev()"
-        aria-label="Previous photo"
-      >
-        <ChevronLeft size={22} strokeWidth={2} />
-      </button>
-
-      <!-- Next -->
-      <button
-        class="gallery__btn gallery__btn--next absolute -right-13 top-1/2 -translate-y-1/2 z-[2] flex items-center justify-center w-10 h-10 rounded-sm border border-white/20 bg-black/70 text-stone-100 cursor-pointer transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700 sm:-right-13 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 max-sm:right-0 max-sm:-bottom-13 max-sm:top-auto max-sm:translate-y-0"
-        @click.stop="next()"
-        aria-label="Next photo"
-      >
-        <ChevronRight size={22} strokeWidth={2} />
-      </button>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   </div>
+  </template>
+
 </div>
+
+<script>
+  import { type CarouselApi, initCarousel } from './starwind/carousel/carousel-script';
+
+  declare global {
+    interface Window {
+      __galleryEmbla: CarouselApi | undefined;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('gallery-carousel') as HTMLElement | null;
+    if (!el) return;
+    initCarousel(el, {
+      setApi: (api) => {
+        // Expose Embla API to Alpine's photoGallery.openAt(i)
+        window.__galleryEmbla = api;
+      },
+    });
+  });
+</script>

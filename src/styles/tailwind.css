@@ -2,6 +2,11 @@
 @import './fonts.css';
 @import './starwind.css';
 
+/* Starwind dark variant — activates dark: utilities when .dark is on any ancestor */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@plugin "@tailwindcss/forms";
+
 [x-cloak] {
   display: none !important;
 }

@@ -1,7 +1,6 @@
 /* @import "tailwindcss"; */
+/* @plugin and @custom-variant dark live in tailwind.css — Tailwind config belongs there */
 @import 'tw-animate-css';
-@plugin "@tailwindcss/forms";
-@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -143,7 +142,7 @@
   --input: --alpha(var(--color-slate-50) / 15%);
   --outline: var(--color-slate-500);
 
-  /* sidebars variables */
+  /* sidebar variables */
   --sidebar-background: var(--color-slate-900);
   --sidebar-foreground: var(--color-slate-50);
   --sidebar-primary: var(--color-blue-700);
@@ -155,12 +154,8 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-outline/50;
-  }
-  body {
-    @apply bg-background text-foreground scheme-light dark:scheme-dark;
-  }
+  /* button cursor intentionally kept; body/wildcard rules removed —
+     YBE sets its own body styles and has no light/dark toggle */
   button {
     @apply cursor-pointer;
   }
