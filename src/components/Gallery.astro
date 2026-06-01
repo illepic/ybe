@@ -137,6 +137,8 @@ const cdn = (path: string, params: Record<string, string> = {}) => {
               <img
                 src={cdn(`/photos/${file}`, { w: '1600', q: '85' })}
                 alt={caption}
+                loading="lazy"
+                decoding="async"
                 class="block max-h-[90vh] w-auto object-contain rounded"
               />
             </CarouselItem>
