@@ -7,5 +7,14 @@
   },
   "componentDir": "src/components",
   "utilsDir": "src/lib/utils",
-  "components": []
+  "components": [
+    {
+      "name": "button",
+      "version": "2.3.3"
+    },
+    {
+      "name": "carousel",
+      "version": "1.0.3"
+    }
+  ]
 }

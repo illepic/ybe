@@ -123,6 +123,35 @@ Tailwind v4 is the CSS layer. No `<style is:global>` blocks. All custom CSS live
 @utility reveal { ... }
 ```
 
+### Writing CSS the Tailwind v4 Way
+
+**Never write raw `@media` queries in `tailwind.css`.** Use `@variant` instead — this keeps breakpoints in sync with whatever is defined in Tailwind's config:
+
+```css
+/* ❌ hand-written */
+@media (min-width: 769px) { .panel { background-image: var(--bg-desktop); } }
+@media (prefers-reduced-motion: reduce) { ... }
+
+/* ✅ Tailwind way */
+@layer components {
+  .panel {
+    background-image: var(--bg-mobile, var(--bg-desktop));
+    @variant md { background-image: var(--bg-desktop); }
+  }
+}
+
+@utility reveal {
+  @variant md { opacity: 0; ... }
+  @variant motion-reduce { transition: none; ... }
+}
+```
+
+**Available `@variant` shortcuts:** `sm`, `md`, `lg`, `xl`, `2xl`, `dark`, `motion-reduce`, `hover`, `focus`, `print`, and any other Tailwind variant.
+
+**Wrap non-utility component styles in `@layer components`** so `@variant` resolves correctly outside of `@utility` blocks.
+
+**`text-shadow-*` utilities are Tailwind v4 built-ins** — `text-shadow-sm`, `text-shadow-md`, `text-shadow-lg`, `text-shadow-xl` all work without any custom definition; they read from `--text-shadow-*` theme tokens.
+
 ### Arbitrary Values — When to Use vs Replace
 
 **Replace with standard Tailwind when possible:**
