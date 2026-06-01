@@ -7,12 +7,10 @@
 }
 
 /* Responsive panel backgrounds — mobile URL via --bg-mobile, desktop via --bg-desktop */
-.panel {
-  background-image: var(--bg-mobile, var(--bg-desktop));
-}
-@media (min-width: 769px) {
+@layer components {
   .panel {
-    background-image: var(--bg-desktop);
+    background-image: var(--bg-mobile, var(--bg-desktop));
+    @variant md { background-image: var(--bg-desktop); }
   }
 }
 
@@ -48,7 +46,7 @@
 }
 
 @utility reveal {
-  @media (min-width: 769px) {
+  @variant md {
     opacity: 0;
     transform: translateY(16px);
     transition:
@@ -60,7 +58,7 @@
       transform: translateY(0);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
+  @variant motion-reduce {
     transition: none;
     opacity: 1;
     transform: none;
