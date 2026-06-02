@@ -140,7 +140,7 @@
   --error-foreground: var(--color-slate-50);
   --border: --alpha(var(--color-slate-50) / 10%);
   --input: --alpha(var(--color-slate-50) / 15%);
-  --outline: var(--color-slate-500);
+  --outline: var(--color-amber-700);
 
   /* sidebar variables */
   --sidebar-background: var(--color-slate-900);

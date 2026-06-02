@@ -23,6 +23,8 @@ import { cdn } from '../lib/utils/cdn';
 import Collapsible from '../components/starwind/collapsible/Collapsible.astro';
 import CollapsibleContent from '../components/starwind/collapsible/CollapsibleContent.astro';
 import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
+import Input from '../components/starwind/input/Input.astro';
+import Textarea from '../components/starwind/textarea/Textarea.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -629,34 +631,20 @@ const SPONSORS = sponsorsEntry.data;
             data-netlify="true"
             method="POST"
             action="/thank-you"
-            class="mt-6 mb-4 px-px flex flex-col gap-4 text-left"
+            class="mt-6 mb-4 flex flex-col gap-4 text-left"
           >
             <input type="hidden" name="form-name" value="volunteer" />
             <label class="flex flex-col gap-1.5">
               <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
-              <input
-                type="text"
-                name="name"
-                required
-                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors"
-              />
+              <Input type="text" name="name" required />
             </label>
             <label class="flex flex-col gap-1.5">
               <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
-              <input
-                type="email"
-                name="email"
-                required
-                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors"
-              />
+              <Input type="email" name="email" required />
             </label>
             <label class="flex flex-col gap-1.5">
               <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
-              <textarea
-                name="message"
-                rows="3"
-                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors resize-none"
-              ></textarea>
+              <Textarea name="message" rows={3} />
             </label>
             <button
               type="submit"

@@ -1,5 +1,4 @@
 import focus from '@alpinejs/focus';
-import collapse from '@alpinejs/collapse';
 
 import { cdn } from '../lib/utils/cdn';
 
@@ -8,7 +7,6 @@ import { GALLERY_PHOTOS } from '../data/gallery.ts';
 
 export default (Alpine) => {
   Alpine.plugin(focus);
-  Alpine.plugin(collapse);
 
   Alpine.store('ui', { galleryOpen: false });
 
