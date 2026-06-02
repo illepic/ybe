@@ -1,7 +1,6 @@
 ---
 import '../styles/tailwind.css';
 import PhotoCredit from '../components/PhotoCredit.astro';
-import Countdown from '../components/Countdown.astro';
 import HeadingRainbow from '../components/HeadingRainbow.astro';
 import Nav from '../components/Nav.astro';
 import Panel from '../components/Panel.astro';
@@ -20,6 +19,7 @@ import FaqItem from '../components/FaqItem.astro';
 import SponsorTier from '../components/SponsorTier.astro';
 import Gallery from '../components/Gallery.astro';
 import { GALLERY_PHOTOS } from '../data/gallery';
+import { cdn } from '../lib/utils/cdn';
 import Collapsible from '../components/starwind/collapsible/Collapsible.astro';
 import CollapsibleContent from '../components/starwind/collapsible/CollapsibleContent.astro';
 import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
@@ -57,15 +57,7 @@ const EVENT = eventEntry.data;
 const REG = EVENT.reg;
 const SITE = import.meta.env.SITE ?? 'https://yacoltburn.bike';
 
-// Netlify Image CDN helper — transforms on deploy, raw path in local dev
-const IS_DEV = import.meta.env.DEV;
-const cdn = (path: string, params: Record<string, string> = {}) => {
-  if (IS_DEV) return path;
-  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
-  return `/.netlify/images?${p}`;
-};
-
-const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '85' });
+const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '80' });
 const MOBILE_POSTER = cdn('/photos/poster.jpg', { w: '828', q: '75' });
 
 // og:image — absolute URL, JPG (not WebP), standard portrait crop
@@ -646,7 +638,7 @@ const SPONSORS = sponsorsEntry.data;
                 type="text"
                 name="name"
                 required
-                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors"
+                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors"
               />
             </label>
             <label class="flex flex-col gap-1.5">
@@ -655,7 +647,7 @@ const SPONSORS = sponsorsEntry.data;
                 type="email"
                 name="email"
                 required
-                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors"
+                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors"
               />
             </label>
             <label class="flex flex-col gap-1.5">
@@ -663,7 +655,7 @@ const SPONSORS = sponsorsEntry.data;
               <textarea
                 name="message"
                 rows="3"
-                class="bg-stone-900 border border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:outline-none focus:border-amber-700 transition-colors resize-none"
+                class="bg-stone-900 border-stone-700 rounded-sm px-4 py-2.5 text-stone-100 text-sm focus:ring-1 focus:ring-amber-700 transition-colors resize-none"
               ></textarea>
             </label>
             <button

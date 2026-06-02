@@ -1,12 +1,7 @@
 import focus from '@alpinejs/focus';
 import collapse from '@alpinejs/collapse';
 
-// Netlify Image CDN helper — transforms on deploy, raw path in local dev
-const cdn = (path, params = {}) => {
-  if (import.meta.env.DEV) return path;
-  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
-  return `/.netlify/images?${p}`;
-};
+import { cdn } from '../lib/utils/cdn';
 
 // Gallery photos — source of truth lives in src/data/gallery.ts (shared with Astro build)
 import { GALLERY_PHOTOS } from '../data/gallery.ts';
@@ -31,6 +26,10 @@ export default (Alpine) => {
       const duration = 2800;
 
       const run = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          this.displayed = end;
+          return;
+        }
         const startTime = performance.now();
         const tick = (now) => {
           const progress = Math.min((now - startTime) / duration, 1);

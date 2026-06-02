@@ -1,6 +1,7 @@
 ---
 import { X } from 'lucide-astro';
 import type { GalleryPhoto } from '../data/gallery';
+import { cdn } from '../lib/utils/cdn';
 import Carousel from './starwind/carousel/Carousel.astro';
 import CarouselContent from './starwind/carousel/CarouselContent.astro';
 import CarouselItem from './starwind/carousel/CarouselItem.astro';
@@ -12,13 +13,6 @@ interface Props {
 }
 
 const { photos } = Astro.props;
-
-const IS_DEV = import.meta.env.DEV;
-const cdn = (path: string, params: Record<string, string> = {}) => {
-  if (IS_DEV) return path;
-  const p = new URLSearchParams({ url: path, format: 'webp', ...params });
-  return `/.netlify/images?${p}`;
-};
 ---
 
 <div x-data="photoGallery">
@@ -41,55 +35,6 @@ const cdn = (path: string, params: Record<string, string> = {}) => {
     </template>
   </div>
 
-  <!--
-  ═══════════════════════════════════════════════════════════════════════════
-  OLD CUSTOM MODAL — replaced by Starwind Carousel modal below
-  ═══════════════════════════════════════════════════════════════════════════
-
-  <div
-    class="gallery__modal fixed inset-0 z-500 flex items-center justify-center p-6 focus:outline-none"
-    x-cloak x-show="isOpen"
-    x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-    x-trap="isOpen"
-    x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
-    x-ref="modal"
-    role="dialog" aria-modal="true" aria-label="Photo gallery"
-    tabindex="-1"
-    @keydown.escape="close()"
-    @keydown.arrow-left="prev()"
-    @keydown.arrow-right="next()"
-  >
-    <div class="gallery__backdrop absolute inset-0 bg-black/92 cursor-pointer" @click="close()"></div>
-    <div
-      class="gallery__frame relative z-[1] flex items-center max-w-[min(90vw,1100px)] max-h-[90vh]"
-      :class="loading ? 'min-w-[min(90vw,600px)] min-h-[40vh]' : ''"
-    >
-      <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-        <div class="w-10 h-10 rounded-full border-4 border-white/20 border-t-white/80 animate-spin"></div>
-      </div>
-      <img
-        x-ref="fullImg"
-        :src="photos[current].full"
-        :alt="photos[current].caption"
-        @load="onImageLoad()"
-        :class="loading ? 'opacity-0' : 'opacity-100'"
-        class="block max-w-full max-h-[90vh] object-contain rounded transition-opacity duration-300"
-      />
-      <button class="gallery__btn gallery__btn--close absolute -top-12 right-0 z-[2] ..."
-        @click="close()" aria-label="Close gallery"><X size={18} strokeWidth={2} /></button>
-      <button class="gallery__btn gallery__btn--prev absolute -left-13 ..."
-        @click.stop="prev()" aria-label="Previous photo"><ChevronLeft size={22} strokeWidth={2} /></button>
-      <button class="gallery__btn gallery__btn--next absolute -right-13 ..."
-        @click.stop="next()" aria-label="Next photo"><ChevronRight size={22} strokeWidth={2} /></button>
-    </div>
-  </div>
-  ═══════════════════════════════════════════════════════════════════════════
-  END OLD MODAL
-  ═══════════════════════════════════════════════════════════════════════════
-  -->
 
   <!-- ── STARWIND CAROUSEL MODAL ──
        x-teleport moves this to <body> so it escapes panel__inner's z-index
@@ -129,7 +74,7 @@ const cdn = (path: string, params: Record<string, string> = {}) => {
     </button>
 
     <!-- Starwind Carousel -->
-    <div class="relative z-[1] w-full max-w-[min(90vw,1100px)] px-14">
+    <div class="relative z-1 w-full max-w-[min(90vw,1100px)] px-14">
       <Carousel id="gallery-carousel" opts={{ loop: true }} autoInit={false}>
         <CarouselContent>
           {photos.map(({ file, caption }) => (
