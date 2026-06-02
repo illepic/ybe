@@ -1,28 +1,35 @@
 ---
 import { Plus, Minus } from 'lucide-astro';
+import AccordionItem from './starwind/accordion/AccordionItem.astro';
+import AccordionTrigger from './starwind/accordion/AccordionTrigger.astro';
+import AccordionContent from './starwind/accordion/AccordionContent.astro';
 
 interface Props {
   question: string;
 }
 
 const { question } = Astro.props;
+
+// React needs a unique ID for each item in a list, this is an easy to way derive it from the question
+const value = question
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/(^-|-$)/g, '');
 ---
 
-<div class="faq__item" x-data="{ open: false }">
-  <button
-    class="faq__question appearance-none bg-transparent p-0 m-0 border-0 cursor-pointer flex w-full justify-between items-center gap-4 font-display text-xl md:text-3xl text-stone-100 py-6"
-    @click="open = !open"
-    :aria-expanded="open.toString()"
+<AccordionItem {value} class="border-white/11">
+  <AccordionTrigger
+    class="group py-6 font-display text-xl md:text-3xl text-stone-100 hover:text-stone-100"
   >
     {question}
-    <span class="faq__icon shrink-0 flex text-amber-700" aria-hidden="true">
-      <span x-show="!open"><Plus size={16} strokeWidth={2.5} /></span>
-      <span x-show="open"><Minus size={16} strokeWidth={2.5} /></span>
+    <span slot="icon" class="shrink-0 flex text-amber-700" aria-hidden="true">
+      <Plus size={16} strokeWidth={2.5} class="group-data-[state=open]:hidden" />
+      <Minus size={16} strokeWidth={2.5} class="hidden group-data-[state=open]:flex" />
     </span>
-  </button>
-  <div x-show="open" x-collapse>
-    <p class="faq__answer text-stone-400 text-sm max-w-none mb-4 text-shadow-lg">
+  </AccordionTrigger>
+  <AccordionContent>
+    <p class="text-stone-400 text-sm text-shadow-lg">
       <slot />
     </p>
-  </div>
-</div>
+  </AccordionContent>
+</AccordionItem>

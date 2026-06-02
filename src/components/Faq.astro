@@ -1,4 +1,6 @@
 ---
+import Accordion from './starwind/accordion/Accordion.astro';
+
 interface Props {
   class?: string;
 }
@@ -6,9 +8,8 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<div
+<Accordion
   class:list={[
-    'faq',
     'max-w-[720px]',
     'mx-auto',
     'text-left',
@@ -17,10 +18,8 @@ const { class: className = '' } = Astro.props;
     'border-white/10',
     'rounded',
     'px-8',
-    'divide-y',
-    'divide-white/11',
     className,
   ]}
 >
   <slot />
-</div>
+</Accordion>

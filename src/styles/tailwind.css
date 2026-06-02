@@ -17,6 +17,7 @@
     background-image: var(--bg-mobile, var(--bg-desktop));
     @variant md { background-image: var(--bg-desktop); }
   }
+
 }
 
 @theme {
