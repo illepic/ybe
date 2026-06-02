@@ -22,10 +22,12 @@ export default (Alpine) => {
     init() {
       const end = capacity - registered;
       const duration = 2800;
+      const progressEl = this.$el.querySelector('[data-slot=progress]');
 
       const run = () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           this.displayed = end;
+          if (progressEl) progressEl.dataset.value = registered;
           return;
         }
         const startTime = performance.now();
@@ -33,6 +35,7 @@ export default (Alpine) => {
           const progress = Math.min((now - startTime) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
           this.displayed = Math.round(capacity - (capacity - end) * eased);
+          if (progressEl) progressEl.dataset.value = Math.round(registered * eased);
           if (progress < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);

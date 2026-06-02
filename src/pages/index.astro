@@ -25,6 +25,7 @@ import CollapsibleContent from '../components/starwind/collapsible/CollapsibleCo
 import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
 import Input from '../components/starwind/input/Input.astro';
 import Textarea from '../components/starwind/textarea/Textarea.astro';
+import Progress from '../components/starwind/progress/Progress.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -279,32 +280,25 @@ const SPONSORS = sponsorsEntry.data;
           First come, first send.
         </p>
 
-        <!-- Spots remaining -->
+        <!-- Spots remaining + progress bar (shared viewport trigger) -->
         <div
           x-data={`seatsLeft(${EVENT.capacity}, ${EVENT.registered})`}
-          class="flex flex-col items-center gap-2"
+          class="flex flex-col items-center gap-10 w-full"
         >
-          <span
-            x-text="displayed"
-            class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums drop-shadow-[0_0_40px_rgba(245,158,11,0.5)]"
-          ></span>
-          <span class="text-xs tracking-widest uppercase text-stone-400">spots left</span>
-        </div>
-
-        <!-- Progress bar -->
-        <div class="w-full flex flex-col items-center gap-2.5">
-          <div class="w-full h-2.5 rounded-full bg-stone-800 overflow-hidden">
-            <div
-              x-data={`{ pct: 0 }`}
-              x-init={`setTimeout(() => pct = ${Math.round((EVENT.registered / EVENT.capacity) * 100)}, 80)`}
-              :style="'width: ' + pct + '%'"
-              class="h-full bg-amber-500 rounded-full transition-[width] duration-[1400ms] ease-out shadow-[0_0_12px_rgba(245,158,11,0.8)]"
-            >
-            </div>
+          <div class="flex flex-col items-center gap-2">
+            <span
+              x-text="displayed"
+              class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums drop-shadow-[0_0_40px_rgba(245,158,11,0.5)]"
+            ></span>
+            <span class="text-xs tracking-widest uppercase text-stone-400">spots left</span>
           </div>
-          <p class="text-xs tracking-widest uppercase text-stone-500">
-            {EVENT.registered} of {EVENT.capacity} spots claimed
-          </p>
+
+          <div class="w-full flex flex-col items-center gap-2.5">
+            <Progress value={0} max={EVENT.capacity} variant="warning" class="h-2.5 bg-stone-800" />
+            <p class="text-xs tracking-widest uppercase text-stone-500">
+              {EVENT.registered} of {EVENT.capacity} spots claimed
+            </p>
+          </div>
         </div>
 
         <!-- Countdown — compact single line -->

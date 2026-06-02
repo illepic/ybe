@@ -13,6 +13,12 @@
 
 /* Responsive panel backgrounds — mobile URL via --bg-mobile, desktop via --bg-desktop */
 @layer components {
+  /* Urgency progress bar — RAF-driven by seatsLeft, no CSS transition */
+  .starwind-progress-indicator {
+    transition: none;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.8);
+  }
+
   .panel {
     background-image: var(--bg-mobile, var(--bg-desktop));
     @variant md { background-image: var(--bg-desktop); }
