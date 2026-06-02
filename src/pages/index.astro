@@ -20,6 +20,9 @@ import FaqItem from '../components/FaqItem.astro';
 import SponsorTier from '../components/SponsorTier.astro';
 import Gallery from '../components/Gallery.astro';
 import { GALLERY_PHOTOS } from '../data/gallery';
+import Collapsible from '../components/starwind/collapsible/Collapsible.astro';
+import CollapsibleContent from '../components/starwind/collapsible/CollapsibleContent.astro';
+import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -395,6 +398,23 @@ const SPONSORS = sponsorsEntry.data;
       <Button variant="amber" href={REG} target="_blank" rel="noopener noreferrer" class="mt-10"
         ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
       >
+
+      <!-- Cascadia Dirt Cup easter egg -->
+      <Collapsible class="mt-6 text-center">
+        <CollapsibleTrigger class="group inline-flex items-center gap-2 text-sm font-bold italic text-stone-400 hover:text-stone-200 transition-colors duration-200">
+          Psst. Are you a Cascadia Dirt Cup racer?
+          <ChevronDown size={14} strokeWidth={2.5} class="transition-transform duration-300 group-data-[panel-open]:rotate-180" />
+        </CollapsibleTrigger>
+        <CollapsibleContent class="mt-4 max-w-lg mx-auto text-sm text-stone-400 leading-relaxed">
+          YBE takes place the week before the <a
+            href="https://www.racecascadia.com/yacolt2026?utm_source=yacoltburn.bike&utm_medium=referral&utm_campaign=ybe2026&utm_content=cdc-collapsible"
+            target="_blank"
+            rel="noopener"
+            class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors font-medium not-italic"
+            >Cascadia Dirt Cup race at Yacolt Burn</a
+          >. Skip the climbs a week early and enjoy the downs.
+        </CollapsibleContent>
+      </Collapsible>
       <PhotoCredit
         name="Tim Foster"
         url="https://unsplash.com/@timberfoster"
