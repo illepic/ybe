@@ -17,9 +17,10 @@ export default (Alpine) => {
 
   Alpine.store('ui', { galleryOpen: false });
 
-  // Post-event state — driven by data-event-start on <body>
-  const eventStart = document.body.dataset.eventStart;
-  Alpine.store('ybe', { isPast: eventStart ? new Date() >= new Date(eventStart) : false });
+  // Post-event state — driven by data-event-end on <body>
+  // Uses isoEnd (4 PM day-of) so the site stays active all day during the event
+  const eventEnd = document.body.dataset.eventEnd;
+  Alpine.store('ybe', { isPast: eventEnd ? new Date() > new Date(eventEnd) : false });
 
   // Remaining seats counter — animates from capacity down to remaining
   // Starts only when the element crosses the viewport midpoint
