@@ -10,7 +10,6 @@ import Lead from '../components/Lead.astro';
 import Rule from '../components/Rule.astro';
 import Content from '../components/Content.astro';
 import ContentLink from '../components/ContentLink.astro';
-import DetailCard from '../components/DetailCard.astro';
 import Pricing from '../components/Pricing.astro';
 import PricingRow from '../components/PricingRow.astro';
 import DateLocation from '../components/DateLocation.astro';
@@ -26,6 +25,10 @@ import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTr
 import Input from '../components/starwind/input/Input.astro';
 import Textarea from '../components/starwind/textarea/Textarea.astro';
 import Progress from '../components/starwind/progress/Progress.astro';
+import Card from '../components/starwind/card/Card.astro';
+import CardHeader from '../components/starwind/card/CardHeader.astro';
+import CardTitle from '../components/starwind/card/CardTitle.astro';
+import CardContent from '../components/starwind/card/CardContent.astro';
 import {
   ArrowDown,
   ArrowRight,
@@ -389,9 +392,15 @@ const SPONSORS = sponsorsEntry.data;
 
       <!-- Cascadia Dirt Cup easter egg -->
       <Collapsible class="mt-6 text-center">
-        <CollapsibleTrigger class="group inline-flex items-center gap-2 text-sm font-bold italic text-stone-400 hover:text-stone-200 transition-colors duration-200">
+        <CollapsibleTrigger
+          class="group inline-flex items-center gap-2 text-sm font-bold italic text-stone-400 hover:text-stone-200 transition-colors duration-200"
+        >
           Psst. Are you a Cascadia Dirt Cup racer?
-          <ChevronDown size={14} strokeWidth={2.5} class="transition-transform duration-300 group-data-[panel-open]:rotate-180" />
+          <ChevronDown
+            size={14}
+            strokeWidth={2.5}
+            class="transition-transform duration-300 group-data-[panel-open]:rotate-180"
+          />
         </CollapsibleTrigger>
         <CollapsibleContent class="mt-4 max-w-lg mx-auto text-sm text-stone-400 leading-relaxed">
           YBE takes place the week before the <a
@@ -417,33 +426,71 @@ const SPONSORS = sponsorsEntry.data;
       <HeadingRainbow>Event Details</HeadingRainbow>
       <Rule />
 
-      <div class="detail-cards grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
-        <DetailCard label="Date & Time">
-          <CalendarDays slot="icon" size={12} strokeWidth={2.5} />
-          <time datetime={EVENT.isoStart}>{EVENT.dateDay}</time><br />{EVENT.startTime} – <time
-            datetime={EVENT.isoEnd}>{EVENT.endTime}</time
-          >
-        </DetailCard>
-        <DetailCard label="Location">
-          <MapPin slot="icon" size={12} strokeWidth={2.5} />
-          <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc underline underline-offset-2"
-            target="_blank"
-            rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
-          ><br />
-          <small class="block text-stone-400 text-sm mt-1">Park on the west side of the road</small>
-        </DetailCard>
-        <DetailCard label="What's Included">
-          <Package slot="icon" size={12} strokeWidth={2.5} />
-          All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
-          <small class="block text-stone-400 text-sm mt-1">Youth ride ages 3-12</small>
-        </DetailCard>
-        <DetailCard label="Capacity">
-          <Users slot="icon" size={12} strokeWidth={2.5} />
-          {EVENT.capacity} riders max<br />
-          <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
-        </DetailCard>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
+        <Card size="sm" class="bg-white/5 rounded ring-white/10">
+          <CardHeader>
+            <CardTitle
+              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+            >
+              <CalendarDays size={12} strokeWidth={2.5} />
+              Date & Time
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-stone-100">
+            <time datetime={EVENT.isoStart}>{EVENT.dateDay}</time><br />{EVENT.startTime} – <time
+              datetime={EVENT.isoEnd}>{EVENT.endTime}</time
+            >
+          </CardContent>
+        </Card>
+        <Card size="sm" class="bg-white/5 rounded ring-white/10">
+          <CardHeader>
+            <CardTitle
+              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+            >
+              <MapPin size={12} strokeWidth={2.5} />
+              Location
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-stone-100">
+            <a
+              href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+              class="underline underline-offset-2"
+              target="_blank"
+              rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
+            ><br />
+            <small class="block text-stone-400 text-sm mt-1"
+              >Park on the west side of the road</small
+            >
+          </CardContent>
+        </Card>
+        <Card size="sm" class="bg-white/5 rounded ring-white/10">
+          <CardHeader>
+            <CardTitle
+              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+            >
+              <Package size={12} strokeWidth={2.5} />
+              What's Included
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-stone-100">
+            All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
+            <small class="block text-stone-400 text-sm mt-1">Youth ride ages 3-12</small>
+          </CardContent>
+        </Card>
+        <Card size="sm" class="bg-white/5 rounded ring-white/10">
+          <CardHeader>
+            <CardTitle
+              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+            >
+              <Users size={12} strokeWidth={2.5} />
+              Capacity
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-stone-100">
+            {EVENT.capacity} riders max<br />
+            <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
+          </CardContent>
+        </Card>
       </div>
 
       <div class="details-arrow flex justify-center my-8 text-purple-400">
