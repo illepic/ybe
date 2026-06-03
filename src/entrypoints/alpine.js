@@ -56,7 +56,6 @@ export default (Alpine) => {
 
   // Share button — Web Share API on mobile, clipboard fallback on desktop
   Alpine.data('shareBtn', () => ({
-    shared: false,
     share() {
       const url = window.location.href;
       const text = 'A full-day MTB shuttle event in the Yacolt Burn State Forest. Check it out!';
@@ -64,10 +63,6 @@ export default (Alpine) => {
         navigator.share({ title: document.title, text, url }).catch(() => {});
       } else {
         navigator.clipboard.writeText(url);
-        this.shared = true;
-        setTimeout(() => {
-          this.shared = false;
-        }, 2000);
       }
     },
   }));
