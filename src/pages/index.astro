@@ -212,7 +212,7 @@ const SPONSORS = sponsorsEntry.data;
     <!-- ── 1 · HERO ── -->
     <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
       <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
-      <HeadingRainbow size="xl" as="h1" reveal={false}>
+      <HeadingRainbow size="xl" as="h1" reveal={false} class="animate-blur-in">
         Yacolt<br />Burn<br />Experience
       </HeadingRainbow>
       <Lead>
@@ -310,16 +310,19 @@ const SPONSORS = sponsorsEntry.data;
           class="flex items-baseline justify-center gap-1.5"
         >
           <span
+            :class="{ 'tick-pulse': ticking }"
             class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
             x-text="days"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
           <span class="text-stone-700 mx-1">·</span>
           <span
+            :class="{ 'tick-pulse': ticking }"
             class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
             x-text="hours"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
           <span class="text-stone-700 mx-1">·</span>
           <span
+            :class="{ 'tick-pulse': ticking }"
             class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
             x-text="minutes"></span>
           <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
@@ -493,21 +496,36 @@ const SPONSORS = sponsorsEntry.data;
         </Card>
       </div>
 
-      <div class="details-arrow flex justify-center my-8 text-purple-400">
+      <div class="details-arrow flex justify-center my-8 text-purple-400 animate-bounce">
         <ArrowDown size={24} strokeWidth={2.5} />
       </div>
       <Pricing>
-        <PricingRow slot="rows" amount={EVENT.priceMember} note="Online · pre-event">
+        <PricingRow
+          slot="rows"
+          amount={EVENT.priceMember}
+          note="Online · pre-event"
+          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-0"
+        >
           Members <a
             href="https://www.evergreenmtb.org/support-us/become-a-member"
             target="_blank"
             class="text-amber-700 no-underline italic text-sm">(join)</a
           >
         </PricingRow>
-        <PricingRow slot="rows" amount={EVENT.priceGuest} note="Online · pre-event">
+        <PricingRow
+          slot="rows"
+          amount={EVENT.priceGuest}
+          note="Online · pre-event"
+          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[150ms]"
+        >
           Non-Members
         </PricingRow>
-        <PricingRow slot="rows" amount={EVENT.priceDayOf} note="All participants">
+        <PricingRow
+          slot="rows"
+          amount={EVENT.priceDayOf}
+          note="All participants"
+          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[300ms]"
+        >
           Day-Of
         </PricingRow>
         <div slot="cta" class="mt-6 text-center">
@@ -816,8 +834,10 @@ const SPONSORS = sponsorsEntry.data;
         reveal.unobserve(target);
       });
     },
-    { threshold: 0.2 }
+    { threshold: 0.15, rootMargin: '0px 0px -15% 0px' }
   );
 
-  document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
+  document
+    .querySelectorAll('.reveal, .scroll-animate, .rule-animate')
+    .forEach((el) => reveal.observe(el));
 </script>

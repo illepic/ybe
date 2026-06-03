@@ -1,26 +1,26 @@
 ---
-import type { HTMLTag, Polymorphic } from "astro/types";
+import type { HTMLTag, Polymorphic } from 'astro/types';
 
-import { item } from "./variants";
+import { item } from './variants';
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   /**
    * Variant of the item
    * @default "default"
    */
-  variant?: "default" | "outline" | "muted";
+  variant?: 'default' | 'outline' | 'muted';
   /**
    * Size of the item
    * @default "default"
    */
-  size?: "default" | "sm";
+  size?: 'default' | 'sm';
 };
 
 const {
-  variant = "default",
-  size = "default",
+  variant = 'default',
+  size = 'default',
   class: className,
-  as: Tag = "div",
+  as: Tag = 'div',
   ...rest
 } = Astro.props;
 ---

@@ -1,9 +1,9 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types';
 
-import { collapsibleTrigger } from "./variants";
+import { collapsibleTrigger } from './variants';
 
-type Props = HTMLAttributes<"button"> & {
+type Props = HTMLAttributes<'button'> & {
   /**
    * When true, renders as a wrapper div instead of a button,
    * allowing a custom trigger element as a child
@@ -14,7 +14,7 @@ type Props = HTMLAttributes<"button"> & {
 const { class: className, asChild = false, ...rest } = Astro.props;
 
 let hasChildren = false;
-if (Astro.slots.has("default")) {
+if (Astro.slots.has('default')) {
   hasChildren = true;
 }
 ---

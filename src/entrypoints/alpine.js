@@ -101,6 +101,7 @@ export default (Alpine) => {
       days: 0,
       hours: 0,
       minutes: 0,
+      ticking: false,
       _interval: null,
       init() {
         const tick = () => {
@@ -112,6 +113,10 @@ export default (Alpine) => {
           this.days = Math.floor(diff / 86400000);
           this.hours = Math.floor((diff % 86400000) / 3600000);
           this.minutes = Math.floor((diff % 3600000) / 60000);
+          this.ticking = true;
+          setTimeout(() => {
+            this.ticking = false;
+          }, 350);
         };
         tick();
         this._interval = setInterval(tick, 30000);

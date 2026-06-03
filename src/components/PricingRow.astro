@@ -2,12 +2,13 @@
 interface Props {
   amount: number;
   note?: string;
+  class?: string;
 }
 
-const { amount, note } = Astro.props;
+const { amount, note, class: className = '' } = Astro.props;
 ---
 
-<div class="pricing__row flex items-center justify-between py-3.5">
+<div class:list={['pricing__row flex items-center justify-between py-3.5', className]}>
   <div class="pricing__label text-sm text-stone-100 text-left">
     <slot />
     {note && <small class="block text-stone-400 text-xs mt-0.5">{note}</small>}

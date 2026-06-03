@@ -8,10 +8,18 @@ interface Props {
   scroll?: boolean; // disables parallax fixed attachment (e.g. gallery)
   class?: string;
   fadeDown?: boolean; // gradient from transparent → stone-950 at bottom
-  fadeUp?: boolean;   // gradient from stone-950 → transparent at top
+  fadeUp?: boolean; // gradient from stone-950 → transparent at top
 }
 
-const { id, bgImage, mobileBgImage, scroll = false, class: className = '', fadeDown = false, fadeUp = false } = Astro.props;
+const {
+  id,
+  bgImage,
+  mobileBgImage,
+  scroll = false,
+  class: className = '',
+  fadeDown = false,
+  fadeUp = false,
+} = Astro.props;
 
 const bgStyle = bgImage
   ? [`--bg-desktop: url('${bgImage}')`, mobileBgImage ? `--bg-mobile: url('${mobileBgImage}')` : '']
@@ -75,10 +83,20 @@ const bgStyle = bgImage
     <slot name="credit" />
   </div>
 
-  {fadeDown && (
-    <div class="absolute bottom-0 inset-x-0 h-32 md:h-64 pointer-events-none z-2 bg-gradient-to-b from-transparent to-stone-950" aria-hidden="true"></div>
-  )}
-  {fadeUp && (
-    <div class="absolute top-0 inset-x-0 h-32 md:h-64 pointer-events-none z-2 bg-gradient-to-t from-transparent to-stone-950" aria-hidden="true"></div>
-  )}
+  {
+    fadeDown && (
+      <div
+        class="absolute bottom-0 inset-x-0 h-32 md:h-64 pointer-events-none z-2 bg-gradient-to-b from-transparent to-stone-950"
+        aria-hidden="true"
+      />
+    )
+  }
+  {
+    fadeUp && (
+      <div
+        class="absolute top-0 inset-x-0 h-32 md:h-64 pointer-events-none z-2 bg-gradient-to-t from-transparent to-stone-950"
+        aria-hidden="true"
+      />
+    )
+  }
 </section>

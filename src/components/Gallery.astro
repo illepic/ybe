@@ -16,7 +16,6 @@ const { photos } = Astro.props;
 ---
 
 <div x-data="photoGallery">
-
   <!-- Thumbnail grid: 2-up mobile, 3-up sm+ — unchanged -->
   <div class="gallery__grid grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-w-[640px] mx-auto mt-10">
     <template x-for="(photo, i) in photos" :key="i">
@@ -29,74 +28,74 @@ const { photos } = Astro.props;
           :alt="photo.caption"
           loading="lazy"
           decoding="async"
-          class="w-full h-full object-cover transition-[transform,opacity] duration-300 ease group-hover:scale-105 group-hover:opacity-80 will-change-transform"
+          class="w-full h-full object-cover transition-[transform,filter] duration-300 ease group-hover:scale-110 group-hover:brightness-110 will-change-transform"
         />
       </button>
     </template>
   </div>
 
-
   <!-- ── STARWIND CAROUSEL MODAL ──
        x-teleport moves this to <body> so it escapes panel__inner's z-index
        stacking context (which would otherwise let citations paint above it) -->
   <template x-teleport="body">
-  <div
-    class="gallery__modal fixed inset-0 z-500 flex items-center justify-center"
-    x-cloak
-    x-show="isOpen"
-    x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    x-trap="isOpen"
-    x-ref="modal"
-    x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Photo gallery"
-    tabindex="-1"
-    @keydown.escape="close()"
-  >
-    <!-- Backdrop — closes on any click outside the carousel -->
-    <div class="absolute inset-0 bg-black/92 cursor-pointer" @click="close()"></div>
+    <div
+      class="gallery__modal fixed inset-0 z-500 flex items-center justify-center"
+      x-cloak
+      x-show="isOpen"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      x-trap="isOpen"
+      x-ref="modal"
+      x-effect="isOpen && $nextTick(() => $refs.modal.focus())"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Photo gallery"
+      tabindex="-1"
+      @keydown.escape="close()"
+    >
+      <!-- Backdrop — closes on any click outside the carousel -->
+      <div class="absolute inset-0 bg-black/92 cursor-pointer" @click="close()"></div>
 
-    <!-- Close -->
-    <button
-      class="absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 rounded-sm
+      <!-- Close -->
+      <button
+        class="absolute top-4 right-4 z-10 flex items-center justify-center w-10 h-10 rounded-sm
              border border-white/20 bg-black/70 text-stone-100
              transition-colors duration-200 hover:bg-amber-700 hover:border-amber-700"
-      @click="close()"
-      aria-label="Close gallery"
-    >
-      <X size={18} strokeWidth={2} />
-    </button>
+        @click="close()"
+        aria-label="Close gallery"
+      >
+        <X size={18} strokeWidth={2} />
+      </button>
 
-    <!-- Starwind Carousel -->
-    <div class="relative z-1 w-full max-w-[min(90vw,1100px)] px-14">
-      <Carousel id="gallery-carousel" opts={{ loop: true }} autoInit={false}>
-        <CarouselContent>
-          {photos.map(({ file, caption }) => (
-            <CarouselItem class="flex items-center justify-center">
-              <img
-                src={cdn(`/photos/${file}`, { w: '1600', q: '85' })}
-                alt={caption}
-                loading="lazy"
-                decoding="async"
-                class="block max-h-[90vh] w-auto object-contain rounded"
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+      <!-- Starwind Carousel -->
+      <div class="relative z-1 w-full max-w-[min(90vw,1100px)] px-14">
+        <Carousel id="gallery-carousel" opts={{ loop: true }} autoInit={false}>
+          <CarouselContent>
+            {
+              photos.map(({ file, caption }) => (
+                <CarouselItem class="flex items-center justify-center">
+                  <img
+                    src={cdn(`/photos/${file}`, { w: '1600', q: '85' })}
+                    alt={caption}
+                    loading="lazy"
+                    decoding="async"
+                    class="block max-h-[90vh] w-auto object-contain rounded"
+                  />
+                </CarouselItem>
+              ))
+            }
+          </CarouselContent>
 
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </div>
-  </div>
   </template>
-
 </div>
 
 <script>

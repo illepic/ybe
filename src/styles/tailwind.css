@@ -21,9 +21,37 @@
 
   .panel {
     background-image: var(--bg-mobile, var(--bg-desktop));
-    @variant md { background-image: var(--bg-desktop); }
+    @variant md {
+      background-image: var(--bg-desktop);
+    }
   }
 
+  /* Scroll-triggered tw-animate-css animations — paused until IntersectionObserver adds .in-view */
+  .scroll-animate {
+    animation-play-state: paused;
+    animation-fill-mode: both;
+    &.in-view {
+      animation-play-state: running;
+    }
+    @variant motion-reduce {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+
+  /* Rule: scaleX from center — transition-based, not animation-based */
+  .rule-animate {
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    &.in-view {
+      transform: scaleX(1);
+    }
+    @variant motion-reduce {
+      transform: none;
+      transition: none;
+    }
+  }
 }
 
 @theme {
@@ -33,6 +61,35 @@
 
 @utility animate-fade-up {
   animation: fadeUp 0.55s ease forwards;
+}
+
+@keyframes blur-in {
+  from {
+    filter: blur(16px) drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.6));
+    opacity: 0;
+  }
+  to {
+    filter: blur(0) drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.6));
+    opacity: 1;
+  }
+}
+
+@utility animate-blur-in {
+  animation: blur-in 0.9s ease forwards;
+}
+
+@keyframes tick-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.12);
+  }
+}
+
+@utility tick-pulse {
+  animation: tick-pulse 0.3s ease;
 }
 
 @keyframes fadeUp {

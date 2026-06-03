@@ -1,9 +1,9 @@
 ---
-import type { HTMLAttributes } from "astro/types";
+import type { HTMLAttributes } from 'astro/types';
 
-import { collapsible } from "./variants";
+import { collapsible } from './variants';
 
-type Props = HTMLAttributes<"div"> & {
+type Props = HTMLAttributes<'div'> & {
   /**
    * Whether the collapsible panel is initially open
    */
@@ -17,19 +17,19 @@ type Props = HTMLAttributes<"div"> & {
 const { defaultOpen = false, disabled = false, class: className, ...rest } = Astro.props;
 
 // Keys owned by the runtime that should not be spread from rest
-const runtimeOwnedKeys = ["id", "data-state", "data-disabled", "class"] as const;
+const runtimeOwnedKeys = ['id', 'data-state', 'data-disabled', 'class'] as const;
 const sanitizedRest = Object.fromEntries(
   Object.entries(rest).filter(
-    ([key]) => !runtimeOwnedKeys.includes(key as (typeof runtimeOwnedKeys)[number]),
-  ),
+    ([key]) => !runtimeOwnedKeys.includes(key as (typeof runtimeOwnedKeys)[number])
+  )
 );
 
 // Compute final values, preferring consumer-provided values
 const finalDataState =
-  (rest as Record<string, unknown>)["data-state"] ?? (defaultOpen ? "open" : "closed");
+  (rest as Record<string, unknown>)['data-state'] ?? (defaultOpen ? 'open' : 'closed');
 const finalDataDisabled =
-  (rest as Record<string, unknown>)["data-disabled"] ?? (disabled ? "" : undefined);
-const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
+  (rest as Record<string, unknown>)['data-disabled'] ?? (disabled ? '' : undefined);
+const finalId = (rest as Record<string, unknown>)['id'] as string | undefined;
 ---
 
 <div
@@ -44,7 +44,7 @@ const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
 </div>
 
 <script>
-  type CollapsibleState = "open" | "closed";
+  type CollapsibleState = 'open' | 'closed';
 
   /**
    * Handles the functionality of a collapsible component.
@@ -60,8 +60,8 @@ const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
       this.root = root;
       this.collapsibleId = `starwind-collapsible-${idx}`;
 
-      this.trigger = root.querySelector<HTMLElement>(".starwind-collapsible-trigger");
-      this.content = root.querySelector<HTMLElement>(".starwind-collapsible-content");
+      this.trigger = root.querySelector<HTMLElement>('.starwind-collapsible-trigger');
+      this.content = root.querySelector<HTMLElement>('.starwind-collapsible-content');
 
       if (this.trigger && this.content) {
         this.setupAccessibility();
@@ -81,41 +81,41 @@ const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
       if (!this.content.id) this.content.id = contentId;
 
       // Use actual IDs (consumer-provided or generated) for ARIA
-      this.trigger.setAttribute("aria-controls", this.content.id);
-      this.content.setAttribute("aria-labelledby", this.trigger.id);
-      this.content.setAttribute("role", "region");
+      this.trigger.setAttribute('aria-controls', this.content.id);
+      this.content.setAttribute('aria-labelledby', this.trigger.id);
+      this.content.setAttribute('role', 'region');
 
       this.updateAriaExpanded();
     }
 
     private setInitialState(): void {
-      const isOpen = this.root.dataset.state === "open";
+      const isOpen = this.root.dataset.state === 'open';
       this.setState(isOpen);
     }
 
     private setupEventListeners(): void {
       if (!this.trigger) return;
 
-      this.trigger.addEventListener("click", () => {
+      this.trigger.addEventListener('click', () => {
         if (this.root.dataset.disabled !== undefined) return;
         this.toggle();
       });
     }
 
     private toggle(): void {
-      const isOpen = this.root.dataset.state === "open";
+      const isOpen = this.root.dataset.state === 'open';
       this.setState(!isOpen);
     }
 
     private setState(isOpen: boolean): void {
-      const state: CollapsibleState = isOpen ? "open" : "closed";
+      const state: CollapsibleState = isOpen ? 'open' : 'closed';
 
       this.root.dataset.state = state;
 
       if (this.trigger) {
         this.trigger.dataset.state = state;
         if (isOpen) {
-          this.trigger.dataset.panelOpen = "";
+          this.trigger.dataset.panelOpen = '';
         } else {
           delete this.trigger.dataset.panelOpen;
         }
@@ -135,8 +135,8 @@ const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
 
     private updateAriaExpanded(): void {
       if (!this.trigger) return;
-      const isOpen = this.root.dataset.state === "open";
-      this.trigger.setAttribute("aria-expanded", isOpen.toString());
+      const isOpen = this.root.dataset.state === 'open';
+      this.trigger.setAttribute('aria-expanded', isOpen.toString());
     }
   }
 
@@ -144,17 +144,17 @@ const finalId = (rest as Record<string, unknown>)["id"] as string | undefined;
   let collapsibleCounter = 0;
 
   const setupCollapsibles = () => {
-    document.querySelectorAll<HTMLElement>(".starwind-collapsible").forEach((collapsible) => {
+    document.querySelectorAll<HTMLElement>('.starwind-collapsible').forEach((collapsible) => {
       if (!collapsibleInstances.has(collapsible)) {
         collapsibleInstances.set(
           collapsible,
-          new CollapsibleHandler(collapsible, collapsibleCounter++),
+          new CollapsibleHandler(collapsible, collapsibleCounter++)
         );
       }
     });
   };
 
   setupCollapsibles();
-  document.addEventListener("astro:after-swap", setupCollapsibles);
-  document.addEventListener("starwind:init", setupCollapsibles);
+  document.addEventListener('astro:after-swap', setupCollapsibles);
+  document.addEventListener('starwind:init', setupCollapsibles);
 </script>

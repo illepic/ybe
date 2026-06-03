@@ -1,14 +1,14 @@
 ---
-import ArrowRight from "@tabler/icons/outline/arrow-right.svg";
-import type { ComponentProps } from "astro/types";
+import ArrowRight from '@tabler/icons/outline/arrow-right.svg';
+import type { ComponentProps } from 'astro/types';
 
-import { Button } from "@/components/starwind/button";
+import { Button } from '@/components/starwind/button';
 
-import { carouselNext } from "./variants";
+import { carouselNext } from './variants';
 
 type Props = ComponentProps<typeof Button>;
 
-const { class: className = "", variant = "outline", size = "icon", ...rest } = Astro.props;
+const { class: className = '', variant = 'outline', size = 'icon', ...rest } = Astro.props;
 ---
 
 <Button
