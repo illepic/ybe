@@ -63,6 +63,15 @@ const EVENT = eventEntry.data;
 const REG = EVENT.reg;
 const SITE = import.meta.env.SITE ?? 'https://yacoltburn.bike';
 
+const regUrl = (content: string) => {
+  const url = new URL(REG);
+  url.searchParams.set('utm_source', 'yacoltburn.bike');
+  url.searchParams.set('utm_medium', 'website');
+  url.searchParams.set('utm_campaign', `ybe${EVENT.year}`);
+  url.searchParams.set('utm_content', content);
+  return url.toString();
+};
+
 const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '80' });
 const MOBILE_POSTER = cdn('/photos/poster.jpg', { w: '828', q: '75' });
 
@@ -207,7 +216,7 @@ const SPONSORS = sponsorsEntry.data;
     >
 
     <!-- NAV -->
-    <Nav reg={REG} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
+    <Nav reg={regUrl('nav')} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
     <!-- ── 1 · HERO ── -->
     <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
@@ -243,7 +252,7 @@ const SPONSORS = sponsorsEntry.data;
         <div x-show="!$store.ybe.isPast" class="contents">
           <Button
             variant="fire"
-            href={REG}
+            href={regUrl('hero')}
             target="_blank"
             rel="noopener noreferrer"
             class="!w-auto"
@@ -389,7 +398,7 @@ const SPONSORS = sponsorsEntry.data;
           >, the sender: big, fast, and full of gnarly tabletops.
         </p>
       </Content>
-      <Button variant="amber" href={REG} target="_blank" rel="noopener noreferrer" class="mt-10"
+      <Button variant="amber" href={regUrl('experience')} target="_blank" rel="noopener noreferrer" class="mt-10"
         ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
       >
 
@@ -529,7 +538,7 @@ const SPONSORS = sponsorsEntry.data;
           Day-Of
         </PricingRow>
         <div slot="cta" class="mt-6 text-center">
-          <Button variant="fire" href={REG} target="_blank" rel="noopener noreferrer"
+          <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
             >Register by {EVENT.deadline}</Button
           >
         </div>
@@ -752,7 +761,7 @@ const SPONSORS = sponsorsEntry.data;
       <div x-show="!$store.ybe.isPast">
         <Button
           variant="amber"
-          href={REG}
+          href={regUrl('cta')}
           target="_blank"
           rel="noopener noreferrer"
           class="px-14 py-4 text-base"
