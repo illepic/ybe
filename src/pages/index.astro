@@ -276,7 +276,13 @@ const SPONSORS = sponsorsEntry.data;
         </div>
 
         <div class="w-full flex flex-col items-center gap-2.5">
-          <Progress value={0} max={EVENT.capacity} variant="warning" class="h-2.5 bg-stone-800" />
+          <Progress
+            value={0}
+            max={EVENT.capacity}
+            variant="warning"
+            class="h-2.5 bg-stone-800"
+            aria-label="Registration spots claimed"
+          />
           <p class="text-xs tracking-widest uppercase text-stone-500">
             {EVENT.registered} of {EVENT.capacity} spots claimed
           </p>
