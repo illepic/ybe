@@ -1,5 +1,6 @@
 ---
 import { Medal } from 'lucide-astro';
+import { cdn } from '../lib/utils/cdn';
 
 export interface Sponsor {
   name: string;
@@ -38,12 +39,10 @@ const withUtm = (url: string, name: string) => {
   }
 };
 
-const IS_DEV = import.meta.env.DEV;
-const optimizeLogo = (path: string) => {
-  if (IS_DEV || path.endsWith('.svg')) return path;
-  const p = new URLSearchParams({ url: path, format: 'webp', w: '200', h: '200' });
-  return `/.netlify/images?${p}`;
-};
+// SVGs bypass the CDN (don't rasterize a vector logo); everything else goes
+// through cdn() at 200×200. cdn() already handles the dev passthrough.
+const optimizeLogo = (path: string) =>
+  path.endsWith('.svg') ? path : cdn(path, { w: '200', h: '200' });
 
 const CONFIG = {
   gold: {
@@ -97,6 +96,8 @@ const c = CONFIG[tier];
           <img
             src={optimizeLogo(sponsor.logo)}
             alt={sponsor.name}
+            loading="lazy"
+            decoding="async"
             class:list={[
               'w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-100',
               c.logoOpacity,

@@ -17,7 +17,7 @@ const mobileBg = cdn('/photos/hanging-bike.jpg', { w: '828', q: '70' });
 ---
 
 <BaseLayout title={`Thank you — ${EVENT.name}`} robots="noindex">
-  <Panel bgImage={bg} mobileBgImage={mobileBg}>
+  <Panel bgImage={bg} mobileBgImage={mobileBg} priority>
     <HeadingRainbow size="xl" reveal={false}>Thank you</HeadingRainbow>
     <Rule />
     <Lead>Your message has been received. We'll be in touch soon.</Lead>

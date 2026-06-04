@@ -6,6 +6,7 @@ interface Props {
   bgImage?: string;
   mobileBgImage?: string;
   scroll?: boolean; // disables parallax fixed attachment (e.g. gallery)
+  priority?: boolean; // load bg immediately (above-the-fold); otherwise lazy via IntersectionObserver
   class?: string;
   fadeDown?: boolean; // gradient from transparent → stone-950 at bottom
   fadeUp?: boolean; // gradient from stone-950 → transparent at top
@@ -16,16 +17,25 @@ const {
   bgImage,
   mobileBgImage,
   scroll = false,
+  priority = false,
   class: className = '',
   fadeDown = false,
   fadeUp = false,
 } = Astro.props;
 
-const bgStyle = bgImage
-  ? [`--bg-desktop: url('${bgImage}')`, mobileBgImage ? `--bg-mobile: url('${mobileBgImage}')` : '']
-      .filter(Boolean)
-      .join('; ')
-  : undefined;
+// Above-the-fold panels set the bg inline now; the rest defer it — the
+// data-bg-* attributes are applied as CSS vars by the observer in index.astro.
+const lazyBg = !!bgImage && !priority;
+
+const bgStyle =
+  bgImage && priority
+    ? [
+        `--bg-desktop: url('${bgImage}')`,
+        mobileBgImage ? `--bg-mobile: url('${mobileBgImage}')` : '',
+      ]
+        .filter(Boolean)
+        .join('; ')
+    : undefined;
 ---
 
 <section
@@ -35,9 +45,12 @@ const bgStyle = bgImage
     'relative min-h-screen flex items-center justify-center',
     'bg-cover bg-center bg-no-repeat bg-bg',
     scroll ? 'bg-scroll' : 'bg-scroll md:bg-fixed',
+    lazyBg && 'panel--lazy-bg',
     className,
   ]}
   style={bgStyle}
+  data-bg-desktop={lazyBg ? bgImage : undefined}
+  data-bg-mobile={lazyBg && mobileBgImage ? mobileBgImage : undefined}
 >
   <!-- Dark overlay — replaces ::before pseudo-element -->
   <div class="absolute inset-0 bg-black/80" aria-hidden="true"></div>

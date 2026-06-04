@@ -83,8 +83,10 @@ export default (Alpine) => {
         this._trigger = document.activeElement;
         this.isOpen = true;
         this.$store.ui.galleryOpen = true;
-        // Tell Embla to jump to the clicked slide (no animation — instant)
-        this.$nextTick(() => window.__galleryEmbla?.scrollTo(i, true));
+        // Lazy-loads Embla on first open, then jumps to the clicked slide.
+        this.$nextTick(() =>
+          window.dispatchEvent(new CustomEvent('gallery:open', { detail: { index: i } }))
+        );
       },
       close() {
         this.isOpen = false;

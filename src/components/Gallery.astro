@@ -99,22 +99,27 @@ const { photos } = Astro.props;
 </div>
 
 <script>
-  import { type CarouselApi, initCarousel } from './starwind/carousel/carousel-script';
+  import type { CarouselApi } from './starwind/carousel/carousel-script';
 
-  declare global {
-    interface Window {
-      __galleryEmbla: CarouselApi | undefined;
+  // Embla (~55 KB) is only loaded the first time the gallery modal opens —
+  // Alpine's photoGallery.openAt(i) dispatches `gallery:open` with the index.
+  let api: CarouselApi | null = null;
+  let loading: Promise<void> | null = null;
+
+  const ensureCarousel = () => {
+    if (api) return Promise.resolve();
+    if (!loading) {
+      loading = import('./starwind/carousel/index').then(({ initCarousel }) => {
+        const el = document.getElementById('gallery-carousel') as HTMLElement | null;
+        if (!el) return;
+        initCarousel(el, { setApi: (a) => (api = a) });
+      });
     }
-  }
+    return loading;
+  };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const el = document.getElementById('gallery-carousel') as HTMLElement | null;
-    if (!el) return;
-    initCarousel(el, {
-      setApi: (api) => {
-        // Expose Embla API to Alpine's photoGallery.openAt(i)
-        window.__galleryEmbla = api;
-      },
-    });
+  window.addEventListener('gallery:open', async (e) => {
+    await ensureCarousel();
+    api?.scrollTo((e as CustomEvent<{ index: number }>).detail?.index ?? 0, true);
   });
 </script>

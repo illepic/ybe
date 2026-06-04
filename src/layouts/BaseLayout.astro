@@ -1,5 +1,8 @@
 ---
 import '../styles/tailwind.css';
+// Resolve the hashed build URLs for the two above-the-fold fonts so we can preload them.
+import bebasWoff2 from '@fontsource/bebas-neue/files/bebas-neue-latin-400-normal.woff2?url';
+import interWoff2 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -26,6 +29,10 @@ const {
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {robots && <meta name="robots" content={robots} />}
+
+    <!-- Preload above-the-fold fonts (Bebas display headings + Inter body) -->
+    <link rel="preload" href={bebasWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
 
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

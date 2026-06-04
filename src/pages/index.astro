@@ -78,8 +78,8 @@ const regUrl = (content: string) => {
 const POSTER = cdn('/photos/poster.jpg', { w: '1920', q: '80' });
 const MOBILE_POSTER = cdn('/photos/poster.jpg', { w: '828', q: '75' });
 
-// og:image — absolute URL, JPG (not WebP), standard portrait crop
-const OG_IMAGE = `${SITE}/.netlify/images?url=/photos/poster.jpg&w=800&format=jpg&q=85`;
+// og:image — absolute URL (crawlers need it) + JPG override (social scrapers prefer it over WebP)
+const OG_IMAGE = `${SITE}${cdn('/photos/poster.jpg', { w: '800', q: '85', format: 'jpg' })}`;
 
 const IMG = {
   legend: cdn('/photos/pnw-forest-misty.jpg', { w: '1920', q: '70' }),
@@ -190,7 +190,7 @@ const SPONSORS = sponsorsEntry.data;
   <Nav reg={regUrl('nav')} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
   <!-- ── 1 · HERO ── -->
-  <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
+  <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} priority fadeDown>
     <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
     <HeadingRainbow size="xl" as="h1" reveal={false} class="animate-blur-in">
       Yacolt<br />Burn<br />Experience
@@ -254,7 +254,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── STATS BAND ── -->
+  <!-- ── 2. STATS BAND ── -->
   <section class="relative overflow-hidden bg-stone-950 py-16 md:py-20 text-center">
     <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
       <!-- Headline -->
@@ -310,13 +310,15 @@ const SPONSORS = sponsorsEntry.data;
     </div>
   </section>
 
-  <!-- ── 2 · THE EXPERIENCE ── -->
+  <!-- ── 3 · THE EXPERIENCE ── -->
   <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride} fadeUp>
     <img
       src={cdn('/logo.png', { w: '288', h: '288' })}
       alt="Yacolt Burn Experience"
       width="2796"
       height="2743"
+      loading="lazy"
+      decoding="async"
       class="h-36 w-auto block mx-auto mb-6"
     />
     <Eyebrow>The Event</Eyebrow>
@@ -407,7 +409,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── 3 · DETAILS ── -->
+  <!-- ── 4 · DETAILS ── -->
   <Panel id="details" bgImage={IMG.details} mobileBgImage={MOBILE_IMG.details}>
     <Eyebrow><time datetime={EVENT.isoStart}>{EVENT.date}</time></Eyebrow>
     <HeadingRainbow>Event Details</HeadingRainbow>
@@ -519,7 +521,7 @@ const SPONSORS = sponsorsEntry.data;
     <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
   </Panel>
 
-  <!-- ── 4 · GALLERY ── -->
+  <!-- ── 5 · GALLERY ── -->
   <Panel id="gallery" bgImage={IMG.gallery} mobileBgImage={MOBILE_IMG.gallery} scroll>
     <Eyebrow>From the Trails</Eyebrow>
     <HeadingRainbow>See You Out There</HeadingRainbow>
@@ -534,7 +536,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── 5 · LEGEND ── -->
+  <!-- ── 6 · LEGEND ── -->
   <Panel id="legend" bgImage={IMG.legend} mobileBgImage={MOBILE_IMG.legend}>
     <Eyebrow>A Place With History</Eyebrow>
     <HeadingRainbow>Born From Fire</HeadingRainbow>
@@ -572,7 +574,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── 5 · PULL QUOTE ── -->
+  <!-- ── 7 · PULL QUOTE ── -->
   <Panel id="trails" bgImage={IMG.quote} mobileBgImage={MOBILE_IMG.quote}>
     <p
       class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-stone-100 max-w-3xl mx-auto mb-6"
@@ -590,6 +592,8 @@ const SPONSORS = sponsorsEntry.data;
           src={cdn('/sponsors/evergreen-mtb.png', { w: '400' })}
           width="553"
           height="200"
+          loading="lazy"
+          decoding="async"
           alt="Evergreen Mountain Bike Alliance"
           class="h-17 w-auto opacity-90"
         />
@@ -603,7 +607,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── 6 · FAQ ── -->
+  <!-- ── 8 · FAQ ── -->
   <Panel id="faq" bgImage={IMG.faq} mobileBgImage={MOBILE_IMG.faq}>
     <Eyebrow>Questions</Eyebrow>
     <HeadingRainbow>FAQ</HeadingRainbow>
@@ -698,7 +702,7 @@ const SPONSORS = sponsorsEntry.data;
     <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
   </Panel>
 
-  <!-- ── 7 · SPONSORS ── -->
+  <!-- ── 9 · SPONSORS ── -->
   <Panel id="sponsors" bgImage={IMG.sponsors} mobileBgImage={MOBILE_IMG.sponsors}>
     <Eyebrow>Made Possible By</Eyebrow>
     <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
@@ -719,7 +723,7 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <!-- ── 8 · FINAL CTA ── -->
+  <!-- ── 10 · FINAL CTA ── -->
   <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
     <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
     <HeadingRainbow size="xl">
@@ -820,4 +824,21 @@ const SPONSORS = sponsorsEntry.data;
   document
     .querySelectorAll('.reveal, .scroll-animate, .rule-animate')
     .forEach((el) => reveal.observe(el));
+
+  // Lazy-load below-the-fold panel backgrounds ~one viewport before they enter view
+  const lazyBg = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        const { bgDesktop, bgMobile } = el.dataset;
+        if (bgDesktop) el.style.setProperty('--bg-desktop', `url('${bgDesktop}')`);
+        if (bgMobile) el.style.setProperty('--bg-mobile', `url('${bgMobile}')`);
+        lazyBg.unobserve(el);
+      });
+    },
+    { rootMargin: '100% 0px' }
+  );
+
+  document.querySelectorAll('.panel--lazy-bg').forEach((el) => lazyBg.observe(el));
 </script>

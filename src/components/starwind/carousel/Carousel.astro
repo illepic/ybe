@@ -33,16 +33,14 @@ const {
 </div>
 
 <script>
-  import { initCarousel } from './index';
-
-  const setupCarousels = () => {
-    const carousels = document.querySelectorAll('.starwind-carousel') as NodeListOf<HTMLElement>;
-    carousels.forEach((carousel) => {
-      if (carousel.dataset.autoInit === 'false') {
-        return;
-      }
-      initCarousel(carousel);
-    });
+  const setupCarousels = async () => {
+    const carousels = [...document.querySelectorAll<HTMLElement>('.starwind-carousel')].filter(
+      (c) => c.dataset.autoInit !== 'false'
+    );
+    // Nothing to auto-init → don't pull Embla into the initial bundle.
+    if (carousels.length === 0) return;
+    const { initCarousel } = await import('./index');
+    carousels.forEach((carousel) => initCarousel(carousel));
   };
 
   document.addEventListener('DOMContentLoaded', setupCarousels);

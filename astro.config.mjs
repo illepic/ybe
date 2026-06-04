@@ -1,11 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-
 import alpinejs from '@astrojs/alpinejs';
-
 import sitemap from '@astrojs/sitemap';
-
-import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   output: 'static',
