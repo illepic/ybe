@@ -1,0 +1,42 @@
+---
+import '../styles/tailwind.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  robots?: string;
+  bodyClass?: string;
+  [key: string]: unknown;
+}
+
+const {
+  title,
+  description,
+  robots,
+  bodyClass = 'antialiased text-base/relaxed bg-bg text-stone-100 font-body',
+  ...rest
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {robots && <meta name="robots" content={robots} />}
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Page-specific head: SEO, preloads, prefetch, JSON-LD -->
+    <slot name="head" />
+  </head>
+  <body class={bodyClass} {...rest}>
+    <slot />
+  </body>
+</html>

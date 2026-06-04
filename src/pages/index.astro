@@ -1,5 +1,6 @@
 ---
-import '../styles/tailwind.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
 import PhotoCredit from '../components/PhotoCredit.astro';
 import HeadingRainbow from '../components/HeadingRainbow.astro';
 import Nav from '../components/Nav.astro';
@@ -62,6 +63,8 @@ if (!eventEntry || !sponsorsEntry) throw new Error('Missing content: event or sp
 const EVENT = eventEntry.data;
 const REG = EVENT.reg;
 const SITE = import.meta.env.SITE ?? 'https://yacoltburn.bike';
+
+const DESCRIPTION = `A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. ${EVENT.date}.`;
 
 const regUrl = (content: string) => {
   const url = new URL(REG);
@@ -147,42 +150,15 @@ const JSON_LD = JSON.stringify({
 const SPONSORS = sponsorsEntry.data;
 ---
 
-<!doctype html>
-<html lang="en" class="scroll-smooth dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{EVENT.name}</title>
-    <meta
-      name="description"
-      content={`A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. ${EVENT.date}.`}
-    />
-
-    <!-- Canonical & OG -->
-    <link rel="canonical" href={SITE} />
-    <meta name="theme-color" content="#100e0c" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={SITE} />
-    <meta property="og:title" content={EVENT.name} />
-    <meta
-      property="og:description"
-      content={`A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. ${EVENT.date}.`}
-    />
-    <meta property="og:image" content={OG_IMAGE} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={EVENT.name} />
-    <meta
-      name="twitter:description"
-      content={`A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. ${EVENT.date}.`}
-    />
-    <meta name="twitter:image" content={OG_IMAGE} />
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<BaseLayout
+  title={EVENT.name}
+  description={DESCRIPTION}
+  x-data="{}"
+  :class="{ 'overflow-hidden': $store.ui.galleryOpen }"
+  data-event-end={EVENT.isoEnd}
+>
+  <Fragment slot="head">
+    <SEO title={EVENT.name} description={DESCRIPTION} url={SITE} image={OG_IMAGE} />
 
     <!-- Preload LCP image — mobile and desktop sizes -->
     <link
@@ -201,619 +177,614 @@ const SPONSORS = sponsorsEntry.data;
 
     <!-- JSON-LD Event schema -->
     <script type="application/ld+json" set:html={JSON_LD} />
-  </head>
-  <body
-    x-data
-    :class="{ 'overflow-hidden': $store.ui.galleryOpen }"
-    class="antialiased text-base/relaxed bg-bg text-stone-100 font-body"
-    data-event-end={EVENT.isoEnd}
+  </Fragment>
+
+  <!-- Skip link for keyboard/screenreader users -->
+  <a
+    href="#experience"
+    class="fixed -top-full left-4 z-1000 bg-amber-700 text-stone-100 px-4 py-2 rounded-sm text-sm font-semibold no-underline transition-[top] duration-200 focus:top-4"
+    >Skip to content</a
   >
-    <!-- Skip link for keyboard/screenreader users -->
-    <a
-      href="#experience"
-      class="fixed -top-full left-4 z-1000 bg-amber-700 text-stone-100 px-4 py-2 rounded-sm text-sm font-semibold no-underline transition-[top] duration-200 focus:top-4"
-      >Skip to content</a
-    >
 
-    <!-- NAV -->
-    <Nav reg={regUrl('nav')} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
+  <!-- NAV -->
+  <Nav reg={regUrl('nav')} dateShort={EVENT.dateShort} datetime={EVENT.isoStart} />
 
-    <!-- ── 1 · HERO ── -->
-    <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
-      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
-      <HeadingRainbow size="xl" as="h1" reveal={false} class="animate-blur-in">
-        Yacolt<br />Burn<br />Experience
-      </HeadingRainbow>
-      <Lead>
-        A full-day shuttle event deep in the heart of<br />
-        <strong
-          ><a
-            href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-stone-100 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:decoration-amber-500"
-            >Yacolt Burn State Forest</a
-          ></strong
-        >.
-      </Lead>
-      <p
-        class="hero__stat text-shadow-lg font-display text-[clamp(1.6rem,5vw,2.8rem)] tracking-[0.06em] leading-none flex flex-wrap justify-center gap-x-[1.1rem] gap-y-[0.3rem] mt-5 mx-auto max-w-none"
-      >
-        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.5s]"
-          >{EVENT.capacity} riders.</span
-        >
-        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.85s]"
-          >All the trails.</span
-        >
-        <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]">One day.</span
-        >
-      </p>
-      <div class="btn__group flex flex-row flex-wrap items-center justify-center gap-3 mt-10">
-        <div x-show="!$store.ybe.isPast" class="contents">
-          <Button
-            variant="fire"
-            href={regUrl('hero')}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="!w-auto"
-            ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden"
-              >Register</span
-            ><span class="hidden md:inline">Register Now</span></Button
-          >
-        </div>
-        <div x-show="$store.ybe.isPast" x-cloak>
-          <p class="text-sm font-semibold tracking-widest uppercase text-stone-400">
-            Registration closed — follow <a
-              href="https://www.evergreenmtb.org"
-              target="_blank"
-              rel="noopener"
-              class="text-amber-600 hover:text-amber-500 transition-colors">Evergreen MTB</a
-            > for {EVENT.year + 1} dates
-          </p>
-        </div>
-        <Button variant="naked" href="#experience" class="!w-auto"
-          ><span class="md:hidden">Explore</span><span class="hidden md:inline">What to Expect</span
-          ><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
-        >
-      </div>
-      <PhotoCredit
-        label="Art by"
-        name="Kathryn Jasperson"
-        url="https://kathrynjaspersonart.com/"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── STATS BAND ── -->
-    <section class="relative overflow-hidden bg-stone-950 py-16 md:py-20 text-center">
-      <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
-        <!-- Headline -->
-        <p class="text-base font-bold italic tracking-widest uppercase text-stone-100">
-          First come, first send.
-        </p>
-
-        <!-- Spots remaining + progress bar (shared viewport trigger) -->
-        <div
-          x-data={`seatsLeft(${EVENT.capacity}, ${EVENT.registered})`}
-          class="flex flex-col items-center gap-10 w-full"
-        >
-          <div class="flex flex-col items-center gap-2">
-            <span
-              x-text="displayed"
-              class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums drop-shadow-[0_0_40px_rgba(245,158,11,0.5)]"
-            ></span>
-            <span class="text-xs tracking-widest uppercase text-stone-400">spots left</span>
-          </div>
-
-          <div class="w-full flex flex-col items-center gap-2.5">
-            <Progress value={0} max={EVENT.capacity} variant="warning" class="h-2.5 bg-stone-800" />
-            <p class="text-xs tracking-widest uppercase text-stone-500">
-              {EVENT.registered} of {EVENT.capacity} spots claimed
-            </p>
-          </div>
-        </div>
-
-        <!-- Countdown — compact single line -->
-        <div
-          x-data={`countdown('${EVENT.isoStart}')`}
-          class="flex items-baseline justify-center gap-1.5"
-        >
-          <span
-            :class="{ 'tick-pulse': ticking }"
-            class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
-            x-text="days"></span>
-          <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
-          <span class="text-stone-700 mx-1">·</span>
-          <span
-            :class="{ 'tick-pulse': ticking }"
-            class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
-            x-text="hours"></span>
-          <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
-          <span class="text-stone-700 mx-1">·</span>
-          <span
-            :class="{ 'tick-pulse': ticking }"
-            class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
-            x-text="minutes"></span>
-          <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
-          <span class="text-xs tracking-widest uppercase text-stone-400 ml-1.5">to register</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 2 · THE EXPERIENCE ── -->
-    <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride} fadeUp>
-      <img
-        src={cdn('/logo.png', { w: '288', h: '288' })}
-        alt="Yacolt Burn Experience"
-        width="2796"
-        height="2743"
-        class="h-36 w-auto block mx-auto mb-6"
-      />
-      <Eyebrow>The Event</Eyebrow>
-      <HeadingRainbow>The Full Day</HeadingRainbow>
-      <Rule />
-      <Lead>
-        All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
-      </Lead>
-      <Content>
-        <p class="mb-5">
-          YBE runs {EVENT.startTime} to {EVENT.endTime}. Shuttles load at the <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
-            target="_blank"
-            rel="noopener noreferrer">lower Yacolt Burn Trailhead</a
-          > and drop riders at <ContentLink
-            href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
-            target="_blank"
-            rel="noopener noreferrer">Five Corners</ContentLink
-          >, gateway to the lower trail system. Ride down. Load back up. Repeat. There are rumors
-          shuttles may go all the way to <ContentLink
-            href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
-            target="_blank"
-            rel="noopener noreferrer">The Towers</ContentLink
-          >.
-        </p>
-        <p class="mb-5">
-          The event caps at {EVENT.capacity} riders and historically fills up fast, rain or shine. Demo
-          fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
-          even an organized youth ride for ages 3-12 and bike games for all levels.
-        </p>
-        <p class="">
-          The trail system is anchored by four standouts: <ContentLink
-            href="https://www.trailforks.com/trails/cold-creek/"
-            target="_blank"
-            rel="noopener noreferrer">Cold Creek</ContentLink
-          >, wild and rooty and rocky with the occasional burst of flow; <ContentLink
-            href="https://www.trailforks.com/trails/sixth-sense/"
-            target="_blank"
-            rel="noopener noreferrer">Sixth Sense</ContentLink
-          >, hand-crafted and flowy with the best berms in the forest; <ContentLink
-            href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
-            target="_blank"
-            rel="noopener noreferrer">Murphy's Grade</ContentLink
-          >, hand-built by Carson Storch with fast doubles and plenty of speed; and <ContentLink
-            href="https://www.trailforks.com/trails/thrillium/"
-            target="_blank"
-            rel="noopener noreferrer">Thrillium</ContentLink
-          >, the sender: big, fast, and full of gnarly tabletops.
-        </p>
-      </Content>
-      <Button variant="amber" href={regUrl('experience')} target="_blank" rel="noopener noreferrer" class="mt-10"
-        ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
-      >
-
-      <!-- Cascadia Dirt Cup easter egg -->
-      <Collapsible class="mt-6 text-center">
-        <CollapsibleTrigger
-          class="group inline-flex items-center gap-2 text-sm font-bold italic text-stone-400 hover:text-stone-200 transition-colors duration-200"
-        >
-          Psst. Are you a Cascadia Dirt Cup racer?
-          <ChevronDown
-            size={14}
-            strokeWidth={2.5}
-            class="transition-transform duration-300 group-data-[panel-open]:rotate-180"
-          />
-        </CollapsibleTrigger>
-        <CollapsibleContent class="mt-4 max-w-lg mx-auto text-sm text-stone-400 leading-relaxed">
-          YBE takes place the week before the <a
-            href="https://www.racecascadia.com/yacolt2026?utm_source=yacoltburn.bike&utm_medium=referral&utm_campaign=ybe2026&utm_content=cdc-collapsible"
-            target="_blank"
-            rel="noopener"
-            class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors font-medium not-italic"
-            >Cascadia Dirt Cup race at Yacolt Burn</a
-          >. Skip the climbs a week early and enjoy the downs.
-        </CollapsibleContent>
-      </Collapsible>
-      <PhotoCredit
-        name="Tim Foster"
-        url="https://unsplash.com/@timberfoster"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── 3 · DETAILS ── -->
-    <Panel id="details" bgImage={IMG.details} mobileBgImage={MOBILE_IMG.details}>
-      <Eyebrow><time datetime={EVENT.isoStart}>{EVENT.date}</time></Eyebrow>
-      <HeadingRainbow>Event Details</HeadingRainbow>
-      <Rule />
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
-        <Card size="sm" class="bg-white/5 rounded ring-white/10">
-          <CardHeader>
-            <CardTitle
-              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
-            >
-              <CalendarDays size={12} strokeWidth={2.5} />
-              Date & Time
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="text-sm text-stone-100">
-            <time datetime={EVENT.isoStart}>{EVENT.dateDay}</time><br />{EVENT.startTime} – <time
-              datetime={EVENT.isoEnd}>{EVENT.endTime}</time
-            >
-          </CardContent>
-        </Card>
-        <Card size="sm" class="bg-white/5 rounded ring-white/10">
-          <CardHeader>
-            <CardTitle
-              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
-            >
-              <MapPin size={12} strokeWidth={2.5} />
-              Location
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="text-sm text-stone-100">
-            <a
-              href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-              class="underline underline-offset-2"
-              target="_blank"
-              rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
-            ><br />
-            <small class="block text-stone-400 text-sm mt-1"
-              >Park on the west side of the road</small
-            >
-          </CardContent>
-        </Card>
-        <Card size="sm" class="bg-white/5 rounded ring-white/10">
-          <CardHeader>
-            <CardTitle
-              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
-            >
-              <Package size={12} strokeWidth={2.5} />
-              What's Included
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="text-sm text-stone-100">
-            All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
-            <small class="block text-stone-400 text-sm mt-1">Youth ride ages 3-12</small>
-          </CardContent>
-        </Card>
-        <Card size="sm" class="bg-white/5 rounded ring-white/10">
-          <CardHeader>
-            <CardTitle
-              class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
-            >
-              <Users size={12} strokeWidth={2.5} />
-              Capacity
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="text-sm text-stone-100">
-            {EVENT.capacity} riders max<br />
-            <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div class="details-arrow flex justify-center my-8 text-purple-400 animate-bounce">
-        <ArrowDown size={24} strokeWidth={2.5} />
-      </div>
-      <Pricing>
-        <PricingRow
-          slot="rows"
-          amount={EVENT.priceMember}
-          note="Online · pre-event"
-          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-0"
-        >
-          Members <a
-            href="https://www.evergreenmtb.org/support-us/become-a-member"
-            target="_blank"
-            class="text-amber-700 no-underline italic text-sm">(join)</a
-          >
-        </PricingRow>
-        <PricingRow
-          slot="rows"
-          amount={EVENT.priceGuest}
-          note="Online · pre-event"
-          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[150ms]"
-        >
-          Non-Members
-        </PricingRow>
-        <PricingRow
-          slot="rows"
-          amount={EVENT.priceDayOf}
-          note="All participants"
-          class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[300ms]"
-        >
-          Day-Of
-        </PricingRow>
-        <div slot="cta" class="mt-6 text-center">
-          <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
-            >Register by {EVENT.deadline}</Button
-          >
-        </div>
-      </Pricing>
-      <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
-    </Panel>
-
-    <!-- ── 4 · GALLERY ── -->
-    <Panel id="gallery" bgImage={IMG.gallery} mobileBgImage={MOBILE_IMG.gallery} scroll>
-      <Eyebrow>From the Trails</Eyebrow>
-      <HeadingRainbow>See You Out There</HeadingRainbow>
-      <Rule />
-
-      <Gallery photos={GALLERY_PHOTOS} />
-      <PhotoCredit
-        name="Sean Benesh"
-        url="https://unsplash.com/@seanbenesh"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── 5 · LEGEND ── -->
-    <Panel id="legend" bgImage={IMG.legend} mobileBgImage={MOBILE_IMG.legend}>
-      <Eyebrow>A Place With History</Eyebrow>
-      <HeadingRainbow>Born From Fire</HeadingRainbow>
-      <Rule />
-      <Lead>
-        The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
-        trail was ever cut.
-      </Lead>
-      <Content>
-        <p class="mb-5">
-          On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it
-          consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street
-          lamps to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind
-          direction changed.
-        </p>
-        <p class="mb-5">
-          What followed was one of Washington's great rehabilitation stories: Civilian Conservation
-          Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers
-          who saw something in those old logging roads in the late 1990s and started riding them.
-          The Yacolt Burn Experience is the product of all of it.
-        </p>
-        <a
-          href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
-          target="_blank"
-          class="flex justify-center items-center gap-1.5 mt-8 text-amber-700 underline underline-offset-2 text-sm"
-        >
-          Read the history of YBE <SquareArrowOutUpRight size={13} strokeWidth={2.5} />
-        </a>
-      </Content>
-      <PhotoCredit
-        name="Sebastian Unrau"
-        url="https://unsplash.com/@sebastian_unrau"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── 5 · PULL QUOTE ── -->
-    <Panel id="trails" bgImage={IMG.quote} mobileBgImage={MOBILE_IMG.quote}>
-      <p
-        class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-stone-100 max-w-3xl mx-auto mb-6"
-      >
-        "The trails you love<br /><em class="text-amber-700 not-italic">are not free.</em>"
-      </p>
-      <Lead>
-        Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with
-        hand tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps
-        happening.
-      </Lead>
-      <Button variant="logo" href="https://www.evergreenmtb.org" target="_blank">
-        <span class="text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
-          Join <ArrowRight size={13} strokeWidth={2.5} />
-          <img
-            src={cdn('/sponsors/evergreen-mtb.png', { w: '400' })}
-            width="553"
-            height="200"
-            alt="Evergreen Mountain Bike Alliance"
-            class="h-17 w-auto opacity-90"
-          />
-        </span>
-      </Button>
-      <PhotoCredit
-        name="Tim Foster"
-        url="https://unsplash.com/@timberfoster"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── 6 · FAQ ── -->
-    <Panel id="faq" bgImage={IMG.faq} mobileBgImage={MOBILE_IMG.faq}>
-      <Eyebrow>Questions</Eyebrow>
-      <HeadingRainbow>FAQ</HeadingRainbow>
-      <Rule />
-      <Faq>
-        <FaqItem question="What skill level do I need?">
-          The upper system accessed from Five Corners is intermediate to advanced terrain. The event
-          welcomes all riders though, including a dedicated youth ride for ages 3-12. Volunteers and
-          the community are there to help you find your line.
-        </FaqItem>
-        <FaqItem question="Does it fill up?">
-          It can. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock
-          in your spot and your best rate.
-        </FaqItem>
-        <FaqItem question="What if it rains?">
-          The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
-          Northwest. Pack a rain shell, bring layers, and embrace it.
-        </FaqItem>
-        <FaqItem question="Do I need to be an Evergreen member?">
-          Nope, everyone is welcome. Members save $25 on registration though, and your trails depend
-          on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself
-          at events like this. <a
-            href="https://www.evergreenmtb.org/support-us/become-a-member"
-            target="_blank"
-            rel="noopener"
-            class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors"
-            >Join now.</a
-          >
-        </FaqItem>
-        <FaqItem question="Can I try a demo bike?">
-          Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,
-          first-served on the day.
-        </FaqItem>
-        <FaqItem question="What trails are there to ride?">
-          Four standouts: <ContentLink
-            href="https://www.trailforks.com/trails/cold-creek/"
-            target="_blank"
-            rel="noopener noreferrer">Cold Creek</ContentLink
-          > is wild and rooty with occasional flow. <ContentLink
-            href="https://www.trailforks.com/trails/sixth-sense/"
-            target="_blank"
-            rel="noopener noreferrer">Sixth Sense</ContentLink
-          > is hand-crafted and flowy with the best berms in the forest. <ContentLink
-            href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
-            target="_blank"
-            rel="noopener noreferrer">Murphy's Grade</ContentLink
-          > was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink
-            href="https://www.trailforks.com/trails/thrillium/"
-            target="_blank"
-            rel="noopener noreferrer">Thrillium</ContentLink
-          > is the sender: big, fast, and full of gnarly tabletops.
-        </FaqItem>
-        <FaqItem question="Where do I park?">
-          <a
-            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
-            class="loc"
-            target="_blank"
-            rel="noopener noreferrer">Yacolt Burn Trailhead</a
-          >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
-        </FaqItem>
-        <FaqItem question="How do I volunteer? I have questions!">
-          We'd love to have you. Fill out the form below and we'll be in touch.
-          <form
-            name="volunteer"
-            data-netlify="true"
-            method="POST"
-            action="/thank-you"
-            class="mt-6 mb-4 flex flex-col gap-4 text-left"
-          >
-            <input type="hidden" name="form-name" value="volunteer" />
-            <label class="flex flex-col gap-1.5">
-              <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
-              <Input type="text" name="name" required />
-            </label>
-            <label class="flex flex-col gap-1.5">
-              <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
-              <Input type="email" name="email" required />
-            </label>
-            <label class="flex flex-col gap-1.5">
-              <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
-              <Textarea name="message" rows={3} />
-            </label>
-            <button
-              type="submit"
-              class="self-start inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
-            >
-              Send
-            </button>
-          </form>
-        </FaqItem>
-      </Faq>
-      <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
-    </Panel>
-
-    <!-- ── 7 · SPONSORS ── -->
-    <Panel id="sponsors" bgImage={IMG.sponsors} mobileBgImage={MOBILE_IMG.sponsors}>
-      <Eyebrow>Made Possible By</Eyebrow>
-      <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
-      <Rule />
-      <Lead>
-        YBE exists because of this community of brands, shops, and people who show up every year to
-        make it happen.
-      </Lead>
-
-      <SponsorTier tier="gold" sponsors={SPONSORS.gold} campaign={`ybe${EVENT.year}`} />
-      <SponsorTier tier="silver" sponsors={SPONSORS.silver} campaign={`ybe${EVENT.year}`} />
-      <SponsorTier tier="bronze" sponsors={SPONSORS.bronze} campaign={`ybe${EVENT.year}`} />
-      <PhotoCredit
-        name="Lukasz Szmigiel"
-        url="https://unsplash.com/@szmigieldesign"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <!-- ── 8 · FINAL CTA ── -->
-    <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
-      <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
-      <HeadingRainbow size="xl">
-        Register.<br />Ride.<br />Repeat.
-      </HeadingRainbow>
-      <Rule />
-      <Lead>
-        One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
-        cost of a tank of gas. This is what community trail building looks like.
-      </Lead>
-      <div x-show="!$store.ybe.isPast">
-        <Button
-          variant="amber"
-          href={regUrl('cta')}
+  <!-- ── 1 · HERO ── -->
+  <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} fadeDown>
+    <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
+    <HeadingRainbow size="xl" as="h1" reveal={false} class="animate-blur-in">
+      Yacolt<br />Burn<br />Experience
+    </HeadingRainbow>
+    <Lead>
+      A full-day shuttle event deep in the heart of<br />
+      <strong
+        ><a
+          href="https://dnr.wa.gov/forest-and-trust-lands/yacolt-burn-state-forest"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-14 py-4 text-base"
-          ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
+          class="text-stone-100 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:decoration-amber-500"
+          >Yacolt Burn State Forest</a
+        ></strong
+      >.
+    </Lead>
+    <p
+      class="hero__stat text-shadow-lg font-display text-[clamp(1.6rem,5vw,2.8rem)] tracking-[0.06em] leading-none flex flex-wrap justify-center gap-x-[1.1rem] gap-y-[0.3rem] mt-5 mx-auto max-w-none"
+    >
+      <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.5s]"
+        >{EVENT.capacity} riders.</span
+      >
+      <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:0.85s]"
+        >All the trails.</span
+      >
+      <span class="text-amber-500 opacity-0 animate-fade-up [animation-delay:1.2s]">One day.</span>
+    </p>
+    <div class="btn__group flex flex-row flex-wrap items-center justify-center gap-3 mt-10">
+      <div x-show="!$store.ybe.isPast" class="contents">
+        <Button
+          variant="fire"
+          href={regUrl('hero')}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="!w-auto"
+          ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden"
+            >Register</span
+          ><span class="hidden md:inline">Register Now</span></Button
         >
       </div>
       <div x-show="$store.ybe.isPast" x-cloak>
-        <p class="text-stone-400 text-sm font-semibold tracking-widest uppercase">
-          Registration closed · See you next year
+        <p class="text-sm font-semibold tracking-widest uppercase text-stone-400">
+          Registration closed — follow <a
+            href="https://www.evergreenmtb.org"
+            target="_blank"
+            rel="noopener"
+            class="text-amber-600 hover:text-amber-500 transition-colors">Evergreen MTB</a
+          > for {EVENT.year + 1} dates
         </p>
       </div>
-      <PhotoCredit
-        name="Patrick Hendry"
-        url="https://unsplash.com/@worldsbetweenlines"
-        source="Unsplash"
-        slot="credit"
-      />
-    </Panel>
-
-    <footer class="bg-stone-950 pb-10">
-      <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
-      <div
-        class="footer__inner flex flex-col gap-10 max-w-4xl mx-auto px-8 md:flex-row md:justify-between md:items-end"
+      <Button variant="naked" href="#experience" class="!w-auto"
+        ><span class="md:hidden">Explore</span><span class="hidden md:inline">What to Expect</span
+        ><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
       >
-        <div class="footer__left flex flex-col gap-2">
-          <div class="footer__title font-display text-xl tracking-[0.06em] gradient-rainbow-text">
-            {EVENT.name}
-          </div>
-          <p class="text-stone-400 text-sm">
-            Organized by the <a
-              href="https://www.evergreenmtb.org/chapters/southwest"
-              target="_blank"
-              class="underline">Evergreen MTB Alliance Southwest Chapter</a
-            >
+    </div>
+    <PhotoCredit
+      label="Art by"
+      name="Kathryn Jasperson"
+      url="https://kathrynjaspersonart.com/"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── STATS BAND ── -->
+  <section class="relative overflow-hidden bg-stone-950 py-16 md:py-20 text-center">
+    <div class="relative z-10 max-w-sm mx-auto px-6 flex flex-col items-center gap-10">
+      <!-- Headline -->
+      <p class="text-base font-bold italic tracking-widest uppercase text-stone-100">
+        First come, first send.
+      </p>
+
+      <!-- Spots remaining + progress bar (shared viewport trigger) -->
+      <div
+        x-data={`seatsLeft(${EVENT.capacity}, ${EVENT.registered})`}
+        class="flex flex-col items-center gap-10 w-full"
+      >
+        <div class="flex flex-col items-center gap-2">
+          <span
+            x-text="displayed"
+            class="font-display text-8xl md:text-9xl tracking-[0.04em] leading-none text-amber-500 tabular-nums drop-shadow-[0_0_40px_rgba(245,158,11,0.5)]"
+          ></span>
+          <span class="text-xs tracking-widest uppercase text-stone-400">spots left</span>
+        </div>
+
+        <div class="w-full flex flex-col items-center gap-2.5">
+          <Progress value={0} max={EVENT.capacity} variant="warning" class="h-2.5 bg-stone-800" />
+          <p class="text-xs tracking-widest uppercase text-stone-500">
+            {EVENT.registered} of {EVENT.capacity} spots claimed
           </p>
         </div>
-        <div class="footer__right flex flex-col gap-3">
-          <div
-            class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
-          >
-            See you on the trails.
-          </div>
-          <a
-            href="#hero"
-            class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
-            ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
-          >
-        </div>
       </div>
-    </footer>
-  </body>
-</html>
+
+      <!-- Countdown — compact single line -->
+      <div
+        x-data={`countdown('${EVENT.isoStart}')`}
+        class="flex items-baseline justify-center gap-1.5"
+      >
+        <span
+          :class="{ 'tick-pulse': ticking }"
+          class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
+          x-text="days"></span>
+        <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
+        <span class="text-stone-700 mx-1">·</span>
+        <span
+          :class="{ 'tick-pulse': ticking }"
+          class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
+          x-text="hours"></span>
+        <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
+        <span class="text-stone-700 mx-1">·</span>
+        <span
+          :class="{ 'tick-pulse': ticking }"
+          class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
+          x-text="minutes"></span>
+        <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
+        <span class="text-xs tracking-widest uppercase text-stone-400 ml-1.5">to register</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2 · THE EXPERIENCE ── -->
+  <Panel id="experience" bgImage={IMG.ride} mobileBgImage={MOBILE_IMG.ride} fadeUp>
+    <img
+      src={cdn('/logo.png', { w: '288', h: '288' })}
+      alt="Yacolt Burn Experience"
+      width="2796"
+      height="2743"
+      class="h-36 w-auto block mx-auto mb-6"
+    />
+    <Eyebrow>The Event</Eyebrow>
+    <HeadingRainbow>The Full Day</HeadingRainbow>
+    <Rule />
+    <Lead>
+      All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
+    </Lead>
+    <Content>
+      <p class="mb-5">
+        YBE runs {EVENT.startTime} to {EVENT.endTime}. Shuttles load at the <a
+          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+          class="loc"
+          target="_blank"
+          rel="noopener noreferrer">lower Yacolt Burn Trailhead</a
+        > and drop riders at <ContentLink
+          href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=15.8&lat=45.73092&lon=-122.30301&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
+          target="_blank"
+          rel="noopener noreferrer">Five Corners</ContentLink
+        >, gateway to the lower trail system. Ride down. Load back up. Repeat. There are rumors
+        shuttles may go all the way to <ContentLink
+          href="https://www.trailforks.com/region/yacolt-burn-state-forest/?activitytype=1&z=16.0&lat=45.71673&lon=-122.29648&content=trails,labels,region,poi,directory,polygon,waypoint,nst,routes_featured"
+          target="_blank"
+          rel="noopener noreferrer">The Towers</ContentLink
+        >.
+      </p>
+      <p class="mb-5">
+        The event caps at {EVENT.capacity} riders and historically fills up fast, rain or shine. Demo
+        fleets from Norco and Propain are on-site. Vendors, food, and raffles round out the day. There's
+        even an organized youth ride for ages 3-12 and bike games for all levels.
+      </p>
+      <p class="">
+        The trail system is anchored by four standouts: <ContentLink
+          href="https://www.trailforks.com/trails/cold-creek/"
+          target="_blank"
+          rel="noopener noreferrer">Cold Creek</ContentLink
+        >, wild and rooty and rocky with the occasional burst of flow; <ContentLink
+          href="https://www.trailforks.com/trails/sixth-sense/"
+          target="_blank"
+          rel="noopener noreferrer">Sixth Sense</ContentLink
+        >, hand-crafted and flowy with the best berms in the forest; <ContentLink
+          href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
+          target="_blank"
+          rel="noopener noreferrer">Murphy's Grade</ContentLink
+        >, hand-built by Carson Storch with fast doubles and plenty of speed; and <ContentLink
+          href="https://www.trailforks.com/trails/thrillium/"
+          target="_blank"
+          rel="noopener noreferrer">Thrillium</ContentLink
+        >, the sender: big, fast, and full of gnarly tabletops.
+      </p>
+    </Content>
+    <Button
+      variant="amber"
+      href={regUrl('experience')}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-10"
+      ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
+    >
+
+    <!-- Cascadia Dirt Cup easter egg -->
+    <Collapsible class="mt-6 text-center">
+      <CollapsibleTrigger
+        class="group inline-flex items-center gap-2 text-sm font-bold italic text-stone-400 hover:text-stone-200 transition-colors duration-200"
+      >
+        Psst. Are you a Cascadia Dirt Cup racer?
+        <ChevronDown
+          size={14}
+          strokeWidth={2.5}
+          class="transition-transform duration-300 group-data-[panel-open]:rotate-180"
+        />
+      </CollapsibleTrigger>
+      <CollapsibleContent class="mt-4 max-w-lg mx-auto text-sm text-stone-400 leading-relaxed">
+        YBE takes place the week before the <a
+          href="https://www.racecascadia.com/yacolt2026?utm_source=yacoltburn.bike&utm_medium=referral&utm_campaign=ybe2026&utm_content=cdc-collapsible"
+          target="_blank"
+          rel="noopener"
+          class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors font-medium not-italic"
+          >Cascadia Dirt Cup race at Yacolt Burn</a
+        >. Skip the climbs a week early and enjoy the downs.
+      </CollapsibleContent>
+    </Collapsible>
+    <PhotoCredit
+      name="Tim Foster"
+      url="https://unsplash.com/@timberfoster"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── 3 · DETAILS ── -->
+  <Panel id="details" bgImage={IMG.details} mobileBgImage={MOBILE_IMG.details}>
+    <Eyebrow><time datetime={EVENT.isoStart}>{EVENT.date}</time></Eyebrow>
+    <HeadingRainbow>Event Details</HeadingRainbow>
+    <Rule />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-12 text-left">
+      <Card size="sm" class="bg-white/5 rounded ring-white/10">
+        <CardHeader>
+          <CardTitle
+            class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+          >
+            <CalendarDays size={12} strokeWidth={2.5} />
+            Date & Time
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-sm text-stone-100">
+          <time datetime={EVENT.isoStart}>{EVENT.dateDay}</time><br />{EVENT.startTime} – <time
+            datetime={EVENT.isoEnd}>{EVENT.endTime}</time
+          >
+        </CardContent>
+      </Card>
+      <Card size="sm" class="bg-white/5 rounded ring-white/10">
+        <CardHeader>
+          <CardTitle
+            class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+          >
+            <MapPin size={12} strokeWidth={2.5} />
+            Location
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-sm text-stone-100">
+          <a
+            href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+            class="underline underline-offset-2"
+            target="_blank"
+            rel="noopener noreferrer">Yacolt Burn Trailhead<br />Southwest Washington</a
+          ><br />
+          <small class="block text-stone-400 text-sm mt-1">Park on the west side of the road</small>
+        </CardContent>
+      </Card>
+      <Card size="sm" class="bg-white/5 rounded ring-white/10">
+        <CardHeader>
+          <CardTitle
+            class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+          >
+            <Package size={12} strokeWidth={2.5} />
+            What's Included
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-sm text-stone-100">
+          All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
+          <small class="block text-stone-400 text-sm mt-1">Youth ride ages 3-12</small>
+        </CardContent>
+      </Card>
+      <Card size="sm" class="bg-white/5 rounded ring-white/10">
+        <CardHeader>
+          <CardTitle
+            class="flex items-center gap-1.5 text-xs tracking-wide uppercase text-amber-700"
+          >
+            <Users size={12} strokeWidth={2.5} />
+            Capacity
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="text-sm text-stone-100">
+          {EVENT.capacity} riders max<br />
+          <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
+        </CardContent>
+      </Card>
+    </div>
+
+    <div class="details-arrow flex justify-center my-8 text-purple-400 animate-bounce">
+      <ArrowDown size={24} strokeWidth={2.5} />
+    </div>
+    <Pricing>
+      <PricingRow
+        slot="rows"
+        amount={EVENT.priceMember}
+        note="Online · pre-event"
+        class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-0"
+      >
+        Members <a
+          href="https://www.evergreenmtb.org/support-us/become-a-member"
+          target="_blank"
+          class="text-amber-700 no-underline italic text-sm">(join)</a
+        >
+      </PricingRow>
+      <PricingRow
+        slot="rows"
+        amount={EVENT.priceGuest}
+        note="Online · pre-event"
+        class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[150ms]"
+      >
+        Non-Members
+      </PricingRow>
+      <PricingRow
+        slot="rows"
+        amount={EVENT.priceDayOf}
+        note="All participants"
+        class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[300ms]"
+      >
+        Day-Of
+      </PricingRow>
+      <div slot="cta" class="mt-6 text-center">
+        <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
+          >Register by {EVENT.deadline}</Button
+        >
+      </div>
+    </Pricing>
+    <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
+  </Panel>
+
+  <!-- ── 4 · GALLERY ── -->
+  <Panel id="gallery" bgImage={IMG.gallery} mobileBgImage={MOBILE_IMG.gallery} scroll>
+    <Eyebrow>From the Trails</Eyebrow>
+    <HeadingRainbow>See You Out There</HeadingRainbow>
+    <Rule />
+
+    <Gallery photos={GALLERY_PHOTOS} />
+    <PhotoCredit
+      name="Sean Benesh"
+      url="https://unsplash.com/@seanbenesh"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── 5 · LEGEND ── -->
+  <Panel id="legend" bgImage={IMG.legend} mobileBgImage={MOBILE_IMG.legend}>
+    <Eyebrow>A Place With History</Eyebrow>
+    <HeadingRainbow>Born From Fire</HeadingRainbow>
+    <Rule />
+    <Lead>
+      The Klickitat word <em>Yacolt</em> means "haunted valley," a place of legend long before a single
+      trail was ever cut.
+    </Lead>
+    <Content>
+      <p class="mb-5">
+        On September 11, 1902, a firestorm swept through southwest Washington. Within 36 hours it
+        consumed 238,920 acres, killed 38 people, rained ash on Portland, and triggered street lamps
+        to switch on at noon in Seattle. The town of Yacolt nearly vanished before the wind
+        direction changed.
+      </p>
+      <p class="mb-5">
+        What followed was one of Washington's great rehabilitation stories: Civilian Conservation
+        Corps crews in the 1930s, decades of DNR replanting, and a generation of mountain bikers who
+        saw something in those old logging roads in the late 1990s and started riding them. The
+        Yacolt Burn Experience is the product of all of it.
+      </p>
+      <a
+        href="https://www.evergreenmtb.org/blog/yacolt-burn-experience-history"
+        target="_blank"
+        class="flex justify-center items-center gap-1.5 mt-8 text-amber-700 underline underline-offset-2 text-sm"
+      >
+        Read the history of YBE <SquareArrowOutUpRight size={13} strokeWidth={2.5} />
+      </a>
+    </Content>
+    <PhotoCredit
+      name="Sebastian Unrau"
+      url="https://unsplash.com/@sebastian_unrau"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── 5 · PULL QUOTE ── -->
+  <Panel id="trails" bgImage={IMG.quote} mobileBgImage={MOBILE_IMG.quote}>
+    <p
+      class="pullquote text-shadow-lg font-display text-4xl md:text-6xl leading-none text-stone-100 max-w-3xl mx-auto mb-6"
+    >
+      "The trails you love<br /><em class="text-amber-700 not-italic">are not free.</em>"
+    </p>
+    <Lead>
+      Every trail in the Yacolt Burn exists because regular people showed up on a Saturday with hand
+      tools and did the work. The Evergreen Mountain Bike Alliance is how that keeps happening.
+    </Lead>
+    <Button variant="logo" href="https://www.evergreenmtb.org" target="_blank">
+      <span class="text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
+        Join <ArrowRight size={13} strokeWidth={2.5} />
+        <img
+          src={cdn('/sponsors/evergreen-mtb.png', { w: '400' })}
+          width="553"
+          height="200"
+          alt="Evergreen Mountain Bike Alliance"
+          class="h-17 w-auto opacity-90"
+        />
+      </span>
+    </Button>
+    <PhotoCredit
+      name="Tim Foster"
+      url="https://unsplash.com/@timberfoster"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── 6 · FAQ ── -->
+  <Panel id="faq" bgImage={IMG.faq} mobileBgImage={MOBILE_IMG.faq}>
+    <Eyebrow>Questions</Eyebrow>
+    <HeadingRainbow>FAQ</HeadingRainbow>
+    <Rule />
+    <Faq>
+      <FaqItem question="What skill level do I need?">
+        The upper system accessed from Five Corners is intermediate to advanced terrain. The event
+        welcomes all riders though, including a dedicated youth ride for ages 3-12. Volunteers and
+        the community are there to help you find your line.
+      </FaqItem>
+      <FaqItem question="Does it fill up?">
+        It can. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock
+        in your spot and your best rate.
+      </FaqItem>
+      <FaqItem question="What if it rains?">
+        The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
+        Northwest. Pack a rain shell, bring layers, and embrace it.
+      </FaqItem>
+      <FaqItem question="Do I need to be an Evergreen member?">
+        Nope, everyone is welcome. Members save $25 on registration though, and your trails depend
+        on the Evergreen Mountain Bike Alliance. Basic membership is $50/year and pays for itself at
+        events like this. <a
+          href="https://www.evergreenmtb.org/support-us/become-a-member"
+          target="_blank"
+          rel="noopener"
+          class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors"
+          >Join now.</a
+        >
+      </FaqItem>
+      <FaqItem question="Can I try a demo bike?">
+        Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,
+        first-served on the day.
+      </FaqItem>
+      <FaqItem question="What trails are there to ride?">
+        Four standouts: <ContentLink
+          href="https://www.trailforks.com/trails/cold-creek/"
+          target="_blank"
+          rel="noopener noreferrer">Cold Creek</ContentLink
+        > is wild and rooty with occasional flow. <ContentLink
+          href="https://www.trailforks.com/trails/sixth-sense/"
+          target="_blank"
+          rel="noopener noreferrer">Sixth Sense</ContentLink
+        > is hand-crafted and flowy with the best berms in the forest. <ContentLink
+          href="https://www.trailforks.com/trails/murphy-s-grade-98596/"
+          target="_blank"
+          rel="noopener noreferrer">Murphy's Grade</ContentLink
+        > was hand-built by Carson Storch with fast doubles and plenty of speed. <ContentLink
+          href="https://www.trailforks.com/trails/thrillium/"
+          target="_blank"
+          rel="noopener noreferrer">Thrillium</ContentLink
+        > is the sender: big, fast, and full of gnarly tabletops.
+      </FaqItem>
+      <FaqItem question="Where do I park?">
+        <a
+          href="https://maps.app.goo.gl/fafFzUThcHkEMmTdA"
+          class="loc"
+          target="_blank"
+          rel="noopener noreferrer">Yacolt Burn Trailhead</a
+        >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
+      </FaqItem>
+      <FaqItem question="How do I volunteer? I have questions!">
+        We'd love to have you. Fill out the form below and we'll be in touch.
+        <form
+          name="volunteer"
+          data-netlify="true"
+          method="POST"
+          action="/thank-you"
+          class="mt-6 mb-4 flex flex-col gap-4 text-left"
+        >
+          <input type="hidden" name="form-name" value="volunteer" />
+          <label class="flex flex-col gap-1.5">
+            <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
+            <Input type="text" name="name" required />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
+            <Input type="email" name="email" required />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
+            <Textarea name="message" rows={3} />
+          </label>
+          <button
+            type="submit"
+            class="self-start inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
+          >
+            Send
+          </button>
+        </form>
+      </FaqItem>
+    </Faq>
+    <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
+  </Panel>
+
+  <!-- ── 7 · SPONSORS ── -->
+  <Panel id="sponsors" bgImage={IMG.sponsors} mobileBgImage={MOBILE_IMG.sponsors}>
+    <Eyebrow>Made Possible By</Eyebrow>
+    <HeadingRainbow>{EVENT.year} Sponsors</HeadingRainbow>
+    <Rule />
+    <Lead>
+      YBE exists because of this community of brands, shops, and people who show up every year to
+      make it happen.
+    </Lead>
+
+    <SponsorTier tier="gold" sponsors={SPONSORS.gold} campaign={`ybe${EVENT.year}`} />
+    <SponsorTier tier="silver" sponsors={SPONSORS.silver} campaign={`ybe${EVENT.year}`} />
+    <SponsorTier tier="bronze" sponsors={SPONSORS.bronze} campaign={`ybe${EVENT.year}`} />
+    <PhotoCredit
+      name="Lukasz Szmigiel"
+      url="https://unsplash.com/@szmigieldesign"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <!-- ── 8 · FINAL CTA ── -->
+  <Panel id="register" bgImage={IMG.cta} mobileBgImage={MOBILE_IMG.cta}>
+    <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
+    <HeadingRainbow size="xl">
+      Register.<br />Ride.<br />Repeat.
+    </HeadingRainbow>
+    <Rule />
+    <Lead>
+      One day. {EVENT.capacity} riders. The entire Yacolt Burn trail system, shuttled all day, for the
+      cost of a tank of gas. This is what community trail building looks like.
+    </Lead>
+    <div x-show="!$store.ybe.isPast">
+      <Button
+        variant="amber"
+        href={regUrl('cta')}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="px-14 py-4 text-base"
+        ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
+      >
+    </div>
+    <div x-show="$store.ybe.isPast" x-cloak>
+      <p class="text-stone-400 text-sm font-semibold tracking-widest uppercase">
+        Registration closed · See you next year
+      </p>
+    </div>
+    <PhotoCredit
+      name="Patrick Hendry"
+      url="https://unsplash.com/@worldsbetweenlines"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <footer class="bg-stone-950 pb-10">
+    <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
+    <div
+      class="footer__inner flex flex-col gap-10 max-w-4xl mx-auto px-8 md:flex-row md:justify-between md:items-end"
+    >
+      <div class="footer__left flex flex-col gap-2">
+        <div class="footer__title font-display text-xl tracking-[0.06em] gradient-rainbow-text">
+          {EVENT.name}
+        </div>
+        <p class="text-stone-400 text-sm">
+          Organized by the <a
+            href="https://www.evergreenmtb.org/chapters/southwest"
+            target="_blank"
+            class="underline">Evergreen MTB Alliance Southwest Chapter</a
+          >
+        </p>
+      </div>
+      <div class="footer__right flex flex-col gap-3">
+        <div
+          class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
+        >
+          See you on the trails.
+        </div>
+        <a
+          href="#hero"
+          class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
+          ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
+        >
+      </div>
+    </div>
+  </footer>
+</BaseLayout>
 
 <script>
   // Prevent the browser restoring scroll position on refresh, which combined

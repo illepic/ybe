@@ -1,5 +1,5 @@
 ---
-import '../styles/tailwind.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Panel from '../components/Panel.astro';
 import HeadingRainbow from '../components/HeadingRainbow.astro';
 import Rule from '../components/Rule.astro';
@@ -16,23 +16,13 @@ const bg = cdn('/photos/hanging-bike.jpg', { w: '1200', q: '70' });
 const mobileBg = cdn('/photos/hanging-bike.jpg', { w: '828', q: '70' });
 ---
 
-<!doctype html>
-<html lang="en" class="scroll-smooth dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thank you — {EVENT.name}</title>
-    <meta name="robots" content="noindex" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  </head>
-  <body class="antialiased bg-bg text-stone-100 font-body">
-    <Panel bgImage={bg} mobileBgImage={mobileBg}>
-      <HeadingRainbow size="xl" reveal={false}>Thank you</HeadingRainbow>
-      <Rule />
-      <Lead>Your message has been received. We'll be in touch soon.</Lead>
-      <Button variant="ghost" href="/">
-        <ArrowLeft slot="icon-left" size={15} strokeWidth={2} />Back to our site
-      </Button>
-    </Panel>
-  </body>
-</html>
+<BaseLayout title={`Thank you — ${EVENT.name}`} robots="noindex">
+  <Panel bgImage={bg} mobileBgImage={mobileBg}>
+    <HeadingRainbow size="xl" reveal={false}>Thank you</HeadingRainbow>
+    <Rule />
+    <Lead>Your message has been received. We'll be in touch soon.</Lead>
+    <Button variant="ghost" href="/">
+      <ArrowLeft slot="icon-left" size={15} strokeWidth={2} />Back to our site
+    </Button>
+  </Panel>
+</BaseLayout>
