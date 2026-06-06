@@ -47,6 +47,14 @@
     {
       "name": "card",
       "version": "2.0.2"
+    },
+    {
+      "name": "alert",
+      "version": "1.3.2"
+    },
+    {
+      "name": "dialog",
+      "version": "1.5.0"
     }
   ]
 }

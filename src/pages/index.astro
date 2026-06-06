@@ -23,9 +23,9 @@ import { cdn } from '../lib/utils/cdn';
 import Collapsible from '../components/starwind/collapsible/Collapsible.astro';
 import CollapsibleContent from '../components/starwind/collapsible/CollapsibleContent.astro';
 import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
-import Input from '../components/starwind/input/Input.astro';
-import Textarea from '../components/starwind/textarea/Textarea.astro';
 import Progress from '../components/starwind/progress/Progress.astro';
+import VolunteerDialog from '../components/VolunteerDialog.astro';
+import DialogTrigger from '../components/starwind/dialog/DialogTrigger.astro';
 import Card from '../components/starwind/card/Card.astro';
 import CardHeader from '../components/starwind/card/CardHeader.astro';
 import CardTitle from '../components/starwind/card/CardTitle.astro';
@@ -246,6 +246,14 @@ const SPONSORS = sponsorsEntry.data;
         ><ArrowDown slot="icon-right" size={15} strokeWidth={2} /></Button
       >
     </div>
+    <div class="mt-6 text-center">
+      <DialogTrigger
+        for="volunteer-dialog"
+        class="text-sm font-semibold tracking-widest uppercase text-stone-200 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:text-stone-100 hover:decoration-amber-500 cursor-pointer"
+      >
+        We need volunteers!
+      </DialogTrigger>
+    </div>
     <PhotoCredit
       label="Art by"
       name="Kathryn Jasperson"
@@ -412,7 +420,7 @@ const SPONSORS = sponsorsEntry.data;
           rel="noopener"
           class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors font-medium not-italic"
           >Cascadia Dirt Cup race at Yacolt Burn</a
-        >. Skip the climbs a week early and enjoy the downs.
+        >. Skip the climbs a week early and practice the descents.
       </CollapsibleContent>
     </Collapsible>
     <PhotoCredit
@@ -499,6 +507,13 @@ const SPONSORS = sponsorsEntry.data;
         <CardContent class="text-sm text-stone-100">
           {EVENT.capacity} riders max<br />
           <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
+          <small class="block text-sm mt-1"
+            ><DialogTrigger
+              for="volunteer-dialog"
+              class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors cursor-pointer"
+              >We need volunteers!</DialogTrigger
+            ></small
+          >
         </CardContent>
       </Card>
     </div>
@@ -692,34 +707,15 @@ const SPONSORS = sponsorsEntry.data;
         >. Park on the west side of the road. It fills early, so plan to arrive by 8:30 AM.
       </FaqItem>
       <FaqItem question="How do I volunteer? I have questions!">
-        We'd love to have you. Fill out the form below and we'll be in touch.
-        <form
-          name="volunteer"
-          data-netlify="true"
-          method="POST"
-          action="/thank-you"
-          class="mt-6 mb-4 flex flex-col gap-4 text-left"
-        >
-          <input type="hidden" name="form-name" value="volunteer" />
-          <label class="flex flex-col gap-1.5">
-            <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
-            <Input type="text" name="name" required />
-          </label>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
-            <Input type="email" name="email" required />
-          </label>
-          <label class="flex flex-col gap-1.5">
-            <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
-            <Textarea name="message" rows={3} />
-          </label>
-          <button
-            type="submit"
-            class="self-start inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
+        We'd love to have you. Tell us how you'd like to help and we'll be in touch.
+        <span class="mt-4 block">
+          <DialogTrigger
+            for="volunteer-dialog"
+            class="inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600 cursor-pointer"
           >
-            Send
-          </button>
-        </form>
+            Volunteer!
+          </DialogTrigger>
+        </span>
       </FaqItem>
     </Faq>
     <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
@@ -796,6 +792,12 @@ const SPONSORS = sponsorsEntry.data;
             class="underline">Evergreen MTB Alliance Southwest Chapter</a
           >
         </p>
+        <DialogTrigger
+          for="volunteer-dialog"
+          class="footer__volunteer mt-1 inline-flex w-fit items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 cursor-pointer"
+        >
+          <Flame size={13} strokeWidth={2.5} /> Volunteer
+        </DialogTrigger>
       </div>
       <div class="footer__right flex flex-col gap-3">
         <div
@@ -811,6 +813,9 @@ const SPONSORS = sponsorsEntry.data;
       </div>
     </div>
   </footer>
+
+  <!-- Single shared volunteer modal — opened by every DialogTrigger for="volunteer-dialog" -->
+  <VolunteerDialog />
 </BaseLayout>
 
 <script>

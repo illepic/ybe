@@ -1,0 +1,34 @@
+---
+// The single source of truth for the volunteer contact form. Rendered once
+// (inside VolunteerDialog) so Netlify detects exactly one `volunteer` form.
+import Input from './starwind/input/Input.astro';
+import Textarea from './starwind/textarea/Textarea.astro';
+---
+
+<form
+  name="volunteer"
+  data-netlify="true"
+  method="POST"
+  action="/thank-you"
+  class="mt-6 flex flex-col gap-4 text-left"
+>
+  <input type="hidden" name="form-name" value="volunteer" />
+  <label class="flex flex-col gap-1.5">
+    <span class="text-xs tracking-widest uppercase text-stone-400">Name</span>
+    <Input type="text" name="name" required />
+  </label>
+  <label class="flex flex-col gap-1.5">
+    <span class="text-xs tracking-widest uppercase text-stone-400">Email</span>
+    <Input type="email" name="email" required />
+  </label>
+  <label class="flex flex-col gap-1.5">
+    <span class="text-xs tracking-widest uppercase text-stone-400">Message</span>
+    <Textarea name="message" rows={3} />
+  </label>
+  <button
+    type="submit"
+    class="self-start inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
+  >
+    Send
+  </button>
+</form>

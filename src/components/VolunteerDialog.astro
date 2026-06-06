@@ -1,0 +1,27 @@
+---
+// Single shared volunteer modal. Rendered once on the page; opened from any
+// number of external <DialogTrigger for="volunteer-dialog"> buttons (the
+// native top-layer <dialog> overlays everything regardless of DOM position).
+import Dialog from './starwind/dialog/Dialog.astro';
+import DialogContent from './starwind/dialog/DialogContent.astro';
+import DialogHeader from './starwind/dialog/DialogHeader.astro';
+import DialogTitle from './starwind/dialog/DialogTitle.astro';
+import DialogDescription from './starwind/dialog/DialogDescription.astro';
+import VolunteerForm from './VolunteerForm.astro';
+---
+
+<Dialog id="volunteer-dialog">
+  <DialogContent class="border-white/10 bg-stone-950 text-stone-100">
+    <DialogHeader>
+      <DialogTitle class="font-display text-3xl tracking-[0.04em] text-stone-100"
+        >Volunteer at the event</DialogTitle
+      >
+      <DialogDescription class="text-stone-400">
+        Want to help make the Yacolt Burn Experience happen? We need volunteers on event day:
+        driving shuttles, checking riders in, and keeping the day rolling. Tell us how you'd like to
+        pitch in and we'll be in touch.
+      </DialogDescription>
+    </DialogHeader>
+    <VolunteerForm />
+  </DialogContent>
+</Dialog>
