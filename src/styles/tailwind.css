@@ -11,6 +11,13 @@
   display: none !important;
 }
 
+/* Bold emphasis sits a touch brighter than the stone-100 body copy */
+@layer base {
+  strong {
+    color: var(--color-white);
+  }
+}
+
 /* Responsive panel backgrounds — mobile URL via --bg-mobile, desktop via --bg-desktop */
 @layer components {
   /* Urgency progress bar — RAF-driven by seatsLeft, no CSS transition */
