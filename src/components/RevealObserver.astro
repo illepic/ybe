@@ -1,0 +1,22 @@
+---
+// Adds .in-view to .reveal / .scroll-animate / .rule-animate elements as they
+// enter the viewport. Shared by the home page and standalone pages so their
+// reveal + rule animations work. Runs once per page.
+---
+
+<script>
+  const reveal = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        target.classList.add('in-view');
+        reveal.unobserve(target);
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -15% 0px' }
+  );
+
+  document
+    .querySelectorAll('.reveal, .scroll-animate, .rule-animate')
+    .forEach((el) => reveal.observe(el));
+</script>

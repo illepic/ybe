@@ -5,9 +5,10 @@ interface Props {
   reg: string;
   dateShort: string;
   datetime: string;
+  home?: string; // logo link target — '#hero' on the home page, '/' on subpages
 }
 
-const { reg, dateShort, datetime } = Astro.props;
+const { reg, dateShort, datetime, home = '#hero' } = Astro.props;
 
 const IS_DEV = import.meta.env.DEV;
 const logoSrc = IS_DEV
@@ -31,7 +32,7 @@ const logoSrcset = IS_DEV
          md:px-8 md:py-3
          transition duration-300 ease-linear"
 >
-  <a href="#hero">
+  <a href={home}>
     <img
       src={logoSrc}
       srcset={logoSrcset}

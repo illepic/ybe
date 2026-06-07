@@ -24,8 +24,8 @@ import Collapsible from '../components/starwind/collapsible/Collapsible.astro';
 import CollapsibleContent from '../components/starwind/collapsible/CollapsibleContent.astro';
 import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTrigger.astro';
 import Progress from '../components/starwind/progress/Progress.astro';
-import VolunteerDialog from '../components/VolunteerDialog.astro';
-import DialogTrigger from '../components/starwind/dialog/DialogTrigger.astro';
+import Footer from '../components/Footer.astro';
+import RevealObserver from '../components/RevealObserver.astro';
 import Card from '../components/starwind/card/Card.astro';
 import CardHeader from '../components/starwind/card/CardHeader.astro';
 import CardTitle from '../components/starwind/card/CardTitle.astro';
@@ -33,7 +33,6 @@ import CardContent from '../components/starwind/card/CardContent.astro';
 import {
   ArrowDown,
   ArrowRight,
-  ArrowUp,
   ArrowUpRight,
   Bike,
   CalendarDays,
@@ -247,12 +246,12 @@ const SPONSORS = sponsorsEntry.data;
       >
     </div>
     <div class="mt-6 text-center">
-      <DialogTrigger
-        for="volunteer-dialog"
-        class="text-sm font-semibold tracking-widest uppercase text-stone-200 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:text-stone-100 hover:decoration-amber-500 cursor-pointer"
+      <a
+        href="/volunteer"
+        class="text-sm font-semibold tracking-widest uppercase text-stone-200 underline decoration-amber-700 underline-offset-4 transition-colors duration-200 hover:text-stone-100 hover:decoration-amber-500"
       >
         We need volunteers!
-      </DialogTrigger>
+      </a>
     </div>
     <PhotoCredit
       label="Art by"
@@ -508,10 +507,10 @@ const SPONSORS = sponsorsEntry.data;
           {EVENT.capacity} riders max<br />
           <small class="block text-stone-400 text-sm mt-1">Fills up fast. Register early.</small>
           <small class="block text-sm mt-1"
-            ><DialogTrigger
-              for="volunteer-dialog"
-              class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors cursor-pointer"
-              >We need volunteers!</DialogTrigger
+            ><a
+              href="/volunteer"
+              class="text-amber-600 underline underline-offset-2 hover:text-amber-500 transition-colors"
+              >We need volunteers!</a
             ></small
           >
         </CardContent>
@@ -709,12 +708,12 @@ const SPONSORS = sponsorsEntry.data;
       <FaqItem question="How do I volunteer? I have questions!">
         We'd love to have you. Tell us how you'd like to help and we'll be in touch.
         <span class="mt-4 block">
-          <DialogTrigger
-            for="volunteer-dialog"
-            class="inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600 cursor-pointer"
+          <a
+            href="/volunteer"
+            class="inline-flex items-center rounded-sm bg-amber-700 px-6 py-2.5 text-sm font-semibold tracking-widest uppercase text-stone-100 transition-colors hover:bg-amber-600"
           >
             Volunteer!
-          </DialogTrigger>
+          </a>
         </span>
       </FaqItem>
     </Faq>
@@ -776,46 +775,9 @@ const SPONSORS = sponsorsEntry.data;
     />
   </Panel>
 
-  <footer class="bg-stone-950 pb-10">
-    <span class="footer__rule block w-full h-0.5 gradient-rainbow-rule mb-8"></span>
-    <div
-      class="footer__inner flex flex-col gap-10 max-w-4xl mx-auto px-8 md:flex-row md:justify-between md:items-end"
-    >
-      <div class="footer__left flex flex-col gap-2">
-        <div class="footer__title font-display text-xl tracking-[0.06em] gradient-rainbow-text">
-          {EVENT.name}
-        </div>
-        <p class="text-stone-400 text-sm">
-          Organized by the <a
-            href="https://www.evergreenmtb.org/chapters/southwest"
-            target="_blank"
-            class="underline">Evergreen MTB Alliance Southwest Chapter</a
-          >
-        </p>
-        <DialogTrigger
-          for="volunteer-dialog"
-          class="footer__volunteer mt-1 inline-flex w-fit items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 cursor-pointer"
-        >
-          <Flame size={13} strokeWidth={2.5} /> Volunteer
-        </DialogTrigger>
-      </div>
-      <div class="footer__right flex flex-col gap-3">
-        <div
-          class="footer__tagline font-display text-2xl tracking-[0.04em] text-stone-100/40 text-left md:text-right"
-        >
-          See you on the trails.
-        </div>
-        <a
-          href="#hero"
-          class="footer__top flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-stone-400 transition-colors duration-200 hover:text-amber-700 text-left md:justify-end md:text-right"
-          ><ArrowUp size={13} strokeWidth={2.5} /> Back to top</a
-        >
-      </div>
-    </div>
-  </footer>
+  <Footer eventName={EVENT.name} />
 
-  <!-- Single shared volunteer modal — opened by every DialogTrigger for="volunteer-dialog" -->
-  <VolunteerDialog />
+  <RevealObserver />
 </BaseLayout>
 
 <script>
@@ -837,21 +799,6 @@ const SPONSORS = sponsorsEntry.data;
 
   registerHashClear();
   window.addEventListener('hashchange', registerHashClear);
-
-  const reveal = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) return;
-        target.classList.add('in-view');
-        reveal.unobserve(target);
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -15% 0px' }
-  );
-
-  document
-    .querySelectorAll('.reveal, .scroll-animate, .rule-animate')
-    .forEach((el) => reveal.observe(el));
 
   // Lazy-load below-the-fold panel backgrounds ~one viewport before they enter view
   const lazyBg = new IntersectionObserver(

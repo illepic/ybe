@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Panel from '../components/Panel.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import HeadingRainbow from '../components/HeadingRainbow.astro';
+import Rule from '../components/Rule.astro';
+import Lead from '../components/Lead.astro';
+import VolunteerForm from '../components/VolunteerForm.astro';
+import PhotoCredit from '../components/PhotoCredit.astro';
+import Footer from '../components/Footer.astro';
+import RevealObserver from '../components/RevealObserver.astro';
+import { getEntry } from 'astro:content';
+import { cdn } from '../lib/utils/cdn';
+
+const eventEntry = await getEntry('event', 'current');
+if (!eventEntry) throw new Error('Missing content: event');
+const EVENT = eventEntry.data;
+const REG = EVENT.reg;
+
+const regUrl = (content: string) => {
+  const url = new URL(REG);
+  url.searchParams.set('utm_source', 'yacoltburn.bike');
+  url.searchParams.set('utm_medium', 'website');
+  url.searchParams.set('utm_campaign', `ybe${EVENT.year}`);
+  url.searchParams.set('utm_content', content);
+  return url.toString();
+};
+
+const DESCRIPTION = `Volunteer at the ${EVENT.name}: driving shuttles, rider check-in, and keeping event day rolling.`;
+
+const bg = cdn('/photos/trail-building.jpg', { w: '1920', q: '70' });
+const mobileBg = cdn('/photos/trail-building.jpg', { w: '828', q: '70' });
+---
+
+<BaseLayout title={`Volunteer — ${EVENT.name}`} description={DESCRIPTION}>
+  <Nav
+    reg={regUrl('volunteer-nav')}
+    dateShort={EVENT.dateShort}
+    datetime={EVENT.isoStart}
+    home="/"
+  />
+
+  <Panel id="volunteer" bgImage={bg} mobileBgImage={mobileBg} priority>
+    <Eyebrow>Get Involved</Eyebrow>
+    <HeadingRainbow as="h1" reveal={false}>Volunteer</HeadingRainbow>
+    <Rule />
+    <Lead>
+      Want to help make the {EVENT.name} happen? We need volunteers on event day: driving shuttles, checking
+      riders in, and keeping the day rolling. Tell us how you'd like to pitch in and we'll be in
+      touch. Or just hit us with questions.
+    </Lead>
+    <div class="mx-auto w-full max-w-md text-left">
+      <VolunteerForm />
+    </div>
+    <PhotoCredit
+      name="Tim Foster"
+      url="https://unsplash.com/@timberfoster"
+      source="Unsplash"
+      slot="credit"
+    />
+  </Panel>
+
+  <Footer eventName={EVENT.name} topHref="#volunteer" showVolunteer={false} />
+
+  <RevealObserver />
+</BaseLayout>
