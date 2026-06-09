@@ -26,6 +26,9 @@ import CollapsibleTrigger from '../components/starwind/collapsible/CollapsibleTr
 import Progress from '../components/starwind/progress/Progress.astro';
 import Footer from '../components/Footer.astro';
 import RevealObserver from '../components/RevealObserver.astro';
+import GettingThereMap from '../components/GettingThereMap.astro';
+import Alert from '../components/starwind/alert/Alert.astro';
+import AlertTitle from '../components/starwind/alert/AlertTitle.astro';
 import Card from '../components/starwind/card/Card.astro';
 import CardHeader from '../components/starwind/card/CardHeader.astro';
 import CardTitle from '../components/starwind/card/CardTitle.astro';
@@ -47,6 +50,7 @@ import {
   Plus,
   Tag,
   Ticket,
+  TriangleAlert,
   Users,
   X,
   SquareArrowOutUpRight,
@@ -89,6 +93,7 @@ const IMG = {
   faq: cdn('/photos/hanging-bike.jpg', { w: '1200', q: '70' }),
   sponsors: cdn('/photos/forest-path.jpg', { w: '1920', q: '70' }),
   cta: cdn('/photos/mtb-sunset.jpg', { w: '1920', q: '70' }),
+  gettingThere: cdn('/photos/forest-light.jpg', { w: '1920', q: '70' }),
 };
 
 const MOBILE_IMG = {
@@ -100,6 +105,7 @@ const MOBILE_IMG = {
   faq: cdn('/photos/hanging-bike.jpg', { w: '828', q: '70' }),
   sponsors: cdn('/photos/forest-path.jpg', { w: '828', q: '70' }),
   cta: cdn('/photos/mtb-sunset.jpg', { w: '828', q: '70' }),
+  gettingThere: cdn('/photos/forest-light.jpg', { w: '828', q: '70' }),
 };
 
 const JSON_LD = JSON.stringify({
@@ -126,8 +132,8 @@ const JSON_LD = JSON.stringify({
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 45.7309,
-      longitude: -122.303,
+      latitude: 45.751958,
+      longitude: -122.327047,
     },
   },
   organizer: {
@@ -555,6 +561,29 @@ const SPONSORS = sponsorsEntry.data;
       </div>
     </Pricing>
     <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
+  </Panel>
+
+  <!-- ── 4.5 · HOW TO GET THERE ── -->
+  <Panel
+    id="getting-there"
+    bgImage={IMG.gettingThere}
+    mobileBgImage={MOBILE_IMG.gettingThere}
+    class="overflow-hidden"
+  >
+    <Eyebrow>Plan Your Route</Eyebrow>
+    <HeadingRainbow>How to get there</HeadingRainbow>
+    <Rule />
+    <Lead>
+      Getting to the Yacolt Burn trailhead takes a little planning. Use the map below to find your
+      way in and the shuttle drop-offs.
+    </Lead>
+    <Alert variant="error" class="max-w-xl mx-auto text-left">
+      <AlertTitle>
+        <TriangleAlert size={20} strokeWidth={2.5} />
+        NE Rawson Rd is closed temporarily
+      </AlertTitle>
+    </Alert>
+    <GettingThereMap fullBleed class="mt-8" />
   </Panel>
 
   <!-- ── 5 · GALLERY ── -->

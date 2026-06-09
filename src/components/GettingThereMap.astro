@@ -1,0 +1,96 @@
+---
+// Standalone Leaflet map (vanilla, no framework). Leaflet's JS + CSS are
+// dynamically imported only when the map scrolls near the viewport, so they
+// stay out of the initial page load. GeoJSON annotations come later — for now
+// it places the Yacolt Burn trailhead in the upper-right, leaving the
+// lower-left open for the approach roads.
+interface Props {
+  lat?: number;
+  lng?: number;
+  zoom?: number;
+  fullBleed?: boolean;
+  class?: string;
+}
+
+const {
+  lat = 45.751958,
+  lng = -122.327047,
+  zoom = 13,
+  fullBleed = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'getting-there-map overflow-hidden bg-stone-200 shadow-lg',
+    fullBleed
+      ? 'w-screen ml-[calc(50%-50vw)] aspect-[4/3] md:aspect-auto md:h-[38rem]'
+      : 'w-full aspect-[4/3] md:aspect-auto md:h-[38rem] rounded-lg ring-1 ring-white/15',
+    className,
+  ]}
+  data-lat={lat}
+  data-lng={lng}
+  data-zoom={zoom}
+  role="img"
+  aria-label="Map of the Yacolt Burn trailhead and approach"
+>
+</div>
+
+<script>
+  const init = async (el: HTMLElement) => {
+    // Lazy-load Leaflet + its stylesheet alongside the map itself.
+    await import('leaflet/dist/leaflet.css');
+    const { default: L } = await import('leaflet');
+
+    const lat = Number(el.dataset.lat);
+    const lng = Number(el.dataset.lng);
+    const zoom = Number(el.dataset.zoom);
+
+    // scrollWheelZoom off so the map doesn't hijack page scrolling
+    const map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], zoom);
+
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: 'Tiles &copy; <a href="https://www.esri.com">Esri</a>',
+        maxZoom: 19,
+      }
+    ).addTo(map);
+
+    // SVG circle marker — no image asset, so no Leaflet default-icon path issues
+    L.circleMarker([lat, lng], {
+      radius: 8,
+      weight: 3,
+      color: '#b45309',
+      fillColor: '#f59e0b',
+      fillOpacity: 0.9,
+    })
+      .addTo(map)
+      .bindPopup('Yacolt Burn Trailhead');
+
+    // Frame from the eastern edge of Vancouver (SW → lower-left) to the
+    // trailhead (NE → upper-right) so both stay in view at any container size.
+    const eastVancouver = L.latLng(45.61, -122.67);
+    const frame = () => {
+      map.invalidateSize();
+      map.fitBounds(L.latLngBounds(eastVancouver, L.latLng(lat, lng)), { padding: [12, 12] });
+    };
+    requestAnimationFrame(frame);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        init(entry.target as HTMLElement);
+      });
+    },
+    { rootMargin: '200px 0px' }
+  );
+
+  document
+    .querySelectorAll<HTMLElement>('.getting-there-map')
+    .forEach((el) => observer.observe(el));
+</script>
