@@ -96,6 +96,27 @@ export default (Alpine) => {
     };
   });
 
+  // "How to get there" route picker — holds the selected origin and tells the
+  // (vanilla Leaflet) map to draw + zoom to that route via a custom event.
+  Alpine.data('gettingThere', () => ({
+    selected: null,
+    select(id) {
+      // Clicking the active origin again toggles it off, back to the default view.
+      if (this.selected === id) {
+        this.selected = null;
+        window.dispatchEvent(new CustomEvent('route:clear'));
+        return;
+      }
+      this.selected = id;
+      window.dispatchEvent(new CustomEvent('route:show', { detail: { id } }));
+    },
+    // Deselect any origin and frame the whole Yacolt Burn trail network.
+    showTrails() {
+      this.selected = null;
+      window.dispatchEvent(new CustomEvent('trails:show'));
+    },
+  }));
+
   // Countdown to event
   Alpine.data('countdown', (targetDate) => {
     const target = new Date(targetDate);
