@@ -52,10 +52,28 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
         text: 'Turn left onto SW Alder St',
       },
       {
+        at: [-122.6742, 45.51866],
+        modifier: 'slight left',
+        road: 'Morrison Bridge',
+        text: 'Take the Morrison Bridge across the Willamette',
+      },
+      {
+        at: [-122.66552, 45.52155],
+        modifier: 'straight',
+        road: 'I-5',
+        text: 'Merge onto I-5 North',
+      },
+      {
+        at: [-122.66169, 45.64464],
+        modifier: 'slight right',
+        road: 'WA-500',
+        text: 'Take the WA-500 exit east toward Orchards',
+      },
+      {
         at: [-122.55251, 45.6668],
         modifier: 'right',
         road: 'NE Fourth Plain Blvd',
-        text: 'Turn right onto NE Fourth Plain Blvd',
+        text: 'Turn right onto NE Fourth Plain Blvd (WA-500)',
       },
       {
         at: [-122.48876, 45.67184],
@@ -90,10 +108,28 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     line: vancouverLine as unknown as RouteLine,
     directions: [
       {
+        at: [-122.6726, 45.63183],
+        modifier: 'straight',
+        road: 'W Mill Plain Blvd',
+        text: 'Start on W Mill Plain Blvd toward I-5',
+      },
+      {
+        at: [-122.66257, 45.63526],
+        modifier: 'straight',
+        road: 'I-5',
+        text: 'Merge onto I-5 North',
+      },
+      {
+        at: [-122.66169, 45.64464],
+        modifier: 'slight right',
+        road: 'WA-500',
+        text: 'Take the WA-500 exit east toward Orchards',
+      },
+      {
         at: [-122.55251, 45.6668],
         modifier: 'right',
         road: 'NE Fourth Plain Blvd',
-        text: 'Turn right onto NE Fourth Plain Blvd',
+        text: 'Turn right onto NE Fourth Plain Blvd (WA-500)',
       },
       {
         at: [-122.48876, 45.67184],

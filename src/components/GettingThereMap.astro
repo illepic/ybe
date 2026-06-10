@@ -88,6 +88,9 @@ const { lat = 45.751958, lng = -122.327047, zoom = 13, class: className = '' } =
     // Always-on Yacolt Burn trail/road network + key parking POIs, each in its
     // Trailforks difficulty color. Drawn beneath the avoid line + origin routes.
     const trailsLayer = L.geoJSON(TRAILS as never, {
+      // Canvas renderer with hit tolerance — gives a few px of grace so hover
+      // triggers near a line, not only pixel-perfect on it.
+      renderer: L.canvas({ tolerance: 10 }),
       style: (f) => {
         const p = (f as { properties: { category: string; color: string } }).properties;
         const road = p.category === 'road';
