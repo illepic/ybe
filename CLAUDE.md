@@ -38,14 +38,23 @@ src/
     Eyebrow.astro            — small all-caps label above headings
     Faq.astro / FaqItem.astro — accordion FAQ (x-collapse)
     Gallery.astro            — photo grid + modal (Alpine photoGallery)
+    GettingThereMap.astro    — vanilla Leaflet map (lazy); trails/roads/POIs + routes
     HeadingRainbow.astro     — gradient display heading (xl/lg sizes)
     Lead.astro               — large intro paragraph
     Nav.astro                — fixed nav; hides when gallery modal opens
     Panel.astro              — full-screen section with bg image + overlay + anchor-copy btn
     PhotoCredit.astro        — photo attribution cite
     Pricing.astro / PricingRow.astro — registration pricing table
+    RouteButton.astro        — "How to get there" origin button (Alpine gettingThere)
     Rule.astro               — decorative purple rule
     SponsorTier.astro        — gold/silver/bronze sponsor logo grid
+  data/
+    gettingThereRoutes.ts    — origin route + RAWSON_AVOID definitions (OSRM geometry)
+    trailforks.json          — raw Trailforks region dump (committed, prettier-ignored)
+    trails.json              — curated map GeoJSON (generated; `npm run gen:trails`)
+    routes/*.json            — per-origin OSRM driving geometry + rawson-avoid.json
+    gallery.ts               — GALLERY_PHOTOS (shared by build + Alpine)
+    scripts/                 — extract-map.mjs (gen trails.json) + decode-trailforks.mjs
 public/
   photos/                    — section backgrounds + gallery images (2400px originals)
   sponsors/                  — sponsor logos (SVG preferred; PNG/WebP acceptable)
@@ -358,6 +367,54 @@ The `DateLocation` component uses a `geo:` URI for the location link:
 - Opens native maps app on iOS/Android
 - No `target="_blank"` or `rel` — `geo:` hands off to the OS, not a browser tab
 - Coordinates match the JSON-LD `GeoCoordinates` block
+
+---
+
+## The "How to get there" Map
+
+A full-bleed interactive Leaflet map (`GettingThereMap.astro`, vanilla — no framework) renders three kinds of lines/markers: **trails & roads**, **origin driving routes**, and a **red "avoid" line** on NE Rawson Rd. Here's how each gets onto the map.
+
+### Trails, roads & POIs (Trailforks → GeoJSON)
+
+The source of truth is **`src/data/trailforks.json`** — a raw dump from the Trailforks region API (markers, trails, polygons, featured routes). It is committed and **prettier-ignored** (vendor data, kept minified). Its line geometry is **Google-encoded polylines** in an `encodedpath` field, *not* standard GeoJSON coordinates.
+
+A build script curates that dump into the map-ready **`src/data/trails.json`**:
+
+```
+src/data/scripts/extract-map.mjs   — trailforks.json → trails.json (curated subset)
+src/data/scripts/decode-trailforks.mjs — dumps ALL trails (for scouting names)
+```
+
+`extract-map.mjs` holds three name lists — `TRAILS`, `ROADS`, `POIS` (and a `SHUTTLE` set). It:
+- keeps only features whose `name` is in a list (exact match), filtering trails/roads to `primary === 1` (skips moto/duplicate variants),
+- decodes each `encodedpath` → real `[lng, lat]` coordinates (5 dp) and **drops** the encoded string,
+- tags each with `category` (`trail` | `road` | `poi`) and marks shuttle-destination POIs with `shuttle: true`.
+
+**To add or remove a trail / road / POI:**
+1. Find its exact `name` in `trailforks.json` (or run `decode-trailforks.mjs` to list them all).
+2. Add/remove it in the `TRAILS`, `ROADS`, `POIS` (or `SHUTTLE`) list in `extract-map.mjs`.
+3. Run **`npm run gen:trails`** — regenerates `src/data/trails.json` (warns on any name that didn't match).
+
+`GettingThereMap.astro` draws `trails.json` as an always-on layer: trail lines in their Trailforks difficulty `color`, roads dashed purple, POIs as amber bordered dots — except `shuttle` POIs, which get a truck `divIcon`. The callout/badge styles (`.gt-callout`, `.gt-callout--avoid`, `.gt-poi-truck`) are **unlayered** in `tailwind.css` so they beat Leaflet's own unlayered CSS.
+
+### Origin driving routes (OSRM)
+
+Each "from {city}" route is real driving geometry from the public OSRM API, stored per-origin in **`src/data/routes/*.json`** and wired up in **`src/data/gettingThereRoutes.ts`** (with hand-curated turn-by-turn `directions`).
+
+To add/replace a route, query OSRM with full geometry + steps:
+```
+https://router.project-osrm.org/route/v1/driving/{lng},{lat};{destLng},{destLat}?overview=full&steps=true&geometries=geojson
+```
+Save the LineString geometry (round coords to 5 dp), then add an entry to `GETTING_THERE_ROUTES`. **Routes must not use NE Rawson Rd** — Vancouver & Portland are forced via a southern via-waypoint (`{lng},{lat};VIA;{lng},{lat}`) so they take the Reilly/Livingston → L-1000 approach.
+
+### The Rawson avoid line + mobile
+
+- `src/data/routes/rawson-avoid.json` is the red dashed `RAWSON_AVOID` line, always shown as a closure warning.
+- On **mobile the whole map is skipped** (`hidden md:block`) — a "Get driving directions" Google Maps deep link (`DIRECTIONS_URL` in `index.astro`) is shown instead. The link omits `origin` (uses the device location) and forces the Livingston→L-1000 waypoint `45.67882,-122.36161` so it always takes the southern approach (the Maps URL API can't "avoid road X", so a forcing waypoint is the trick).
+
+### Lazy loading
+
+Nothing map-related ships on initial load. Leaflet's JS, its CSS (injected at runtime via a `?url` `<link>`, since a bundler CSS import would be hoisted into the eager `<head>`), and **all** GeoJSON load only via dynamic `import()` inside `init()`, gated by an IntersectionObserver (`rootMargin: 200px`). On mobile the map element is `display:none`, so the observer never fires and zero map code loads.
 
 ---
 

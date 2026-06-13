@@ -1,0 +1,284 @@
+---
+// Standalone Leaflet map (vanilla, no framework). Leaflet's JS + CSS are
+// dynamically imported only when the map scrolls near the viewport, so they
+// stay out of the initial page load. GeoJSON annotations come later — for now
+// it places the Yacolt Burn trailhead in the upper-right, leaving the
+// lower-left open for the approach roads.
+interface Props {
+  lat?: number;
+  lng?: number;
+  zoom?: number;
+  class?: string;
+}
+
+const { lat = 45.751958, lng = -122.327047, zoom = 13, class: className = '' } = Astro.props;
+---
+
+<!-- Sized by its container (e.g. absolute inset-0). `isolate` keeps Leaflet's
+     control z-indexes from competing with overlays/nav outside the map. -->
+<div
+  class:list={['getting-there-map isolate h-full w-full overflow-hidden bg-stone-200', className]}
+  data-lat={lat}
+  data-lng={lng}
+  data-zoom={zoom}
+  role="img"
+  aria-label="Map of the Yacolt Burn trailhead and approach"
+>
+</div>
+
+<script>
+  interface MapApi {
+    showRoute: (id: string) => void;
+    clearRoute: () => void;
+    showTrails: () => void;
+  }
+
+  // Rotation (deg) for the arrow icon, by OSRM maneuver modifier.
+  const TURN_ANGLE: Record<string, number> = {
+    left: -90,
+    'slight left': -45,
+    'sharp left': -135,
+    right: 90,
+    'slight right': 45,
+    'sharp right': 135,
+    straight: 0,
+    uturn: 180,
+  };
+  // lucide arrow-up; rotated per turn to point the way.
+  const ARROW =
+    '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  // lucide truck — marks shuttle drop-off destinations.
+  const TRUCK =
+    '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>';
+
+  const init = async (el: HTMLElement): Promise<MapApi> => {
+    // Lazy-load Leaflet + its stylesheet AND all geometry data alongside the map
+    // itself — none of it ships until the section scrolls near the viewport.
+    // The stylesheet is injected as a runtime <link> (via ?url) rather than a
+    // bundler CSS import, which Vite would otherwise hoist into the eager <head>.
+    const { default: leafletCssUrl } = await import('leaflet/dist/leaflet.css?url');
+    if (!document.querySelector('link[data-leaflet]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = leafletCssUrl;
+      link.dataset.leaflet = '';
+      document.head.appendChild(link);
+    }
+    const { default: L } = await import('leaflet');
+    const { GETTING_THERE_ROUTES, RAWSON_AVOID } = await import('../data/gettingThereRoutes');
+    const { default: TRAILS } = await import('../data/trails.json');
+
+    const lat = Number(el.dataset.lat);
+    const lng = Number(el.dataset.lng);
+    const zoom = Number(el.dataset.zoom);
+
+    // scrollWheelZoom off so the map doesn't hijack page scrolling.
+    // Zoom control bottom-left so the top overlay (heading/alert) never covers it.
+    const map = L.map(el, { scrollWheelZoom: false, zoomControl: false }).setView([lat, lng], zoom);
+    L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        attribution: 'Tiles &copy; <a href="https://www.esri.com">Esri</a>',
+        maxZoom: 19,
+      }
+    ).addTo(map);
+
+    // Always-on Yacolt Burn trail/road network + key parking POIs, each in its
+    // Trailforks difficulty color. Drawn beneath the avoid line + origin routes.
+    const trailsLayer = L.geoJSON(TRAILS as never, {
+      // Canvas renderer with hit tolerance — gives a few px of grace so hover
+      // triggers near a line, not only pixel-perfect on it.
+      renderer: L.canvas({ tolerance: 10 }),
+      style: (f) => {
+        const p = (f as { properties: { category: string; color: string } }).properties;
+        const road = p.category === 'road';
+        return {
+          color: p.color,
+          weight: road ? 2 : 3,
+          opacity: 0.85,
+          dashArray: road ? '4 5' : undefined,
+          lineCap: 'round',
+          lineJoin: 'round',
+        };
+      },
+      // Shuttle destinations get a truck badge; other POIs a bordered amber dot
+      // (white disc + dark edge) so they read over trail lines and topo alike.
+      pointToLayer: (f, latlng) => {
+        const shuttle = (f as { properties: { shuttle?: boolean } }).properties.shuttle;
+        if (shuttle) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: '',
+              html: `<div class="gt-poi-truck">${TRUCK}</div>`,
+              iconSize: [26, 26],
+              iconAnchor: [13, 13],
+              tooltipAnchor: [0, -13],
+            }),
+          });
+        }
+        return L.featureGroup([
+          L.circleMarker(latlng, {
+            radius: 8,
+            weight: 1.5,
+            color: '#0f172a',
+            fillColor: '#ffffff',
+            fillOpacity: 1,
+          }),
+          L.circleMarker(latlng, {
+            radius: 4.5,
+            stroke: false,
+            fillColor: '#f59e0b',
+            fillOpacity: 1,
+          }),
+        ]);
+      },
+      onEachFeature: (f, layer) => {
+        const name = (f as { properties: { name: string } }).properties.name;
+        layer.bindTooltip(name, { direction: 'top', className: 'gt-callout', opacity: 1 });
+      },
+    }).addTo(map);
+
+    // Big red "avoid" line on NE Rawson Rd (its start → the start of L-1400),
+    // always shown to reinforce the closure warning.
+    L.geoJSON(RAWSON_AVOID as never, {
+      style: { color: '#dc2626', weight: 6, opacity: 0.9, dashArray: '6 10', lineCap: 'round' },
+    })
+      .addTo(map)
+      .bindTooltip('Avoid NE Rawson Rd', {
+        permanent: true,
+        direction: 'top',
+        className: 'gt-callout gt-callout--avoid',
+        opacity: 1,
+      });
+
+    // Default frame: eastern edge of Vancouver (SW) to the trailhead (NE).
+    // Reserve nav-height of top padding so the trailhead clears the fixed nav.
+    const resetView = () => {
+      map.fitBounds(L.latLngBounds(L.latLng(45.61, -122.67), L.latLng(lat, lng)), {
+        paddingTopLeft: [12, 116],
+        paddingBottomRight: [12, 12],
+      });
+    };
+    map.invalidateSize();
+    resetView();
+
+    // Fit some bounds offset to the right, so the left-hand content panel stays
+    // visible (big left padding on desktop; top padding on mobile).
+    const fitOffset = (bounds: ReturnType<typeof map.getBounds>, maxZoom = 14) => {
+      const size = map.getSize();
+      const wide = window.matchMedia('(min-width: 768px)').matches;
+      map.fitBounds(bounds, {
+        paddingTopLeft: [
+          wide ? Math.round(size.x * 0.5) : 24,
+          wide ? 116 : Math.round(size.y * 0.45),
+        ],
+        paddingBottomRight: [40, 40],
+        maxZoom,
+      });
+    };
+
+    // Draw a route line and zoom to it, offset to the right so the left-hand
+    // content panel stays visible.
+    let routeLayer: ReturnType<typeof L.geoJSON> | null = null;
+    const turnLayer = L.layerGroup().addTo(map);
+    const showRoute = (id: string) => {
+      const route = GETTING_THERE_ROUTES.find((r) => r.id === id);
+      if (!route) return;
+      if (routeLayer) routeLayer.remove();
+      routeLayer = L.geoJSON(route.line as never, {
+        style: { color: '#b45309', weight: 5, opacity: 0.9 },
+      }).addTo(map);
+
+      // A callout (direction arrow + road name) shown on hover at each major turn.
+      turnLayer.clearLayers();
+      (route.directions ?? []).forEach((t) => {
+        const deg = TURN_ANGLE[t.modifier] ?? 0;
+        const html =
+          `<span class="gt-callout__arrow" style="transform:rotate(${deg}deg)">${ARROW}</span>` +
+          `<span class="gt-callout__road">${t.road}</span>`;
+        L.circleMarker([t.at[1], t.at[0]], {
+          radius: 4,
+          weight: 2,
+          color: '#b45309',
+          fillColor: '#f59e0b',
+          fillOpacity: 1,
+        })
+          .bindTooltip(html, {
+            permanent: false,
+            direction: 'top',
+            offset: [0, -4],
+            className: 'gt-callout',
+            opacity: 1,
+          })
+          .addTo(turnLayer);
+      });
+
+      fitOffset(routeLayer.getBounds());
+    };
+
+    const clearRouteLayers = () => {
+      if (routeLayer) {
+        routeLayer.remove();
+        routeLayer = null;
+      }
+      turnLayer.clearLayers();
+    };
+
+    // Deselecting an origin clears its line + callouts and returns to the default frame.
+    const clearRoute = () => {
+      clearRouteLayers();
+      resetView();
+    };
+
+    // "Show me the trails" — drop any route line and frame the whole trail network.
+    const showTrails = () => {
+      clearRouteLayers();
+      fitOffset(trailsLayer.getBounds());
+    };
+
+    return { showRoute, clearRoute, showTrails };
+  };
+
+  // Initialize lazily, exactly once; shared by the viewport observer and the route clicks.
+  const mapEl = document.querySelector<HTMLElement>('.getting-there-map');
+  let initPromise: Promise<MapApi> | null = null;
+  const ensureInit = () => {
+    if (!initPromise && mapEl) initPromise = init(mapEl);
+    return initPromise;
+  };
+
+  if (mapEl) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          ensureInit();
+        });
+      },
+      { rootMargin: '200px 0px' }
+    );
+    observer.observe(mapEl);
+  }
+
+  // The Alpine route picker ($store/x-data 'gettingThere') dispatches `route:show`;
+  // we draw + zoom to that route here, initializing the map first if needed.
+  window.addEventListener('route:show', async (e) => {
+    const api = await ensureInit();
+    api?.showRoute((e as CustomEvent<{ id: string }>).detail?.id ?? '');
+  });
+
+  // Deselecting the active origin clears the route and resets the default frame.
+  window.addEventListener('route:clear', async () => {
+    const api = await ensureInit();
+    api?.clearRoute();
+  });
+
+  // "Show me the trails" — frame the whole trail network (offset right).
+  window.addEventListener('trails:show', async () => {
+    const api = await ensureInit();
+    api?.showTrails();
+  });
+</script>
