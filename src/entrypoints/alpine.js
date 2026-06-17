@@ -19,15 +19,28 @@ export default (Alpine) => {
   // Starts only when the element crosses the viewport midpoint
   Alpine.data('seatsLeft', (capacity, registered) => ({
     displayed: capacity,
+    // Reactive so the bound "N of capacity claimed" text reflects the live count.
+    // Starts at the build-time number and is overwritten if the live fetch wins.
+    registered,
     init() {
-      const end = capacity - registered;
       const duration = 2800;
       const progressEl = this.$el.querySelector('[data-slot=progress]');
 
+      // Live count from the Netlify Blob (netlify/functions/registered.mjs at
+      // /api/registered). Falls back to the build-time number on any failure.
+      const liveReady = fetch('/api/registered')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && Number.isFinite(data.registered)) this.registered = data.registered;
+        })
+        .catch(() => {});
+
       const run = () => {
+        const reg = this.registered;
+        const end = capacity - reg;
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           this.displayed = end;
-          if (progressEl) progressEl.dataset.value = registered;
+          if (progressEl) progressEl.dataset.value = reg;
           return;
         }
         const startTime = performance.now();
@@ -35,17 +48,19 @@ export default (Alpine) => {
           const progress = Math.min((now - startTime) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
           this.displayed = Math.round(capacity - (capacity - end) * eased);
-          if (progressEl) progressEl.dataset.value = Math.round(registered * eased);
+          if (progressEl) progressEl.dataset.value = Math.round(reg * eased);
           if (progress < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
       };
 
+      // Animate once the band scrolls into view AND the live count has settled,
+      // so the count-up lands on the final number.
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             observer.disconnect();
-            run();
+            liveReady.finally(run);
           }
         },
         { rootMargin: '0px 0px -50% 0px' }

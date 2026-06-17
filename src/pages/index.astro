@@ -321,7 +321,7 @@ const SPONSORS = sponsorsEntry.data;
             aria-label="Registration spots claimed"
           />
           <p class="text-xs tracking-widest uppercase text-stone-500">
-            {EVENT.registered} of {EVENT.capacity} spots claimed
+            <span x-text="registered">{EVENT.registered}</span> of {EVENT.capacity} spots claimed
           </p>
         </div>
       </div>
