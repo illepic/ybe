@@ -13,7 +13,7 @@ import rawsonAvoid from './routes/rawson-avoid.json';
 export interface RouteLine {
   type: 'Feature';
   geometry: { type: 'LineString'; coordinates: [number, number][] };
-  properties?: Record<string, unknown>;
+  properties?: { distance_km?: number; duration_min?: number } & Record<string, unknown>;
 }
 
 export interface RouteTurn {
@@ -33,7 +33,19 @@ export interface GettingThereRoute {
   line: RouteLine;
   /** Major turns along the route — listed in the panel and pinned on the map. */
   directions?: RouteTurn[];
+  /** Google Maps deep link for this origin, forced onto the same approach we draw. */
+  gmapsUrl: string;
 }
+
+// The Maps URL API can't "avoid road X", so each link routes through a waypoint
+// that pins Google to the same approach as our drawn route.
+const TRAILHEAD = '45.751987,-122.327258';
+/** NE Livingston Rd → L-1000: the southern approach, around closed NE Rawson Rd. */
+const VIA_LIVINGSTON = '45.67882,-122.36161';
+/** NE Dole Valley Rd: Battle Ground's northern approach (never near Rawson Rd). */
+const VIA_DOLE_VALLEY = '45.81363,-122.35301';
+const gmaps = (origin: string, via: string) =>
+  `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${TRAILHEAD}&waypoints=${via}&travelmode=driving`;
 
 /** NE Rawson Rd, from its start to the start of L-1400 — the section to avoid. */
 export const RAWSON_AVOID = rawsonAvoid as unknown as RouteLine;
@@ -44,6 +56,7 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     label: 'Portland',
     // Forced via the southern (Reilly/Livingston) approach to avoid NE Rawson Rd.
     line: portlandLine as unknown as RouteLine,
+    gmapsUrl: gmaps('Portland, OR', VIA_LIVINGSTON),
     directions: [
       {
         at: [-122.67518, 45.51892],
@@ -106,6 +119,7 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     label: 'Vancouver',
     // Forced via the southern (Reilly/Livingston) approach to avoid NE Rawson Rd.
     line: vancouverLine as unknown as RouteLine,
+    gmapsUrl: gmaps('Vancouver, WA', VIA_LIVINGSTON),
     directions: [
       {
         at: [-122.6726, 45.63183],
@@ -162,6 +176,7 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     label: 'Battle Ground',
     // Real driving route (downtown Battle Ground → trailhead) via OSRM, full road geometry.
     line: battleGroundLine as unknown as RouteLine,
+    gmapsUrl: gmaps('Battle Ground, WA', VIA_DOLE_VALLEY),
     directions: [
       {
         at: [-122.5343, 45.78089],
@@ -212,6 +227,7 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     label: 'Camas',
     // Real driving route (downtown Camas → trailhead) via OSRM, full road geometry.
     line: camasLine as unknown as RouteLine,
+    gmapsUrl: gmaps('Camas, WA', VIA_LIVINGSTON),
     directions: [
       {
         at: [-122.40314, 45.58984],
@@ -269,6 +285,7 @@ export const GETTING_THERE_ROUTES: GettingThereRoute[] = [
     // Real driving route (downtown Hood River → trailhead) via OSRM, full road
     // geometry. Crosses at the Bridge of the Gods, then up via Reilly/Livingston.
     line: hoodRiverLine as unknown as RouteLine,
+    gmapsUrl: gmaps('Hood River, OR', VIA_LIVINGSTON),
     directions: [
       {
         at: [-121.51677, 45.7122],

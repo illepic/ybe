@@ -29,10 +29,6 @@
   white-space: nowrap;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
 }
-.leaflet-tooltip.gt-callout .gt-callout__arrow {
-  display: inline-flex;
-  color: var(--color-amber-500);
-}
 /* The NE Rawson Rd "avoid" callout — red border + text. */
 .leaflet-tooltip.gt-callout--avoid {
   border-color: rgb(220 38 38 / 0.85);
