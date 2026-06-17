@@ -9,7 +9,8 @@ Live at **yacoltburn.bike**, hosted on Netlify, repo at github.com/illepic/ybe.
 
 | Layer | Choice | Notes |
 |-------|--------|-------|
-| Framework | Astro 6 (static output) | No SSR, no serverless |
+| Framework | Astro 6 (static output) | Static HTML; **one** Netlify Function for the live registration count (see below) |
+| Live data | Netlify Blobs + serverless Function | Registration count, updatable without a rebuild via `npm run reg:set` |
 | Interactivity | Alpine.js 3 via `@astrojs/alpinejs` | Never use CDN; always via integration |
 | CSS | Tailwind v4 via `@tailwindcss/vite` | Single entry point: `src/styles/tailwind.css` |
 | Fonts | `@fontsource/bebas-neue`, `@fontsource/inter` | Self-hosted, no Google Fonts CDN |
@@ -459,6 +460,30 @@ Never put Astro expressions inside `<script type="application/ld+json">{...}</sc
 - `decoding="async"` on all lazy-loaded images
 - Reveal animations via `@utility reveal` in `tailwind.css` — desktop only (`min-width: 769px`), respects `prefers-reduced-motion`
 - Sponsor SVGs optimized with `npx svgo --multipass`; bitmaps served at 200×200 via Netlify CDN
+
+---
+
+## Live Registration Count
+
+The registration count is the one number that changes often, so it's served **live** and can be updated without a commit or rebuild. It's the only non-static piece of the site.
+
+**How it flows:**
+1. The number lives in a **Netlify Blob** — store `event`, key `registered`.
+2. A single serverless **Function** (`netlify/functions/registered.mjs`, exposed at **`/api/registered`** via Functions v2 `config.path`) reads that blob and returns `{ "registered": <n> }` with a short `Cache-Control`.
+3. On page load the Alpine `seatsLeft` component **fetches `/api/registered`** and, once it resolves, animates the "spots left" counter + progress bar + "N of capacity claimed" text to the live value. A brief delay before the number settles is fine (it's below the fold).
+4. **Fallback:** `registered` in `src/content/event/current.yaml` is still the build-time default. If the blob is empty or the fetch fails, the committed YAML number renders. So the blob is a *live override*, not the source of truth — you rarely need to touch the YAML.
+
+**To update the number (no commit, no rebuild):**
+```bash
+npm run reg:set -- 130
+```
+This runs `scripts/set-registered.mjs`, which writes the blob via `@netlify/blobs`. It takes a few seconds to propagate (function response is cached ~30s).
+
+**Required env keys** (in `.env`, git-ignored; see `.env.example`):
+- `NETLIFY_AUTH_TOKEN` — a Netlify personal access token (User settings → Applications → New access token)
+- `NETLIFY_SITE_ID` — Site configuration → General → Site details → Site ID
+
+The `reg:set` script loads `.env` automatically (`node --env-file-if-exists=.env`). The Function itself needs no env keys — Netlify auto-configures Blobs access inside the function runtime. CSP already allows the fetch (`connect-src 'self'`, same-origin).
 
 ---
 

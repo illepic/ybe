@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "gen:trails": "node src/data/scripts/extract-map.mjs src/data/trailforks.json src/data/trails.json"
+    "gen:trails": "node src/data/scripts/extract-map.mjs src/data/trailforks.json src/data/trails.json",
+    "reg:set": "node --env-file-if-exists=.env scripts/set-registered.mjs"
   },
   "dependencies": {
     "@alpinejs/focus": "^3.15.12",
@@ -16,6 +17,7 @@
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource/bebas-neue": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
+    "@netlify/blobs": "^10.7.9",
     "@tabler/icons": "^3.44.0",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/vite": "^4.3.0",
