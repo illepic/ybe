@@ -485,6 +485,10 @@ This runs `scripts/set-registered.mjs`, which writes the blob via `@netlify/blob
 
 The `reg:set` script loads `.env` automatically (`node --env-file-if-exists=.env`). The Function itself needs no env keys — Netlify auto-configures Blobs access inside the function runtime. CSP already allows the fetch (`connect-src 'self'`, same-origin).
 
+**Automating it** — `npm run reg:watch` (`scripts/watch-registrations.mjs`) keeps the number current without manual `reg:set` calls. It uses **Playwright** to log into the Evergreen roster (`EVERGREEN_USERNAME`/`EVERGREEN_PASSWORD` in `.env`), parse the total out of the `#filter-bar .btn` text ("Results 1 – 50 of N"), and push it to the blob — every 30 min, reusing one Playwright session (persisted to `scripts/.auth/`, git-ignored). It validates the number and only writes on change, so a logged-out/error page never clobbers the count.
+
+> **Playwright is dev-only and must never reach Netlify.** It's a `devDependency`, and `netlify.toml` sets `NPM_FLAGS = "--omit=dev"` (skips devDependencies) plus `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"` (belt-and-suspenders). The site build needs only `dependencies` — verified it builds clean under `npm ci --omit=dev`. Keep ops-only tooling in `devDependencies` so this stays true.
+
 ---
 
 ## Deployment

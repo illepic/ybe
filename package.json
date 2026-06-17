@@ -9,7 +9,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "gen:trails": "node src/data/scripts/extract-map.mjs src/data/trailforks.json src/data/trails.json",
-    "reg:set": "node --env-file-if-exists=.env scripts/set-registered.mjs"
+    "reg:set": "node --env-file-if-exists=.env scripts/set-registered.mjs",
+    "reg:watch": "node --env-file-if-exists=.env scripts/watch-registrations.mjs"
   },
   "dependencies": {
     "@alpinejs/focus": "^3.15.12",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "playwright": "^1.61.0",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.3"

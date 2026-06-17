@@ -35,6 +35,7 @@ npm run dev
 | `npm run format:check`   | Check formatting without writing (CI-safe)           |
 | `npm run gen:trails`     | Regenerate curated map data (`src/data/trails.json`) |
 | `npm run reg:set -- <n>` | Update the live registration count (see below)       |
+| `npm run reg:watch`      | Auto-scrape the count from the roster every 30 min   |
 
 ## Updating the Registration Count
 
@@ -56,6 +57,12 @@ The new number appears on the site within ~30 seconds, no deploy needed.
 **How it works:** the count is stored in a Netlify Blob (`event` store, key `registered`). A serverless function (`netlify/functions/registered.mjs`, served at `/api/registered`) returns it, and the page fetches it on load. If the blob is empty or the fetch fails, the site falls back to the `registered` value committed in `src/content/event/current.yaml`, so it's safe either way. Full details in [CLAUDE.md](./CLAUDE.md) → _Live Registration Count_.
 
 > The live count only runs in the Netlify environment (deploy preview, production, or local `netlify dev`) — not under `astro preview`.
+
+### Automating it (roster scraper)
+
+Instead of running `reg:set` by hand, `npm run reg:watch` keeps the number current automatically. It uses Playwright to log into the Evergreen roster, read the registration total, and push it to the blob — re-checking every 30 minutes and reusing the same session. It needs `EVERGREEN_USERNAME` + `EVERGREEN_PASSWORD` in `.env` (in addition to the Netlify keys above). Leave it running on any always-on machine; `Ctrl-C` to stop.
+
+Playwright is a **dev-only** dependency — `netlify.toml` sets `NPM_FLAGS=--omit=dev` so Netlify never installs Playwright or its browser binary.
 
 ## Updating for Next Year
 

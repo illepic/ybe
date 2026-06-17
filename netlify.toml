@@ -4,6 +4,12 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # The site build needs only `dependencies`. Skipping devDependencies keeps
+  # Playwright (a dev-only ops tool for scripts/watch-registrations.mjs) and its
+  # browser binary off Netlify entirely.
+  NPM_FLAGS = "--omit=dev"
+  # Belt-and-suspenders: even if Playwright ever installed, never fetch a browser.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
 
 [functions]
   directory = "netlify/functions"
