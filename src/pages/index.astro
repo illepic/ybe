@@ -91,6 +91,23 @@ const OG_IMAGE = `${SITE}${cdn('/photos/poster.jpg', { w: '800', q: '85', format
 // southern forest-road approach and never routes onto (closed) NE Rawson Rd.
 const DIRECTIONS_URL = `https://www.google.com/maps/dir/?api=1&destination=45.751987,-122.327258&waypoints=45.67882,-122.36161&travelmode=driving`;
 
+// Trailforks region page for the Yacolt Burn network (alias from trailforks.json).
+const TRAILFORKS_URL = 'https://www.trailforks.com/region/yacolt-burn-state-forest/';
+
+// "34 mi · ~1 hr 5 min" summary for a selected origin, from the OSRM stats
+// stored on each route line (rounded to whole miles / nearest 5 minutes).
+const driveStats = (route: (typeof GETTING_THERE_ROUTES)[number]) => {
+  const { distance_km: km, duration_min: min } = route.line.properties ?? {};
+  if (typeof km !== 'number' || typeof min !== 'number') return null;
+  const mi = Math.round(km * 0.621371);
+  const rounded = Math.round(min / 5) * 5;
+  const time =
+    rounded < 60
+      ? `${rounded} min`
+      : `${Math.floor(rounded / 60)} hr${rounded % 60 ? ` ${rounded % 60} min` : ''}`;
+  return `${mi} mi · ~${time} to the trailhead`;
+};
+
 const IMG = {
   legend: cdn('/photos/pnw-forest-misty.jpg', { w: '1920', q: '70' }),
   ride: cdn('/photos/mtb-trail-forest.jpg', { w: '1920', q: '70' }),
@@ -351,7 +368,8 @@ const SPONSORS = sponsorsEntry.data;
     <HeadingRainbow>The Full Day</HeadingRainbow>
     <Rule />
     <Lead>
-      All-day shuttles. Demo bikes. Food. Trails that took decades to build. Yours for one day.
+      All-day shuttles. Demo bikes. <ContentLink href="#faq-food">Food</ContentLink>. Trails that
+      took decades to build. Yours for one day.
     </Lead>
     <Content>
       <p class="mb-5">
@@ -373,7 +391,8 @@ const SPONSORS = sponsorsEntry.data;
       <p class="mb-5">
         The event caps at <strong>{EVENT.capacity} riders</strong> and historically fills up fast, rain
         or shine. Demo fleets from <strong>Norco</strong> and <strong>Propain</strong> are on-site.
-        <strong>Vendors, food, and raffles</strong> round out the day.
+        <strong>Vendors, <ContentLink href="#faq-food">food</ContentLink>, and raffles</strong> round
+        out the day.
       </p>
       <p class="mb-5">
         The trail system is anchored by four standouts: <ContentLink
@@ -501,7 +520,9 @@ const SPONSORS = sponsorsEntry.data;
           </CardTitle>
         </CardHeader>
         <CardContent class="text-sm text-stone-100">
-          All-day shuttles<br />Demo bikes (Norco · Propain)<br />Food · Raffles · Vendors<br />
+          All-day shuttles<br />Demo bikes (Norco · Propain)<br /><ContentLink href="#faq-food"
+            >Food</ContentLink
+          > · Raffles · Vendors<br />
         </CardContent>
       </Card>
       <Card size="sm" class="bg-white/5 rounded ring-white/10">
@@ -590,10 +611,13 @@ const SPONSORS = sponsorsEntry.data;
           class="pointer-events-auto mt-8 rounded-lg bg-black/60 p-6 text-left ring-1 ring-white/10 md:w-1/2 md:p-8"
         >
           <p class="leading-relaxed text-stone-100">
-            Getting to the trailhead takes you over some rough gravel roads. Drive accordingly from:
+            Getting to the trailhead takes you over some rough gravel roads. Drive accordingly.
           </p>
           <div x-data="gettingThere">
-            <div class="mt-4 flex flex-wrap gap-2">
+            <p class="mt-5 text-xs font-semibold tracking-widest text-stone-400 uppercase">
+              Driving from?
+            </p>
+            <div class="mt-2.5 flex flex-wrap gap-2">
               {
                 GETTING_THERE_ROUTES.map((route) => (
                   <RouteButton id={route.id} label={route.label} />
@@ -601,20 +625,29 @@ const SPONSORS = sponsorsEntry.data;
               }
             </div>
             {
-              GETTING_THERE_ROUTES.filter((route) => route.directions?.length).map((route) => (
-                <ol
-                  x-show={`selected === '${route.id}'`}
-                  x-cloak
-                  class="mt-4 list-decimal space-y-1.5 pl-5 text-sm text-stone-300"
-                >
-                  {route.directions?.map((step) => (
-                    <li>{step.text}</li>
-                  ))}
-                </ol>
+              GETTING_THERE_ROUTES.map((route) => (
+                <div x-show={`selected === '${route.id}'`} x-cloak class="mt-5">
+                  <p class="text-sm font-semibold text-stone-100">{driveStats(route)}</p>
+                  <a
+                    href={route.gmapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-3 inline-flex items-center gap-2 rounded-sm bg-amber-700 px-6 py-3 text-base font-semibold text-stone-100 no-underline transition-colors hover:bg-amber-600"
+                  >
+                    <MapPin size={18} strokeWidth={2.5} />
+                    Open in Google Maps
+                  </a>
+                </div>
               ))
             }
+            <Alert variant="error" class="mt-6">
+              <AlertTitle>
+                <TriangleAlert size={20} strokeWidth={2.5} />
+                NE Rawson Rd is closed temporarily
+              </AlertTitle>
+            </Alert>
             <p class="mt-6 text-center text-sm text-stone-400">or just</p>
-            <div class="mt-3 text-center">
+            <div class="mt-3 flex flex-wrap justify-center gap-2">
               <button
                 type="button"
                 class="inline-flex cursor-pointer items-center gap-1.5 rounded-sm bg-amber-700 px-4 py-2 text-sm font-semibold text-stone-100 transition-colors hover:bg-amber-600"
@@ -622,14 +655,16 @@ const SPONSORS = sponsorsEntry.data;
               >
                 <Bike size={15} strokeWidth={2.5} />Show me the trails
               </button>
+              <a
+                href={TRAILFORKS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 rounded-sm border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-stone-100 no-underline transition-colors hover:bg-white/10"
+              >
+                On Trailforks<SquareArrowOutUpRight size={14} strokeWidth={2.5} />
+              </a>
             </div>
           </div>
-          <Alert variant="error" class="mt-6">
-            <AlertTitle>
-              <TriangleAlert size={20} strokeWidth={2.5} />
-              NE Rawson Rd is closed temporarily
-            </AlertTitle>
-          </Alert>
         </div>
       </div>
     </div>
@@ -768,8 +803,8 @@ const SPONSORS = sponsorsEntry.data;
     <Rule />
     <Faq>
       <FaqItem question="What skill level do I need?">
-        The upper system accessed from Five Corners is intermediate to advanced terrain. Volunteers and
-        the community are there to help you find your line.
+        The upper system accessed from Five Corners is intermediate to advanced terrain. Volunteers
+        and the community are there to help you find your line.
       </FaqItem>
       <FaqItem question="Does it fill up?">
         It can. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock
@@ -793,6 +828,11 @@ const SPONSORS = sponsorsEntry.data;
       <FaqItem question="Can I try a demo bike?">
         Yep. Norco and Propain both bring demo fleets to the event. Availability is first-come,
         first-served on the day.
+      </FaqItem>
+      <FaqItem id="faq-food" question="What food are you serving? Any veggie/vegan options?">
+        Pulled pork sandwich with slaw, pickle, and mango salsa. Side of baked beans, cookie, and
+        chips. Plenty of sodas available on site too. We don't have veggie or vegan options planned
+        this year, so plan to bring your own if you have dietary needs.
       </FaqItem>
       <FaqItem question="What trails are there to ride?">
         Four standouts: <ContentLink

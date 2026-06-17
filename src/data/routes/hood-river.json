@@ -1,6 +1,12 @@
 {
   "type": "Feature",
-  "properties": { "name": "Hood River" },
+  "properties": {
+    "source": "OSRM",
+    "from": "Downtown Hood River, OR",
+    "to": "Yacolt Burn Trailhead",
+    "distance_km": 101.1,
+    "duration_min": 106
+  },
   "geometry": {
     "type": "LineString",
     "coordinates": [
