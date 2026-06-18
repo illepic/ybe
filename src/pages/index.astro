@@ -58,6 +58,7 @@ import {
   SquareArrowOutUpRight,
 } from 'lucide-astro';
 import { getEntry } from 'astro:content';
+import { formatInTimeZone } from 'date-fns-tz';
 
 // ─── LOAD EVENT + SPONSOR DATA FROM CONTENT COLLECTIONS ──────────────────
 const eventEntry = await getEntry('event', 'current');
@@ -70,6 +71,10 @@ const REG = EVENT.reg;
 const SITE = import.meta.env.SITE ?? 'https://yacoltburn.bike';
 
 const DESCRIPTION = `A full-day shuttle MTB event in the Yacolt Burn State Forest, southwest Washington. ${EVENT.date}.`;
+
+// "June 19th" for display — formatted in the event's timezone so a UTC build
+// server doesn't roll a late-night Pacific deadline onto the next day.
+const deadlineDay = formatInTimeZone(EVENT.deadline, 'America/Los_Angeles', 'MMMM do');
 
 const regUrl = (content: string) => {
   const url = new URL(REG);
@@ -328,7 +333,7 @@ const SPONSORS = sponsorsEntry.data;
 
       <!-- Countdown — compact single line -->
       <div
-        x-data={`countdown('${EVENT.isoStart}')`}
+        x-data={`countdown(${EVENT.deadline.getTime()})`}
         class="flex items-baseline justify-center gap-1.5"
       >
         <span
@@ -582,7 +587,7 @@ const SPONSORS = sponsorsEntry.data;
       </PricingRow>
       <div slot="cta" class="mt-6 text-center">
         <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
-          >Register by {EVENT.deadline}</Button
+          >Register by {deadlineDay}</Button
         >
       </div>
     </Pricing>
@@ -807,8 +812,8 @@ const SPONSORS = sponsorsEntry.data;
         and the community are there to help you find your line.
       </FaqItem>
       <FaqItem question="Does it fill up?">
-        It can. Space is capped at {EVENT.capacity} riders. Register online by {EVENT.deadline} to lock
-        in your spot and your best rate.
+        It can. Space is capped at {EVENT.capacity} riders. Register online by {deadlineDay} to lock in
+        your spot and your best rate.
       </FaqItem>
       <FaqItem question="What if it rains?">
         The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific

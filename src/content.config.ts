@@ -20,7 +20,10 @@ const event = defineCollection({
     dateDay: z.string(),
     startTime: z.string(),
     endTime: z.string(),
-    deadline: z.string(),
+    // Registration cutoff as a full datetime, coerced to a real Date at build
+    // time. Drives both the "Register by …" display (day, via date-fns) and the
+    // countdown (timestamp) — no separate human/ISO fields.
+    deadline: z.coerce.date(),
     isoStart: z.string(),
     isoEnd: z.string(),
     capacity: z.number().int().positive(),
