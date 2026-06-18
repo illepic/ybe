@@ -60,9 +60,9 @@ The new number appears on the site within ~30 seconds, no deploy needed.
 
 ### Automating it (roster scraper)
 
-Instead of running `reg:set` by hand, `npm run reg:watch` keeps the number current automatically. It uses Playwright to log into the Evergreen roster, read the registration total, and push it to the blob — re-checking every 30 minutes and reusing the same session. It needs `EVERGREEN_USERNAME` + `EVERGREEN_PASSWORD` in `.env` (in addition to the Netlify keys above). Leave it running on any always-on machine; `Ctrl-C` to stop.
+Instead of running `reg:set` by hand, `npm run reg:watch` keeps the number current automatically. It's a small **browserless** script (plain `fetch`, no headless browser): it logs into the Evergreen roster, reads the registration total, and pushes it to the blob — re-checking every 30 minutes. It needs `EVERGREEN_USERNAME` + `EVERGREEN_PASSWORD` in `.env` (in addition to the Netlify keys above). It logs in with a password at most once (it persists the session + "Remember Me" cookie to `scripts/.auth/`), then reuses the session on later cycles. `Ctrl-C` to stop.
 
-Playwright is a **dev-only** dependency — `netlify.toml` sets `NPM_FLAGS=--omit=dev` so Netlify never installs Playwright or its browser binary.
+**Run it in the cloud instead:** `netlify/functions/sync-registrations.mjs` is a Netlify Scheduled Function (same core, cron every 30 min) that stores its cookie jar in a blob so it survives between runs — ideal for keeping the count fresh while you're away from your laptop. Set `EVERGREEN_USERNAME` / `EVERGREEN_PASSWORD` as Netlify site env vars; it runs automatically once deployed.
 
 ## Updating for Next Year
 
