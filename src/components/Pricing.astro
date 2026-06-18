@@ -1,13 +1,15 @@
 ---
 interface Props {
   title?: string;
+  id?: string;
   class?: string;
 }
 
-const { title = 'Pricing', class: className = '' } = Astro.props;
+const { title = 'Pricing', id, class: className = '' } = Astro.props;
 ---
 
 <div
+  id={id}
   class:list={[
     'pricing',
     'max-w-[460px]',

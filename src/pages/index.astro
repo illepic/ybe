@@ -331,29 +331,38 @@ const SPONSORS = sponsorsEntry.data;
         </div>
       </div>
 
-      <!-- Countdown — compact single line -->
-      <div
-        x-data={`countdown(${EVENT.deadline.getTime()})`}
-        class="flex items-baseline justify-center gap-1.5"
-      >
-        <span
-          :class="{ 'tick-pulse': ticking }"
-          class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
-          x-text="days"></span>
-        <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
-        <span class="text-stone-700 mx-1">·</span>
-        <span
-          :class="{ 'tick-pulse': ticking }"
-          class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
-          x-text="hours"></span>
-        <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
-        <span class="text-stone-700 mx-1">·</span>
-        <span
-          :class="{ 'tick-pulse': ticking }"
-          class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
-          x-text="minutes"></span>
-        <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
-        <span class="text-xs tracking-widest uppercase text-stone-400 ml-1.5">to register</span>
+      <!-- Countdown — the ONLINE-registration deadline; links down to pricing -->
+      <div class="flex w-full flex-col items-center gap-2.5">
+        <div
+          x-data={`countdown(${EVENT.deadline.getTime()})`}
+          class="flex w-full flex-nowrap items-baseline justify-center gap-1.5"
+        >
+          <span
+            :class="{ 'tick-pulse': ticking }"
+            class="font-display text-5xl tracking-[0.04em] leading-none text-yellow-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.6)]"
+            x-text="days"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">d</span>
+          <span class="text-stone-700 mx-1">·</span>
+          <span
+            :class="{ 'tick-pulse': ticking }"
+            class="font-display text-5xl tracking-[0.04em] leading-none text-cyan-400 drop-shadow-[0_0_12px_rgba(72,219,251,0.6)]"
+            x-text="hours"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">h</span>
+          <span class="text-stone-700 mx-1">·</span>
+          <span
+            :class="{ 'tick-pulse': ticking }"
+            class="font-display text-5xl tracking-[0.04em] leading-none text-purple-400 drop-shadow-[0_0_12px_rgba(197,110,245,0.6)]"
+            x-text="minutes"></span>
+          <span class="text-xs tracking-widest uppercase text-stone-500">m</span>
+          <span class="ml-1.5 text-xs tracking-widest whitespace-nowrap uppercase text-stone-400"
+            >to register online</span
+          >
+        </div>
+        <a
+          href="#pricing"
+          class="inline-flex items-center gap-1 text-xs tracking-widest text-amber-500 uppercase no-underline transition-colors hover:text-amber-400"
+          >Online deadline · day-of costs more<ArrowDown size={15} strokeWidth={2} /></a
+        >
       </div>
     </div>
   </section>
@@ -556,7 +565,7 @@ const SPONSORS = sponsorsEntry.data;
     <div class="details-arrow flex justify-center my-8 text-purple-400 animate-bounce">
       <ArrowDown size={24} strokeWidth={2.5} />
     </div>
-    <Pricing>
+    <Pricing id="pricing" class="scroll-mt-28">
       <PricingRow
         slot="rows"
         amount={EVENT.priceMember}
@@ -580,14 +589,14 @@ const SPONSORS = sponsorsEntry.data;
       <PricingRow
         slot="rows"
         amount={EVENT.priceDayOf}
-        note="All participants"
+        note="At the event · all riders"
         class="scroll-animate animate-in fade-in slide-in-from-bottom-3 duration-500 delay-[300ms]"
       >
         Day-Of
       </PricingRow>
       <div slot="cta" class="mt-6 text-center">
         <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
-          >Register by {deadlineDay}</Button
+          >Register online by {deadlineDay}</Button
         >
       </div>
     </Pricing>
@@ -813,7 +822,7 @@ const SPONSORS = sponsorsEntry.data;
       </FaqItem>
       <FaqItem question="Does it fill up?">
         It can. Space is capped at {EVENT.capacity} riders. Register online by {deadlineDay} to lock in
-        your spot and your best rate.
+        your spot at the lower price. Day-of registration is available at the event, but it costs more.
       </FaqItem>
       <FaqItem question="What if it rains?">
         The event runs rain or shine. It's historically 50/50 on weather. This is the Pacific
