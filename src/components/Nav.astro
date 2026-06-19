@@ -61,6 +61,10 @@ const logoSrcset = IS_DEV
              bg-amber-700 px-5 py-2
              text-sm font-semibold tracking-widest uppercase no-underline text-stone-100
              transition-colors duration-200 hover:bg-amber-600"
+      :class="{ 'pointer-events-none opacity-40 saturate-50': $store.ybe.onlineClosed }"
+      :aria-disabled="$store.ybe.onlineClosed"
+      :tabindex="$store.ybe.onlineClosed ? -1 : null"
+      :title="$store.ybe.onlineClosed ? 'Online registration has closed' : null"
     >
       Register <Flame size={14} strokeWidth={2.5} class="hidden md:block" />
       <span class="hidden md:inline">now</span>

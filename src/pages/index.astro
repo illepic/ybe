@@ -31,6 +31,7 @@ import RouteButton from '../components/RouteButton.astro';
 import { GETTING_THERE_ROUTES } from '../data/gettingThereRoutes';
 import Alert from '../components/starwind/alert/Alert.astro';
 import AlertTitle from '../components/starwind/alert/AlertTitle.astro';
+import AlertDescription from '../components/starwind/alert/AlertDescription.astro';
 import Card from '../components/starwind/card/Card.astro';
 import CardHeader from '../components/starwind/card/CardHeader.astro';
 import CardTitle from '../components/starwind/card/CardTitle.astro';
@@ -190,6 +191,7 @@ const SPONSORS = sponsorsEntry.data;
   x-data="{}"
   :class="{ 'overflow-hidden': $store.ui.galleryOpen }"
   data-event-end={EVENT.isoEnd}
+  data-deadline={EVENT.deadline.toISOString()}
 >
   <Fragment slot="head">
     <SEO title={EVENT.name} description={DESCRIPTION} url={SITE} image={OG_IMAGE} />
@@ -225,6 +227,22 @@ const SPONSORS = sponsorsEntry.data;
 
   <!-- ── 1 · HERO ── -->
   <Panel id="hero" bgImage={POSTER} mobileBgImage={MOBILE_POSTER} priority fadeDown>
+    <!-- Day-of banner — shown only after the online deadline, before the event ends. -->
+    <Alert
+      variant="warning"
+      x-show="$store.ybe.onlineClosed && !$store.ybe.isPast"
+      x-cloak
+      class="mb-6 text-left"
+    >
+      <AlertTitle
+        ><TriangleAlert size={18} strokeWidth={2.5} />Online registration is closed.</AlertTitle
+      >
+      <AlertDescription
+        >Day-of, in-person registration is available at the trailhead for ${
+          EVENT.priceDayOf
+        }.</AlertDescription
+      >
+    </Alert>
     <DateLocation date={EVENT.date} datetime={EVENT.isoStart} />
     <HeadingRainbow size="xl" as="h1" reveal={false} class="animate-blur-in">
       Yacolt<br />Burn<br />Experience
@@ -260,6 +278,10 @@ const SPONSORS = sponsorsEntry.data;
           target="_blank"
           rel="noopener noreferrer"
           class="!w-auto"
+          :class="{ 'pointer-events-none opacity-40 saturate-50': $store.ybe.onlineClosed }"
+          :aria-disabled="$store.ybe.onlineClosed"
+          :tabindex="$store.ybe.onlineClosed ? -1 : null"
+          :title="$store.ybe.onlineClosed ? 'Online registration has closed' : null"
           ><Ticket slot="icon-left" size={16} strokeWidth={2} /><span class="md:hidden"
             >Register</span
           ><span class="hidden md:inline">Register Now</span></Button
@@ -267,7 +289,7 @@ const SPONSORS = sponsorsEntry.data;
       </div>
       <div x-show="$store.ybe.isPast" x-cloak>
         <p class="text-sm font-semibold tracking-widest uppercase text-stone-400">
-          Registration closed — follow <a
+          Registration closed. Follow <a
             href="https://www.evergreenmtb.org"
             target="_blank"
             rel="noopener"
@@ -331,8 +353,8 @@ const SPONSORS = sponsorsEntry.data;
         </div>
       </div>
 
-      <!-- Countdown — the ONLINE-registration deadline; links down to pricing -->
-      <div class="flex w-full flex-col items-center gap-2.5">
+      <!-- Before the deadline: live countdown to ONLINE registration close -->
+      <div x-show="!$store.ybe.onlineClosed" class="flex w-full flex-col items-center gap-2.5">
         <div
           x-data={`countdown(${EVENT.deadline.getTime()})`}
           class="flex w-full flex-nowrap items-baseline justify-center gap-1.5"
@@ -361,7 +383,28 @@ const SPONSORS = sponsorsEntry.data;
         <a
           href="#pricing"
           class="inline-flex items-center gap-1 text-xs tracking-widest text-amber-500 uppercase no-underline transition-colors hover:text-amber-400"
-          >Online deadline · day-of costs more<ArrowDown size={15} strokeWidth={2} /></a
+          >Online deadline · Day-of price increases<ArrowDown size={15} strokeWidth={2} /></a
+        >
+      </div>
+
+      <!-- After the deadline (but before the event ends): day-of messaging -->
+      <div
+        x-show="$store.ybe.onlineClosed && !$store.ybe.isPast"
+        x-cloak
+        class="flex w-full flex-col items-center gap-2 text-center"
+      >
+        <p
+          class="font-display text-4xl tracking-[0.04em] text-amber-400 drop-shadow-[0_0_12px_rgba(254,202,87,0.5)]"
+        >
+          Online registration closed
+        </p>
+        <a
+          href="#getting-there"
+          class="inline-flex items-center gap-1 text-xs tracking-widest whitespace-nowrap text-stone-300 uppercase no-underline transition-colors hover:text-amber-400"
+          >Register day-of at the trailhead · ${EVENT.priceDayOf}<ArrowDown
+            size={15}
+            strokeWidth={2}
+          /></a
         >
       </div>
     </div>
@@ -441,6 +484,10 @@ const SPONSORS = sponsorsEntry.data;
       target="_blank"
       rel="noopener noreferrer"
       class="mt-10"
+      :class="{ 'pointer-events-none opacity-40 saturate-50': $store.ybe.onlineClosed }"
+      :aria-disabled="$store.ybe.onlineClosed"
+      :tabindex="$store.ybe.onlineClosed ? -1 : null"
+      :title="$store.ybe.onlineClosed ? 'Online registration has closed' : null"
       ><CheckCircle slot="icon-left" size={16} strokeWidth={2} />Claim Your Spot</Button
     >
 
@@ -595,9 +642,26 @@ const SPONSORS = sponsorsEntry.data;
         Day-Of
       </PricingRow>
       <div slot="cta" class="mt-6 text-center">
-        <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
-          >Register online by {deadlineDay}</Button
+        <div x-show="!$store.ybe.onlineClosed" class="contents">
+          <Button variant="fire" href={regUrl('pricing')} target="_blank" rel="noopener noreferrer"
+            >Register online by {deadlineDay}</Button
+          >
+        </div>
+        <p
+          x-show="$store.ybe.onlineClosed && !$store.ybe.isPast"
+          x-cloak
+          class="text-sm font-semibold text-stone-200"
         >
+          Online registration is closed. Register day-of at the trailhead (${EVENT.priceDayOf}, all
+          riders).
+        </p>
+        <p
+          x-show="$store.ybe.isPast"
+          x-cloak
+          class="text-sm font-semibold tracking-widest text-stone-400 uppercase"
+        >
+          Registration closed
+        </p>
       </div>
     </Pricing>
     <PhotoCredit label="Photo by" name="Todd McCarthy" slot="credit" />
@@ -929,6 +993,10 @@ const SPONSORS = sponsorsEntry.data;
         target="_blank"
         rel="noopener noreferrer"
         class="px-14 py-4 text-base"
+        :class="{ 'pointer-events-none opacity-40 saturate-50': $store.ybe.onlineClosed }"
+        :aria-disabled="$store.ybe.onlineClosed"
+        :tabindex="$store.ybe.onlineClosed ? -1 : null"
+        :title="$store.ybe.onlineClosed ? 'Online registration has closed' : null"
         ><Flame slot="icon-left" size={18} strokeWidth={2} />Secure Your Spot</Button
       >
     </div>

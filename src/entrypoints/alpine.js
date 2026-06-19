@@ -10,10 +10,17 @@ export default (Alpine) => {
 
   Alpine.store('ui', { galleryOpen: false });
 
-  // Post-event state — driven by data-event-end on <body>
-  // Uses isoEnd (4 PM day-of) so the site stays active all day during the event
+  // Time-based states from <body> data attrs (computed once at load; the
+  // countdown also flips `onlineClosed` live when the deadline ticks past).
+  // isPast uses isoEnd (4 PM day-of) so the site stays active all event day.
+  const now = new Date();
   const eventEnd = document.body.dataset.eventEnd;
-  Alpine.store('ybe', { isPast: eventEnd ? new Date() > new Date(eventEnd) : false });
+  const deadline = document.body.dataset.deadline;
+  Alpine.store('ybe', {
+    isPast: eventEnd ? now > new Date(eventEnd) : false,
+    // Online-registration deadline passed → switch to day-of messaging.
+    onlineClosed: deadline ? now > new Date(deadline) : false,
+  });
 
   // Remaining seats counter — animates from capacity down to remaining
   // Starts only when the element crosses the viewport midpoint
@@ -146,6 +153,7 @@ export default (Alpine) => {
           const diff = target - new Date();
           if (diff <= 0) {
             this.days = this.hours = this.minutes = 0;
+            this.$store.ybe.onlineClosed = true; // live flip when the deadline passes
             return;
           }
           this.days = Math.floor(diff / 86400000);

@@ -5,9 +5,11 @@ interface Props {
   target?: string;
   rel?: string;
   class?: string;
+  // Allow extra attributes (e.g. Alpine `:class`, `:aria-disabled`) to pass through.
+  [key: string]: unknown;
 }
 
-const { href, variant = 'fire', target, rel, class: className = '' } = Astro.props;
+const { href, variant = 'fire', target, rel, class: className = '', ...rest } = Astro.props;
 
 const base = [
   'btn',
@@ -43,7 +45,7 @@ const variants: Record<string, string[]> = {
 };
 ---
 
-<a href={href} class:list={[...variants[variant], className]} {target} {rel}>
+<a href={href} class:list={[...variants[variant], className]} {target} {rel} {...rest}>
   <slot name="icon-left" />
   <slot />
   <slot name="icon-right" />
